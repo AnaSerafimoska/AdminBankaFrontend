@@ -1,0 +1,235 @@
+
+<section class="wrapper">
+
+  <ng-include src="'views/header.html'"></ng-include>
+  <!-- Content Header (Page header) -->
+
+  <div class="content-wrapper">
+
+    <section class="content-header" style="padding: 0px">
+
+      <h1 style=" font-size: 19px; padding-top: 10px; padding-left: 10px;"> Типови на продукти </h1>
+    </section>
+
+
+  <!-- **********************  VNES NA TIP RABOTA  ************************** -->
+    <section class="content" >
+
+    <div class="box box-success" >
+        <div class="box-header with-border">
+          <h3 class="box-title" style=" font-size: 16px;">Сними запис</h3>
+        </div>
+        
+        <div class="box-body">
+            <div class="row ">
+              <!--****************** prv red *********************-->
+
+              <form novalidate class="css-form" name="form">
+                  <div class="col-md-12">
+                      <div class="form-group col-md-2">
+                        <label>Тип на продукт</label>
+                        <!--****************** proba1 *********************-->
+                        <input 
+                         required class="form-control ng-pristine ng-invalid ng-invalid-required ng-touched"
+                        type="text"  class="form-control" mask="99" restrict="reject" maxlength="2" minlength="2" required ng-model="Products.ProductTypeID"  ng-blur="checkTip();" ng-change="checkTipInDb(Products.ProductTypeID)"  ng-class="{custom:flag==true}">
+                      <!--****************** end proba1 *********************-->
+                      </div>
+                      <div class="form-group col-md-3" >
+                        <label>Опис</label>
+                        <!--****************** proba3 *********************-->
+                        <textarea 
+                        required class="form-control ng-pristine ng-invalid ng-invalid-required ng-touched" 
+                        rows="3" ng-model="Products.Description" ng-blur="checkOpis()"></textarea>
+                        <!--****************** end proba3 *********************-->
+                      </div>
+                      <div class="form-group col-md-2" >
+                        <label>Работна табела</label>  
+                         <!--****************** proba2 *********************-->
+                        <input 
+                         required class="form-control ng-pristine ng-invalid ng-invalid-required ng-touched"
+                         type="text" class="form-control" ng-model="Products.WorkingTable"  ng-blur="checkWTable()">
+                          <!--****************** end proba2 *********************-->
+                      </div>
+                      
+                        <div class="form-group col-md-1" style="width: 82px;" >
+                          <div style=" width: 81px;">
+                            <label style="display: block;">Статус </label>
+                            <input type="checkbox" ng-model="Products.Status" [name="string"] [ng-true-value="expression"][ng-false-value="expression"] [ng-change="string"] > Активен
+                            
+                          </div>
+                        </div>
+                        <div class="form-group col-md-2">
+                          <label>Датум отворање</label>
+                          <div class="input-group">
+                            <input type="text" class="form-control" ng-init="init()" ng-model="Products.OpeningDate" container="body" data-date-format="dd-MM-yyyy" data-date-type="longDate"  data-min-date="today" data-autoclose="1" name="date1" bs-datepicker required>
+                            <div class="input-group-addon" id="date1" >
+                              <i class="fa fa-calendar"> </i>
+                            </div>
+                          </div><!-- /.input group -->
+                        </div>
+                        <div class="form-group col-md-2" >
+                          <label>Датум затворање</label>
+                          <div class="input-group">
+                            <input type="text" class="form-control" placement="auto" ng-model="Products.ClosingDate" container="body" data-date-format="dd-MM-yyyy" data-date-type="longDate"  data-min-date="{{Products.OpeningDate}}" data-autoclose="1" name="date2" bs-datepicker id="ClosingDate" >
+                            <div class="input-group-addon" id="date1" required >
+                              <i class="fa fa-calendar"  ></i>
+                            </div>
+                          </div><!-- /.input group -->
+                        </div>
+                  </div>
+                </form><!-- prv red KRAJ *********************-->
+             </div>
+
+                <!--********** tret red BUTTONS **********************-->
+             <div class="form-horizontal col-md-12">
+                 <div class="box-footer col-md-12 text-right">
+                      <button class="btn  btn-default text-right" style="width: 94px;" ng-click="reset()"><i class="fa fa-ban" aria-hidden="true" style="padding-right: 6px;"></i>Откажи</button>
+                      <button class="btn  btn-default text-right" style="color:white; background-color: #00a65a" ng-click="submit(Products);" ng-disabled="form.$invalid || flag"> <i class="fa fa-fw fa-save"> </i> Сними </button>
+                     
+                 </div>
+             </div>
+        </div><!-- /.box-body -->
+
+      </div><!-- /.box-success -->
+    </section>
+
+    
+<!-- ********************** PRIKAZ NA PODATOCI OD TABELA  ******************************************* -->
+    <section class="content" style="margin-top: -32px;" >
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box" style="border-color: #00a65a;">
+            <div class="box-header">
+              <h3 class="box-title" style="font-size: 16px; ">Преглед на записи</h3>
+              
+              <div class="box-tools">
+                <div class="input-group" style="width: 150px;">
+                  <input type="text" class="search" name="table_search" class="form-control input-sm pull-right" ng-model="searchBox" placeholder="Пребарувај ..." style="border: 1px solid #ccc; height: 30px;">
+                  <div class="input-group-btn">
+                    <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
+                  </div>
+                </div>
+              </div>
+            </div><!-- /.box-header -->
+            <div class="box-body table-responsive no-padding">
+              <table class="table table-hover">
+                <tr>
+                    <th ng-click="sort('ProductTypeID')"   >
+                        Тип на продукт 
+                        <i ng-class="{'fa fa-sort-desc':verify == true,  'fa fa-sort-asc':verify!=true}" ></i>
+                    </th>
+                    <th> Опис </th>
+                    <th> Работна табела </th>
+                    <th> Акција </th>
+                </tr>
+                <tr dir-paginate=" x in productTypes | orderBy:sortKey:reverse | filter : searchBox | itemsPerPage:5 | orderBy:reverse">
+                      <td>
+                          <span ng-show="!x.isActive">{{x.ProductTypeID}}</span>
+                           <div ng-show="x.isActive">
+
+        <!-- ************************************ PROBA ZA IZMENI BUTTON ****************************************** -->
+                              <div class="box-body">
+                                  <div class="row ">
+                                    <!--****************** prv red *********************-->
+                                    <form novalidate class="css-form" name="formEdit">
+                                        <div class="col-md-12">
+                                            <div class="form-group col-md-4">
+                                              <label>Тип на продукт</label>
+                                              <!--****************** proba1 *********************-->
+                                              <input 
+                                               required class="form-control " ng-disabled="true"
+                                              type="text"  class="form-control" mask="99" restrict="reject" maxlength="2" minlength="2" ng-model="x.ProductTypeID" ng-blur="checkTipEdit(x.ProductTypeID);" ng-change="checkTipInDbEdit(x.ProductTypeID)" ng-class="{custom:flag==true}">
+                                            <!--****************** end proba1 *********************-->
+                                            </div>
+                                            <div class="form-group col-md-4" >
+                                              <label>Опис</label>
+                                              <!--****************** proba3 *********************-->
+                                              <textarea 
+                                              required class="form-control" 
+                                              rows="3" ng-model="x.Description" ng-blur="checkOpisEdit(x.Description)"></textarea>
+                                              <!--****************** end proba3 *********************-->
+                                            </div>
+                                            <div class="form-group col-md-4" >
+                                              <label>Работна табела</label>  
+                                               <!--****************** proba2 *********************-->
+                                              <input 
+                                               required class="form-control"
+                                               type="text" class="form-control" ng-model="x.WorkingTable"  ng-blur="checkWTableEdit(x.WorkingTable)">
+                                                <!--****************** end proba2 *********************-->
+                                            </div>
+                                            
+                                              <div class="form-group col-md-4" style="width: 82px;" >
+                                                <div style=" width: 81px;">
+                                                  <label style="display: block;">Статус </label>
+                                                  <input type="checkbox" ng-model="x.Status" [name="string"] [ng-true-value="expression"][ng-false-value="expression"] [ng-change="string"] > Активен
+                                                  
+                                                </div>
+                                              </div>
+                                              <div class="form-group col-md-4">
+                                                <label>Датум отворање</label>
+                                                <div class="input-group">
+                                                  <input type="text" class="form-control" ng-model="x.OpeningDate" container="body" data-date-format="dd-MM-yyyy" data-date-type="longDate"  data-min-date="x.OpeningDate" data-autoclose="1" name="date1" bs-datepicker required>
+                                                  <div class="input-group-addon" id="date1" >
+                                                    <i class="fa fa-calendar"> </i>
+                                                  </div>
+                                                </div><!-- /.input group -->
+                                              </div>
+                                              <div class="form-group col-md-4" >
+                                                <label>Датум затворање</label>
+                                                <div class="input-group">
+                                                  <input type="text" class="form-control" placement="auto" ng-model="x.ClosingDate" container="body" data-date-format="dd-MM-yyyy" data-date-type="longDate"  data-min-date="{{x.OpeningDate}}" data-autoclose="1" name="date2" bs-datepicker >
+                                                  <div class="input-group-addon" id="date1" required >
+                                                    <i class="fa fa-calendar" ></i>
+                                                  </div>
+                                                </div><!-- /.input group -->
+                                              </div>
+                                        </div>
+                                      </form><!-- prv red KRAJ *********************-->
+                                   </div>
+
+                                      <!--********** tret red BUTTONS **********************-->
+                                   
+                                   <!--
+                                   <div class="form-horizontal col-md-12">  
+                                       <div class="box-footer col-md-12 "> 
+                                            <button class="btn  btn-default pull-right" style="color:white; background-color: #00a65a" ng-click="submit(Products);" ng-disabled="form.$invalid || flag"> <i class="fa fa-fw fa-save"> </i> Сними </button>
+                                            <button class="btn  btn-default pull-right" style="margin-right: 12px; width: 94px;" ng-click="reset()">Откажи</button>
+                                       </div>
+                                   </div>
+                                   -->
+
+                            </div><!-- /.box-success -->
+                        </div> 
+                    </td>          
+
+          <!-- ******************** END ZA IZMENI BUTTON *********************************** -->
+
+
+                    <td> <span ng-show="!x.isActive">{{x.Description}}</span> </td>
+                    <td> <span ng-show="!x.isActive">{{x.WorkingTable}}</span></td>
+                    <td> 
+                        <div class="text-right">
+                            <button href="" style="width: 68px; padding: 3px;" ng-show="!x.isActive" class="btn btn-block btn-primary" ng-click="x.isActive=!x.isActive; izmeni(x)" ng-disabled="blokirajIzmeni">Измени</button>
+                            <button ng-show="x.isActive" class="btn btn-success btn-sm" ng-disabled="formEdit.$invalid || flag1" ng-click="zachuvaj(x);x.isActive=false" style="background-color:#00a65a; width: 68px;padding: 4px;"><i class="fa fa-fw fa-save"> </i>Зачувај</button>
+                            <button href="" ng-show="x.isActive" class="btn btn-warning btn-sm" ng-click="x.isActive=false; close()" style=" width: 68px;padding: 4px; margin-top: 10px;"> <i class="fa fa-ban" aria-hidden="true" ></i> Откажи</button>
+                        </div>
+                    </td>
+              </tr>
+            
+              </table> <dir-pagination-controls
+       max-size="5"
+       direction-links="true"
+       boundary-links="true" >
+    </dir-pagination-controls>
+            </div><!-- /.box-body -->
+          </div><!-- /.box -->
+        </div>
+      </div>
+   </section>
+
+  </div>
+
+</section>
+
+
+

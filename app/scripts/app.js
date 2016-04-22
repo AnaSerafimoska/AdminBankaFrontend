@@ -17,9 +17,10 @@ angular
     'ngSanitize',
     'ngTouch',
     'mgcrea.ngStrap',
-    'ui.select',
     'ngMask',
     'toastr',
+    'angularUtils.directives.dirPagination',
+    'ui.select',
     'ngDialog'
   ])
   .config(function ($routeProvider) {
@@ -35,6 +36,10 @@ angular
       .when('/vid-rabota/create', {
         templateUrl: 'views/vid-rabota-create.html',
         controller: 'VidRabotaCreateCtrl'
+      })
+      .when('/tip-rabota/create', {
+        templateUrl: 'views/tip-rabota-create.html',
+        controller: 'TipRabotaCreate'
       })
       .when('/vid-rabota', {
         templateUrl: 'views/vid-rabota.html',
@@ -52,8 +57,8 @@ angular
     angular.extend(toastrConfig, {
       closeButton: true,
       autoDismiss: true,
-      timeOut: 3000,
+      timeOut: 2000,
       positionClass: 'toast-bottom-right'
     });
-  })
-;
+  
+});
