@@ -1,0 +1,38 @@
+body{
+  height:100% !important;
+}
+
+input.ng-touched.ng-invalid{
+  border: 1.5px solid #dd4b39;
+}
+
+
+textarea.ng-invalid{
+  border: 1.5px solid #dd4b39;
+}
+
+
+input.ng-valid{
+  border: 1.5px solid green;
+}
+
+textarea.ng-valid{
+  border: 1.5px solid green;
+}
+.search{
+	    border: 1px solid #ccc !important;
+}
+
+.custom {
+	border: 1px solid #dd4b39 !important;
+}
+
+
+.alt {
+	background-color:#e0e0e0;
+}
+
+.btn-success {
+	color: white !important;
+    background-color: #00a65a!important;
+}

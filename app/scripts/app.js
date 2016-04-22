@@ -15,7 +15,11 @@ angular
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch'
+    'ngTouch',
+    'mgcrea.ngStrap',
+    'ngMask',
+    'toastr',
+    'angularUtils.directives.dirPagination',
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -31,6 +35,10 @@ angular
         templateUrl: 'views/vid-rabota-create.html',
         controller: 'VidRabotaCreateCtrl'
       })
+      .when('/tip-rabota/create', {
+        templateUrl: 'views/tip-rabota-create.html',
+        controller: 'TipRabotaCreate'
+      })
       .when('/vid-rabota', {
         templateUrl: 'views/vid-rabota.html',
         controller: 'VidRabotaCtrl'
@@ -43,4 +51,14 @@ angular
         redirectTo: '/main'
       });
   })
+  .config(function(toastrConfig) {
+    angular.extend(toastrConfig, {
+      closeButton: true,
+      autoDismiss: true,
+      timeOut: 2000,
+      positionClass: 'toast-bottom-right'
+    });
+  
+});
+
 ;
