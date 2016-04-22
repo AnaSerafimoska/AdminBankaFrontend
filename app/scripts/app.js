@@ -15,7 +15,12 @@ angular
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch'
+    'ngTouch',
+    'mgcrea.ngStrap',
+    'ui.select',
+    'ngMask',
+    'toastr',
+    'ngDialog'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -42,5 +47,13 @@ angular
       .otherwise({
         redirectTo: '/main'
       });
+  })
+  .config(function(toastrConfig) {
+    angular.extend(toastrConfig, {
+      closeButton: true,
+      autoDismiss: true,
+      timeOut: 3000,
+      positionClass: 'toast-bottom-right'
+    });
   })
 ;

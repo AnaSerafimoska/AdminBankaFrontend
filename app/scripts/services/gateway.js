@@ -6,7 +6,7 @@ angular.module('adminBankaFrontendApp').factory('gatewayService', function ($htt
     var instance = {};
     //var user = session.token();
 
-    instance.request = function (url, operationType, key, obj,params) {
+    instance.request = function (url, operationType, obj) {
 
         var deferred = $q.defer();
         setTimeout(function () {
@@ -20,9 +20,9 @@ angular.module('adminBankaFrontendApp').factory('gatewayService', function ($htt
             $http({
                 method: operationType,
                 url: serviceUrl,
-                data: params || obj,
+                data: obj,
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
                     // "Content-Type": "application/x-www-form-urlencode"
 
                     //"Authorization": "Bearer " + token
