@@ -34,6 +34,8 @@ module.exports = function(config) {
       'bower_components/ngMask/dist/ngMask.js',
       'bower_components/angular-toastr/dist/angular-toastr.tpls.js',
       'bower_components/angularUtils-pagination/dirPagination.js',
+      'bower_components/ui-select/dist/select.js',
+      'bower_components/ng-dialog/js/ngDialog.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'app/scripts/**/*.js',

@@ -20,6 +20,8 @@ angular
     'ngMask',
     'toastr',
     'angularUtils.directives.dirPagination',
+    'ui.select',
+    'ngDialog'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -60,5 +62,3 @@ angular
     });
   
 });
-
-;
