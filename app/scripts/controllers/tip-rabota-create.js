@@ -3,7 +3,7 @@
  */
 
 angular.module('adminBankaFrontendApp')
-  .controller('TipRabotaCreate', function($scope, gatewayService, $filter, toastr, $route) {
+  .controller('TipRabotaCreate', function($scope, gatewayService, $filter, toastr, $route, $rootScope) {
       
   $scope.productTypes = []; ////////////////////////////da se brishe//////////////////////////////////////
 
@@ -23,7 +23,13 @@ $scope.Products = {
 
     };
 var PID=null;
-var ProduktTip = 'ProductTypes';///////////////////////////////////da se vidi////
+var ProduktTip = 'ProductType';///////////////////////////////////da se vidi////
+
+  $scope.test = function(){
+    console.log("lang", $rootScope.tmp);
+  }
+
+
 
 $scope.init = function () { 
       $scope.Products.OpeningDate = new Date();
@@ -71,10 +77,10 @@ $scope.submit= function (Prod) {
          //console.log(Prod); 
     gatewayService.request("/api/ProductTypes/1/ProductTypesInsert", "POST", Prod).then(function (data, status, heders, config) {
           $route.reload();
-           toastr.success('Записот е успешно снимен. ');
+          toastr.success($filter('translate')('lblDbSuccess_pt'));
         }, function (data, status, headers, config) {
-            console.log(status);
-            toastr.warning('Грешка при запишување во база.');
+             console.log(status);
+             toastr.warning($filter('translate')('lblDbError_pt'));
 
         });
    
@@ -87,13 +93,13 @@ $scope.submit= function (Prod) {
 
 ////////////////////////////  SUBMIT OD EDIT //////////////////////////////////////
 $scope.zachuvaj = function(Prod){
-    console.log("closing date PRED FILTER: ",Prod.ClosingDate);
+   // console.log("closing date PRED FILTER: ",Prod.ClosingDate);
     var fullDate1 = $filter('date')(Prod.ClosingDate, "yyyy-MM-dd"); 
     var fullDate2 = $filter('date')(Prod.OpeningDate,"yyyy-MM-dd"); 
     Prod.ClosingDate = fullDate1; 
     Prod.OpeningDate = fullDate2; 
-    console.log("oppening date: ",Prod.OpeningDate);
-    console.log("closing date: ",Prod.ClosingDate);
+    //console.log("oppening date: ",Prod.OpeningDate);
+   // console.log("closing date: ",Prod.ClosingDate);
     if(Prod.Status == true){
         Prod.Status = '1'; 
     }
@@ -106,10 +112,10 @@ $scope.zachuvaj = function(Prod){
       Prod.ID
       gatewayService.request("/api/ProductTypes/1/ProductTypesUpdate", "PUT", Prod).then(function (data, status, heders, config) {
           $route.reload();
-           toastr.success('Записот е успешно уреден. ');
+          toastr.success($filter('translate')('lblDbSuccessEdit_pt'));
         }, function (data, status, headers, config) {
             console.log(status);
-            toastr.warning('Грешка при запишување во база.');
+            toastr.warning($filter('translate')('lblDbError_pt'));
 
         });
    
@@ -140,12 +146,12 @@ $scope.checkTipInDb = function(prodWeSearchWith){
       gatewayService.request("/api/ProductTypes/1/FetchProductTypes_ByProductTypeId?productTypeID="+prodWeSearchWith, "GET").then(function (data, status, heders, config) {
          
          if($scope.isEmpty(data) != true){
-            toastr.error('Типот на продукт постои.', '');
-            $scope.flag = true;
-         }
-         else{
-          $scope.flag = false;
-         }
+            toastr.error($filter('translate')('lblTipExist_pt')); 
+            $scope.flag = true; 
+         } 
+         else{ 
+          $scope.flag = false; 
+         } 
        // console.log("Ova e flag: " ,$scope.flag);
       }, function (data, status, headers, config) {
         //console.log("greshka: ",status);
@@ -161,7 +167,7 @@ $scope.checkTipInDbEdit = function(prodWeSearchWith){
       gatewayService.request("/api/ProductTypes/1/FetchProductTypes_ByProductTypeId?productTypeID="+prodWeSearchWith, "GET").then(function (data, status, heders, config) {
          
          if($scope.isEmpty(data) != true){
-            toastr.error('Типот на продукт постои.', '');
+            toastr.error($filter('translate')('lblTipExist_pt')); 
             $scope.flag1 = true;
          }
          else{
@@ -204,19 +210,19 @@ $scope.isEmpty = function(obj) {
 /////////////////////////// PROVERKA ZA ERROR POP UP ///////////////////////
 $scope.checkTip = function (){
   if($scope.Products.ProductTypeID == null){
-     toastr.error('Тип на продукт е задолжително поле.', '');
+     toastr.error($filter('translate')('lblTipError_pt'));
   }
 }
 
 $scope.checkOpis = function (){
   if($scope.Products.Description == null){
-     toastr.error('Опис е задолжително поле.', '');
+     toastr.error($filter('translate')('lblOpisError_pt'));
   }
 }
 
 $scope.checkWTable = function (){
   if($scope.Products.WorkingTable == null){
-     toastr.error('Работна табела е задолжително поле.', '');
+     toastr.error($filter('translate')('lblWTableError_pt'));
   }
 }
 
@@ -224,21 +230,19 @@ $scope.checkWTable = function (){
 /////////////////////////// PROVERKA NA EDIT ZA ERROR POP UP ///////////////////////
 $scope.checkTipEdit = function (tip){
   if(tip == null){
-     toastr.error('Внесете тип продукт.', '');
+     toastr.error($filter('translate')('lblTipError_pt'));
   }
 }
 
 $scope.checkOpisEdit = function (opis){
   if(opis == null){
-     toastr.error('Внесете опис.', '');
-     //console.log("vnatre vo Opis == null",opis);
+     toastr.error($filter('translate')('lblOpisError_pt'));
   }
-  //console.log("nadvor od vo Opis == null",opis);
 }
 
 $scope.checkWTableEdit = function (wtable){
   if(wtable == null){
-     toastr.error('Внесете работна табела.', '');
+     toastr.error($filter('translate')('lblWTableError_pt'));
   }
 }
 

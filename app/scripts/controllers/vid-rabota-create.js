@@ -308,6 +308,10 @@ angular.module('adminBankaFrontendApp')
 
     }
 
+
+
+
+
     $scope.getBody = function(){
 
       /*    gatewayService.request("/api/Products/1/ProductsFetchByProductType?ProductTypeID="+products, "GET").then(function (data, status, heders, config) {

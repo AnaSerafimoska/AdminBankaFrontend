@@ -1,0 +1,40 @@
+
+<section class="wrapper" ng-controller="adminBaranjaCtrl">
+
+  <ng-include src="'views/header.html'"></ng-include>
+  <!-- Content Header (Page header) -->
+
+  <div class="content-wrapper">
+
+
+
+    <section class="content-header" style="padding: 0px">
+
+      <h1 style=" font-size: 19px; padding-top: 10px; padding-left: 10px;"> Барања </h1>
+    	<section class="content box-header">
+    	 <div class="box box-success" style="min-height: 200px; padding: 14px;" >
+    	 <button ng-click="test()" ng-model="btn" > update </button>	
+        	<search-vid-tip> </search-vid-tip>	
+				<table class=" table table-bordered table-striped dataTable " style=" max-width: 226px;">
+						<tr ng-repeat="item in productsBody track by item.ProductBodyID">
+							<td ng-repeat="(key, val) in item" ng-if="key == 'FieldDescription'">
+						  		{{item.FieldName}} - {{item.ProductBodyID}}
+						  	</td>
+						  	<td>
+						  		<div class="col-sm-offset-2 col-sm-10">
+                       				<input type="checkbox" checklist-model="user.items" checklist-value="item.ProductBodyID" > 
+                        		</div>
+
+						  	</td>
+						</tr>
+				</table>
+					<button ng-click="funkcija()" ng-model="btn" ng-show="!flag" ng-disabled="flag"> Внеси </button>	
+				</div>
+
+
+		</section>
+
+
+	</section>
+   
+	 <section class="content" > </section>
