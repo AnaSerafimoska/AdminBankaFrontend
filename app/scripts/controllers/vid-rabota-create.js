@@ -1,7 +1,6 @@
 /**
  * Created by NikolovskiF on 21.03.2016.
  */
-
 'use strict';
 
 /**
@@ -13,21 +12,30 @@
  */
 
 angular.module('adminBankaFrontendApp')
-  .controller('VidRabotaCreateCtrl', function($scope, gatewayService, $filter, toastr,ngDialog,$route){
+  .controller('VidRabotaCreateCtrl', function($scope, gatewayService, $filter, toastr,ngDialog,$route,$translate){
+
+
+
+
     $scope.hasNew=false;
 
     $scope.productExist = false;
 
-/////////////////////////////////   Modeli    ///////////////////////////////////////////
+    $scope.canAdd=false;
+
+    /////////////////////////////////   Modeli    ///////////////////////////////////////////
     $scope.Products={
       "Status": true,
-      "ProductTypeID" :""
+      "ProductTypeID" :"",
+      "ClosingDate":null
     }
 
 
     $scope.productBody =  [
 
     ];
+
+    $scope.productBodyNew = {};
 
 
     ///////////////////////   Dodadi i brisi red vo tabelata /////////////////////////////////
@@ -42,12 +50,18 @@ angular.module('adminBankaFrontendApp')
             return 0;
           }
         });
+
       }
 
-      if(result != undefined && result.length <= 0){
+      // if(result != undefined && result.length <= 0){
+      if ($scope.productBodyNew != undefined){
 
 
-        $scope.productBodyNew.FillApi=$scope.productBodyNew.FillApi.ApiUrl;
+        if($scope.productBodyNew.FillApi!=null)
+        {
+          $scope.productBodyNew.FillApi=$scope.productBodyNew.FillApi.ApiUrl;
+        }
+
         if($scope.productBodyNew.Mandatory==true)
         {
           $scope.productBodyNew.Mandatory="З";
@@ -56,12 +70,20 @@ angular.module('adminBankaFrontendApp')
         {
           $scope.productBodyNew.Mandatory="О";
         }
-      //  console.log($scope.productBodyNew);
-        $scope.hasNew=true;
-        console.log($scope.hasNew);
-        $scope.productBody.push($scope.productBodyNew);
-        toastr.success('Записот е успешно додаден!', '');
+        if($scope.productBodyNew.FieldType==null && $scope.productBodyNew.FieldID==null)
+        {
+          $scope.canAdd=false;
+          toastr.error('Тип поле и редослед се задолжителни!');
+        }
+        else {
+          $scope.canAdd = true;
+         // console.log("false");
 
+          $scope.hasNew = true;
+          // console.log($scope.hasNew);
+          $scope.productBody.push($scope.productBodyNew);
+          $scope.productBodyNew = {};
+        }
       }
       $scope.productBodyNew = {};
 
@@ -85,7 +107,7 @@ angular.module('adminBankaFrontendApp')
     }
 
 
-    //////////////////// Fetch na ProductTypes //////////////////////////////////
+    //////////////////////////////// Fetch na ProductTypes //////////////////////////////////
 
     $scope.ProductTypes = function () {
       gatewayService.request("/api/ProductTypes/1/ProductTypesFetch", "GET").then(function (data, status, heders, config) {
@@ -101,7 +123,7 @@ angular.module('adminBankaFrontendApp')
 
     $scope.ProductTypes();
 
-
+    //////////////////////////////// Fetch na Products //////////////////////////////////
 
     $scope.GetProducts = function () {
       gatewayService.request("/api/Products/1/ProductsFetch", "GET").then(function (data, status, heders, config) {
@@ -118,13 +140,13 @@ angular.module('adminBankaFrontendApp')
     $scope.GetProducts();
 
 
-    /////////////////////////// PROVERKA ZA ERROR POP UP ///////////////////////
+    ////////////////////////////// PROVERKA ZA ERROR POP UP ////////////////////////////////
 
     $scope.checkVid = function (){
 
       if($scope.Products.ProductID == null|| $scope.Products.ProductID == ""){
 
-        toastr.error('Вид работа е задолжително поле!', '');
+        toastr.error($filter('translate')('errorVidRabota_p'));
       }
       else{
         gatewayService.request("/api/Products/1/ProductsFetchByProductIDProductTypeID?ProductTypeID="+$scope.Products.ProductTypeID+"&ProductID="+$scope.Products.ProductID, "GET").then(function (data, status, heders, config)
@@ -132,7 +154,9 @@ angular.module('adminBankaFrontendApp')
           if(data.length>0)
           {
             $scope.productExist = true;
-            toastr.error('Видот на работа постои!', '');
+            toastr.error($filter('translate')('errorVidRabotaExist_p'));
+
+
           }else{
             $scope.productExist = false;
           }
@@ -148,19 +172,20 @@ angular.module('adminBankaFrontendApp')
 
     $scope.checkOpis = function (){
       if($scope.Products.Decsription == null || $scope.Products.Decsription == ""){
-        toastr.error('Опис е задолжително поле!', '');
+        toastr.error($filter('translate')('errorOpis_p'));
+
       }
     }
 
     $scope.checkTip = function (){
       if($scope.Products.ProductTypeID == null || $scope.Products.ProductTypeID == ""){
-        toastr.error('Тип работа е задолжително поле!', '');
+        toastr.error($filter('translate')('errorTipRabota_p'));
+
       }
     }
 
 
-
-///////////////////////////////////// Snimi Vid Rabota ////////////////////////////////
+  ///////////////////////////////// Snimi Vid Rabota ////////////////////////////////
 
     $scope.vidRabotaSave = function () {
 
@@ -178,15 +203,18 @@ angular.module('adminBankaFrontendApp')
         item.Status="0";
       }
       item.OpeningDate=$filter('date')( $scope.Products.OpeningDate, "yyyy-MM-dd");
-      item.ClosingDate=$filter('date')(   $scope.Products.ClosingDate, "yyyy-MM-dd");
-      gatewayService.request("/api/Products/1/ProductsFetchByProductID?ProductID="+$scope.Products.ProductID, "GET").then(function (data, status, heders, config)
+      if(item.ClosingDate!=null)
+      {
+        item.ClosingDate=$filter('date')(   $scope.Products.ClosingDate, "yyyy-MM-dd");
+      }
+      gatewayService.request("/api/Products/1/ProductsFetchByProductIDProductTypeID?ProductTypeID="+$scope.Products.ProductTypeID+"&ProductID="+$scope.Products.ProductID, "GET").then(function (data, status, heders, config)
       {
 
 
         if(data.length>0)
         {
           $scope.productExist = false;
-          gatewayService.request("/api/Products/1/ProductsInsertUpdate", "POST",item).then(function (data, status, heders, config)
+          gatewayService.request("/api/Products/1/ProductsUpdate", "POST",item).then(function (data, status, heders, config)
           {
             $route.reload();
             toastr.success('Записот е успешно уреден!', '');
@@ -197,36 +225,28 @@ angular.module('adminBankaFrontendApp')
 
           // console.log(item);
          // $scope.products.push(item);
-
-
-
         }
         else
         {
           item.Type="I";
-          gatewayService.request("/api/Products/1/ProductsInsertUpdate", "POST",item).then(function (data, status, heders, config)
+          gatewayService.request("/api/Products/1/ProductsInsert", "POST",item).then(function (data, status, heders, config)
           {
-
+           // console.log("Item",item);
+           // console.log("data",data);
+            $route.reload();
+            toastr.success('Записот е успешно снимен!', '');
           }, function (data, status, headers, config) {
             console.log(status);
           });
 
 
-          // console.log(item);
-          $scope.products.push(item);
-          toastr.success('Записот е успешно снимен!', '');
+        //  $scope.products.push(item);
         }
       }, function (data, status, headers, config) {
         console.log(status);
       });
-
-
-
-
-
-
     }
-
+    /////////////////////////////////////// Inicijalizacija na OpeningDate na denes /////////////////////////////////
     $scope.init = function () {
       $scope.Products.OpeningDate = new Date();
 
@@ -234,7 +254,7 @@ angular.module('adminBankaFrontendApp')
 
     $scope.reloadPage = function(){window.location.reload();}
 
-    ///////////////////// Button Otkazi /////////////////////////////////
+    /////////////////////////////////////// Button Otkazi /////////////////////////////////
 
     $scope.cancel=function () {
       $scope.Products.ProductID=null;
@@ -243,10 +263,11 @@ angular.module('adminBankaFrontendApp')
       $scope.Products.Status=true;
       $scope.Products.OpeningDate=new Date();
       $scope.Products.ClosingDate="";
+      $route.reload();
     }
 
 
-    ////////////// Prebaruvaj Vid rabota ////////////////////////////////
+    //////////////////////////////////// Prebaruvaj Vid rabota ////////////////////////////////
 
       $scope.fetchProducts = function(products){
         $scope.hasNew=false;
@@ -280,7 +301,7 @@ angular.module('adminBankaFrontendApp')
 
      //  console.log( $scope.productBody);
        //$scope.products = data;
-        $scope.getBody();
+      //  $scope.getBody();
       }, function (data, status, headers, config) {
         console.log(status);
       });
@@ -331,7 +352,7 @@ angular.module('adminBankaFrontendApp')
         $scope. pb.FieldDescription=$scope.pom[i].FieldDescription;
 
 
-        gatewayService.request("/api/ProductBody/1/ProductBodyInsertUpdate", "POST", $scope.pb).then(function (data, status, heders, config)
+        gatewayService.request("/api/ProductBody/1/ProductBodyInsertUpdate1", "POST", $scope.pb).then(function (data, status, heders, config)
         {
 
         }, function (data, status, headers, config) {
@@ -384,6 +405,51 @@ angular.module('adminBankaFrontendApp')
       $route.reload();
     }
 
+
+/////////////////////////////////////////////// Fetch Table Columns //////////////////////////////////////////
+
+    $scope.TableColumns = function (pt) {
+      gatewayService.request("/api/ProductTypes/1/ProductTypes_FetchWorkingTable?ProductTypeID="+pt.ProductTypeID, "GET").then(function (data, status, heders, config) {
+        //  console.log("data" ,data);
+
+        $scope.WorkingTable = data;
+
+        //console.log(data);
+
+        gatewayService.request("/api/ProductTypes/1/ProductTypes_FetchTableColumns?TableName="+ $scope.WorkingTable, "GET").then(function (data, status, heders, config) {
+          //  console.log("data" ,data);
+
+
+          if(data.length<=0)
+          {
+            toastr.error("Не постои работната табела "+$scope.WorkingTable+"!");
+
+            $scope.tableColumns=[];
+          }
+          else {
+            $scope.tableColumns=data;
+            $scope.tableColumns.splice($scope.tableColumns, 1);
+          }
+
+        }, function (data, status, headers, config) {
+          console.log(status);
+        });
+
+
+
+      }, function (data, status, headers, config) {
+        console.log(status);
+      });
+
+    }
+
+/////////////////////////// sort function ///////////////////////
+    $scope.sort = function(keyname){
+      $scope.sortKey = keyname;   //set the sortKey to the param passed
+      $scope.reverse = !$scope.reverse; //if true make it false and vice versa
+      $scope.verify = ! $scope.verify;
+      // console.log("verify: ", $scope.verify);
+    }
 
 
 

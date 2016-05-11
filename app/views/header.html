@@ -1,4 +1,4 @@
-<header class="main-header">
+<header class="main-header" ng-controller="HeaderCtrl">
   <!-- Logo -->
   <a href="#/" class="logo">
     <!-- mini logo for sidebar mini 50x50 pixels -->
@@ -15,17 +15,25 @@
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
     </a>
+    <div class="navbar-custom-menu" >
+      <div class="pull-left image" ng-click="changeLanguage('en')" > <img src="images/plainicon.com-47326-w-256px-59ec.png" class="img-circle" style="width: 19px;height: 19px; vertical-align: middle; margin-right: 5px;" /></div>
+      <div class="pull-right image" ng-click="changeLanguage('mk')"> <img src="images/plainicon.com-47033-w-256px-1482.png" class="img-circle " style="width: 19px;height: 19px; vertical-align: middle;  float: right;" /></div>
+
+    </div>
     <div class="navbar-custom-menu">
+
       <ul class="nav navbar-nav">
 
         <!-- User Account: style can be found in dropdown.less -->
+
         <li class="dropdown user user-menu">
           <a href="" class="dropdown-toggle" data-toggle="dropdown">
             <img src="images/User_Circle.png" class="user-image" alt="User Image"/>
             <span class="hidden-xs">aleksandar kostainovski</span>
           </a>
-          <ul class="dropdown-menu">
+          <ul class="dropdown-menu" style="background-color: #00a65a;">
             <!-- User image -->
+
             <li class="user-header">
               <img src="images/User_Circle.png" class="img-circle" alt="User Image"/>
               <p>
@@ -45,6 +53,7 @@
         </li>
       </ul>
     </div>
+
   </nav>
 </header>
 
@@ -55,6 +64,7 @@
   <section class="sidebar">
     <!-- Sidebar user panel -->
     <div class="user-panel">
+
       <div class="pull-left image">
         <img src="images/User_Circle.png" class="img-circle" alt="User Image">
       </div>
@@ -84,15 +94,23 @@
 
       </li>
       <li class="treeview">
-        <a href="#">
-          <i class="fa fa-dashboard"></i> <span>Видови работа</span> <i class="fa fa-angle-left pull-right"></i>
+        <a href="/#/vid-rabota/create">
+          <i class="fa fa-dashboard"></i> <span>{{'meniVidoviRabota_p' | translate}}</span> </i>
         </a>
+        <!--
+        <i class="fa fa-angle-left pull-right">
         <ul class="treeview-menu">
           <li><a href="/#/vid-rabota"><i class="fa fa-circle-o"></i> Преглед</a></li>
           <li><a href="/#/products"><i class="fa fa-circle-o"></i>Продукти </a></li>
           <li><a href="/#/vid-rabota/create"><i class="fa fa-circle-o"></i> Внеси вид работа</a></li>
 
-        </ul>
+        </ul> -->
+      </li>
+      <li class="treeview">
+        <a href="/#/form">
+          <i class="fa fa-dashboard"></i> <span>Креирај форма </span> </i>
+        </a>
+
       </li>
       <!--<li class="treeview">
         <a href="#">

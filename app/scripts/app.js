@@ -21,7 +21,10 @@ angular
     'toastr',
     'angularUtils.directives.dirPagination',
     'ui.select',
-    'ngDialog'
+    'ngDialog',
+    'pascalprecht.translate',
+    'angularTranslateApp',
+    'LocalStorageModule'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -49,6 +52,10 @@ angular
         templateUrl: 'views/login.html',
         controller: 'LoginCtrl',
       })
+      .when('/form', {
+        templateUrl: 'views/generateForm.html',
+        controller: 'GenerateFormCtrl',
+      })
       .otherwise({
         redirectTo: '/main'
       });
@@ -59,6 +66,6 @@ angular
       autoDismiss: true,
       timeOut: 2000,
       positionClass: 'toast-bottom-right'
-    });
-  
-});
+    })
+  })
+;
