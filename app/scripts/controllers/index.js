@@ -15,9 +15,6 @@
 angular.module('adminBankaFrontendApp')
   .controller('IndexCtrl', function ($scope, $location, authService) {
 
-
-
-
     $scope.logOut = function () { console.log("logout");
       authService.logout();
       $location.path('/login');
