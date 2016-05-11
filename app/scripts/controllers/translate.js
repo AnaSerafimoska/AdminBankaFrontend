@@ -125,7 +125,7 @@ angular.module('angularTranslateApp', ['pascalprecht.translate'])
 
 
 angular.module('adminBankaFrontendApp')
-  .controller('translateCtrl', function ($scope, gatewayService, authService) {
+  .controller('langCtrl', function ($scope, gatewayService, authService) {
 
 
 
