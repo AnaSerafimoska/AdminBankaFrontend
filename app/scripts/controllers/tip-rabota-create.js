@@ -132,12 +132,12 @@ $scope.close = function(){
 }
 
 /////////////////////////// sort function ///////////////////////
-$scope.sort = function(keyname){
-        $scope.sortKey = keyname;   //set the sortKey to the param passed
-        $scope.reverse = !$scope.reverse; //if true make it false and vice versa
-        $scope.verify = ! $scope.verify;
-       // console.log("verify: ", $scope.verify);
-}
+    $scope.sort = function(keyname){
+      $scope.sortKey = keyname;   //set the sortKey to the param passed
+      $scope.reverse = !$scope.reverse; //if true make it false and vice versa
+      $scope.verify = ! $scope.verify;
+      // console.log("verify: ", $scope.verify);
+    }
 
 
 /////////////////////////// PROVERKA DALI TOJ TIP RABOTA GO IMA VEKJE VO BAZA ///////////
