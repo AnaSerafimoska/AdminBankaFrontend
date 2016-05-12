@@ -10,11 +10,37 @@
 
     <section class="content-header" style="padding: 0px">
 
-      <h1 style=" font-size: 19px; padding-top: 10px; padding-left: 10px;"> Барања </h1>
+      <h1 style=" font-size: 19px; padding-top: 10px; padding-left: 10px;"> Внесување на барања </h1>
     	<section class="content box-header">
-    	 <div class="box box-success" style="min-height: 200px; padding: 14px;" >
-    	 <button ng-click="test()" ng-model="btn" > update </button>	
+    	 <div class="box box-success" style="min-height: 600px; padding: 14px;" >
+    		
+        	<div class="col-md-2">
+        			<ul style="list-style-type: none;" class="form-group col-md-12">
+        				
+        				<li>Број на барање:<input type="text" class="form-control input-sm "></input> </li>
+
+        				<li>
+        					Единствен број:<input type="text" class="form-control input-sm "></input>
+        				</li>
+
+						<li>
+        					Корисничко име:	<input type="text" class="form-control input-sm "></input>
+        				</li>
+
+        				<li>
+        					Датум барање:<input type="text" class="form-control input-sm "></input>
+        				</li>
+
+
+        			</ul>
+        	</div>
+        	
+        	</div>
+        	
+        	<!--******
+        	 <button ng-click="test()" ng-model="btn" > update </button>	
         	<search-vid-tip> </search-vid-tip>	
+			
 				<table class=" table table-bordered table-striped dataTable " style=" max-width: 226px;">
 						<tr ng-repeat="item in productsBody track by item.ProductBodyID">
 							<td ng-repeat="(key, val) in item" ng-if="key == 'FieldDescription'">
@@ -28,6 +54,10 @@
 						  	</td>
 						</tr>
 				</table>
+
+			********-->
+
+			
 					<button ng-click="funkcija()" ng-model="btn" ng-show="!flag" ng-disabled="flag"> Внеси </button>	
 				</div>
 
