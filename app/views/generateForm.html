@@ -4,8 +4,10 @@
     margin-bottom: 5px;
     margin-left: 2px;
   }
+  .btn{
+    margin-top: 5px;
+  }
 </style>
-
 <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.css">
 <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.css">
 <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.8.5/css/selectize.default.css">
@@ -16,21 +18,7 @@
 
   <div class="content-wrapper">
     <div class="content-header" >
-      <div  class="form-group  pull-right"  >
-
-        <i class="fa fa-fw fa-search" ></i>
-
-
-        <ui-select ng-model="item.selected" class="pull-right" style="min-width: 300px; "  theme="select2"  on-select="fetchProducts($select.selected);TableColumns($select.selected)">
-          <ui-select-match placeholder=" {{'searchVidRabota_p' | translate}}">{{$select.selected.ProductID}}-{{$select.selected.Description}}</ui-select-match>
-          <ui-select-choices repeat="item in products | filter: $select.search">
-            <div ng-bind-html="item.ProductID  |  highlight: $select.search"></div>
-            <small ng-bind-html="item.Description  | highlight: $select.search"></small>
-
-          </ui-select-choices>
-        </ui-select>
-
-      </div>
+      <search-vid-tip> </search-vid-tip>
       <h1 style=" font-size: 19px;padding: 10px; padding-top: 0px"> Креирај форма </h1>
 
     </div>
@@ -43,15 +31,16 @@
         <div class="box-header with-border">
 
           <h4 class="box-title">
-
+              {{opis}}
           </h4>
 
         </div>
 
         <form novalidate class="form-group "   name="form">
         <div class="box-body" >
+          <div   ng-repeat="item in productsBody track by item.FieldID ">
           <!------------------------------------------------- Textbox ------------------------------------------------------->
-                  <div class="row "   ng-repeat="item in productbody track by item.ProductBodyID" ng-if="item.FieldType=='Textbox' ">
+                  <div class="row "    ng-if="item.FieldType=='TextBox' ">
                       <label class=" col-md-2 control-label ">{{item.FieldDescription}}</label>
                       <div class="col-md-3 ">
                         <input class="form-control ng-valid ng-invalid" dynamic-model="'temp.'+item.FieldName" type="{{item.FieldType}}" maxlength="{{item.FieldLength}}" value="{{item.DefaultValue}}" />
@@ -59,30 +48,38 @@
                   </div>
 
           <!------------------------------------------------- Number ------------------------------------------------------->
-                  <div class="row "   ng-repeat="item in productbody" ng-if="item.FieldType=='Number' ">
+                  <div class="row "    ng-if="item.FieldType=='Number' ">
 
                     <label class=" col-md-2 control-label ">{{item.FieldDescription}}</label>
                     <div class="col-md-3 ">
                       <input class="form-control " dynamic-model="'temp.'+item.FieldName"  type="{{item.FieldType}}" min="0" maxlength="{{item.FieldLength}}" value="{{item.DefaultValue}}" />
                     </div>
                   </div>
+          <!------------------------------------------------- Input-Number------------------------------------------------------->
+                  <div class="row "  ng-if="item.FieldType=='Input-Number' ">
+                    <label class=" col-md-2 control-label ">{{item.FieldDescription}}</label>
+                    <div class="col-md-3 ">
+                      <input class="form-control " dynamic-model="'temp.'+item.FieldName"  type="text" mask="9"  restrict="reject"  repeat="{{item.FieldLength}}"   />
+                    </div>
+                  </div>
+
 
           <!------------------------------------------------- Datepicker ------------------------------------------------------->
-                  <div class="row "   ng-repeat="item in productbody" ng-if="item.FieldType=='Datepicker' ">
+                  <div class="row"    ng-if="item.FieldType=='Datepicker' ">
 
                     <label class=" col-md-2 control-label ">{{item.FieldDescription}}</label>
-                  <div class="col-md-3 ">
-                    <div class=" input-group ">
-                      <input  dynamic-model="'temp.'+item.FieldName" class="form-control "  type="{{item.FieldType}}" ng-change="filter( item.FieldName )" data-date-format="dd-MM-yyyy" data-date-type="date" data-autoclose="1" bs-datepicker />
-                      <div class="input-group-addon " id="date" >
-                        <i class="fa fa-calendar"  ></i>
+                    <div class="col-md-3 ">
+                      <div class=" input-group ">
+                        <input  dynamic-model="'temp.'+item.FieldName" class="form-control "  type="{{item.FieldType}}" ng-change="filter( item.FieldName )" data-date-format="dd-MM-yyyy" data-date-type="date" data-autoclose="1" bs-datepicker />
+                        <div class="input-group-addon " id="date" >
+                          <i class="fa fa-calendar"  ></i>
+                        </div>
                       </div>
-                    </div>
-                 </div>
+                   </div>
                   </div>
 
           <!------------------------------------------------- Textarea ------------------------------------------------------->
-                  <div class="row "ng-model="item.FieldName"  ng-repeat="item in productbody" ng-if="item.FieldType=='Textarea' ">
+                  <div class="row "ng-model="item.FieldName"  ng-if="item.FieldType=='Textarea' ">
 
                     <label class=" col-md-2 control-label ">{{item.FieldDescription}}</label>
                     <div class="col-md-3 ">
@@ -91,7 +88,7 @@
                   </div>
 
           <!------------------------------------------------- Checkbox ------------------------------------------------------->
-                  <div class="row "  ng-repeat="item in productbody" ng-if="item.FieldType=='Checkbox' ">
+                  <div class="row "  ng-if="item.FieldType=='Checkbox' ">
 
                     <label class=" col-md-2 control-label ">{{item.FieldDescription}}</label>
                     <div class="col-md-3 ">
@@ -101,12 +98,12 @@
                   </div>
 
           <!------------------------------------------------- Dropdown ------------------------------------------------------->
-                  <div class="row "  ng-repeat="item in productbody" ng-if="item.FieldType=='Dropdown' ">
+                  <div class="row "  ng-if="item.FieldType=='Dropdown' ">
 
                     <label class=" col-md-2 control-label">{{item.FieldDescription}}</label>
                     <div class="col-md-3 " >
 
-                     <ui-select dynamic-model="'temp.'+item.FieldName"  style="width: 260px;" ng-model="temp"  theme="select2"  >
+                     <ui-select dynamic-model="'temp.'+item.FieldName"  style="width: 267px;" ng-model="temp"  theme="select2"  >
 
                         <ui-select-match placeholder="{{item.DefaultValue}}"></ui-select-match>
 
@@ -123,21 +120,24 @@
 
                   </div>
 
+            <!------------------------------------------------- Buttons------------------------------------------------------->
 
-          <!------------------------------------------------- Buttons------------------------------------------------------->
-                    <div class="box-footer col-md-5  text-right" >
+            <div class="col-md-4"   ng-if=" item.FieldType=='ButtonCancel' ">
+              <div class="pull-right"  >
+                <button class="btn btn-default "    value="{{item.DefaultValue}}" ><i class="fa fa-fw fa-ban"></i>{{item.DefaultValue}}</button>
+
+              </div>
+            </div>
+            <div class="col-md-2" style="padding-left: 0px;"  ng-if=" item.FieldType=='ButtonSuccess' ">
+              <div class="pull-left" >
+                <button class="btn btn-success " ng-click="submit()" style="background-color: #00a65a; "   value="{{item.DefaultValue}}" ><i class="fa fa-fw fa-save"></i> {{item.DefaultValue}}</button>
+
+              </div>
+            </div>
 
 
-                    <div  ng-repeat="item in productbody" ng-if=" item.FieldType=='Button'  ">
-                      <button class="btm btn-success " ng-click="submit()"   value="{{item.DefaultValue}}" >{{item.DefaultValue}}</button>
 
-                    </div>
-          <!------------------------------------------------- Button Cancel ------------------------------------------------------->
 
-                    <div class="" ng-repeat="item in productbody" ng-if=" item.FieldType=='ButtonCancel'  ">
-                      <button class="btm btn-default "   value="{{item.DefaultValue}}" >{{item.DefaultValue}}</button>
-
-                    </div>
 
           </div>
 
