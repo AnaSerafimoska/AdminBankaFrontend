@@ -7,7 +7,7 @@ angular.module('adminBankaFrontendApp')
   		'ProductBody_ID':'',
   		'ProductID':'',
   	};
-  
+    $scope.korisnik=[];
 
   // $scope.productsBody = [
   //   {id: 1, text: 'guest'},
@@ -28,10 +28,10 @@ angular.module('adminBankaFrontendApp')
 
   $scope.funkcija = function(){
   	 //$scope.ListtoSave.push(item.ProductBodyID);  
-  	console.log("$scope.user.items[i]: ",$scope.user.items[i]);
+  	//console.log("$scope.user.items[i]: ",$scope.user.items[i]);
 	for(var i = 0 ; i < $scope.user.items.length; i++){
 		gatewayService.request("/api/ProductBody/1/admin_baranja_insert?productBodyID="+$scope.user.items[i]+"&productID=1111", "GET").then(function (data, status, heders, config) {
-          console.log("uspeshen zapis. ");
+          //console.log("uspeshen zapis. ");
         }, function (data, status, headers, config) {
              console.log(status);
      });		
@@ -42,8 +42,8 @@ angular.module('adminBankaFrontendApp')
   }
 
   $scope.proverka = function(){
-  		console.log("PRED DA ZEME OD BAZA: ",$scope.user.items);
-  		console.log("product ID: ",$scope.user.items);
+  		//console.log("PRED DA ZEME OD BAZA: ",$scope.user.items);
+  		//console.log("product ID: ",$scope.user.items);
   		gatewayService.request("/api/ProductBody/1/admin_Baranja_Fetch_Inserted", "GET", $scope.prodID).then(function (data, status, heders, config) {
          
 		$scope.user.items = [];
@@ -58,6 +58,23 @@ angular.module('adminBankaFrontendApp')
      	});
 
   }
+
+  $scope.zemiPodatociPo_EMBG = function(embg){
+
+      console.log("vlezeno vo proverka embg printa korisnik ",$scope.korisnik);
+      gatewayService.request("/api/Baranja/1/EbankingFetchZaKomitent?EdinstvenBroj="+embg, "GET").then(function (data, status, heders, config) {
+        console.log("data: ",data);
+        console.log(" KorisnickoIme: ",data.Table[0].KorisnickoIme );
+        $scope.korisnik.korisnichkoIme = data.Table[0].KorisnickoIme;
+        $scope.korisnik.datum = $filter('date')(new Date(),"yyyy-MM-dd"); 
+
+      }, function (data, status, headers, config) {
+        console.log(status);
+      });
+
+
+  }
+
 
   $scope.test = function () {
   	   console.log($scope.user.items);

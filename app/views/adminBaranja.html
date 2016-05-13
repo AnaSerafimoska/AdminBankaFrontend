@@ -12,30 +12,73 @@
 
       <h1 style=" font-size: 19px; padding-top: 10px; padding-left: 10px;"> Внесување на барања </h1>
     	<section class="content box-header">
-    	 <div class="box box-success" style="min-height: 600px; padding: 14px;" >
-    		
-        	<div class="col-md-2">
-        			<ul style="list-style-type: none;" class="form-group col-md-12">
+    	 <div class="box box-success" style=" font-size: 12px;min-height: 600px; padding: 14px;" >
+    		<div class="col-md-12">
+
+			<!--     **************  FORMA ZA VNES NA EMBG  *****************************************************       -->
+	        	<div class="col-md-3">
+	        			<ul style="list-style-type: none;" class="form-group col-md-12">
+	        				
+	        				<li>
+	        					<label style="">Број на барање:</label>
+	        					<div>
+	        						<input type="text" class="form-control input-sm " ng-model="korisnik.brojBaranje"></input> 
+	        					</div>
+	        				<li>
+	        						<label style="">Единствен број:</label>
+	        						<div>
+	        							<input style=" " type="text" class="form-control input-sm " ng-model="korisnik.embg" ng-change="zemiPodatociPo_EMBG(korisnik.embg)"></input>
+	        						</div>
+	        				</li>
+
+							<li>
+		        					<label style=" ">Корисничко име:</label>	
+		        					<div>
+		        						<input style=""type="text" class="form-control input-sm " ng-model="korisnik.korisnichkoIme">{{korisnik.korisnichkoIme}}</input>
+		        					</div>	
+	        				</li>
+
+	        				<li>
+	        					<label style=" ">Датум барање</label>
+	        					<div>
+	        					<input type="text" class="form-control input-sm " ng-model="korisnik.datum"></input>
+	        					</div>
+	        				</li>
+
+	        			</ul>
+	        	</div>
+        	<!--  ************** KRAJ NA FORMA ZA VNES NA EMBG *****************************************************       -->
+
+
+			<!--  ************** TABELA ZA PRIKAZ NA PODATOCI PO SMETKA *********************************       -->
+        		<div class="col-md-7"> 
+        			<table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
+        			<tr>
+        				<th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">Вид работа</th>
+
+        				<th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">Партија</th>
+
+        				<th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">Назив на сметка</th>
+
+        				<th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">Сервис</th>
+
+        				<th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">Е-маил</th>
+
+        				<th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">Телефонски број</th>
+        			</tr>
+        				<!--  ************** REDOVI VO TABELA TUKA *********************************       -->
+        			<tbody>
         				
-        				<li>Број на барање:<input type="text" class="form-control input-sm "></input> </li>
+        				<tr>
+        					<td>Moki</td>
+        				</tr>
+        			</tbody>
 
-        				<li>
-        					Единствен број:<input type="text" class="form-control input-sm "></input>
-        				</li>
+        			</table>
 
-						<li>
-        					Корисничко име:	<input type="text" class="form-control input-sm "></input>
-        				</li>
+        		</div>
 
-        				<li>
-        					Датум барање:<input type="text" class="form-control input-sm "></input>
-        				</li>
-
-
-        			</ul>
-        	</div>
-        	
-        	</div>
+			</div> <!-- KRAJ NA CELA FORMA -->
         	
         	<!--******
         	 <button ng-click="test()" ng-model="btn" > update </button>	
