@@ -48,7 +48,7 @@
               <div class="form-group col-md-2">
                 <label >{{'lblTipRabota_p' | translate}}</label>
                 <div >
-                  <select ng-blur="checkTip()" class="form-control ng-touched ng-invalid ng-valid"  ng-model="Products.ProductTypeID"  >
+                  <select ng-blur="checkTip()" class="form-control ng-touched ng-invalid ng-valid"  ng-model="Products.ProductTypeID" ng-disabled="flag" >
                     <option></option>
                     <option ng-repeat="productType in productTypes" ng-selected= "Products.ProductTypeID==productType.ProductTypeID" value="{{productType.ProductTypeID}}"   >{{productType.ProductTypeID}}-{{productType.Description}}</option>
                   </select>
@@ -57,7 +57,7 @@
 
               <div class="form-group col-md-2">
                 <label>{{'lblVidRabota_p' | translate}}</label>
-                <input ng-blur="checkVid()" type="text" class="form-control ng-pristine ng-invalid ng-invalid-required ng-touched" mask="9999" restrict="reject" maxlength="4" id="txtVidRabota"  ng-model="Products.ProductID" required>
+                <input ng-blur="checkVid()" type="text" class="form-control ng-pristine ng-invalid ng-invalid-required ng-touched" mask="9" repeat="6" restrict="reject" ng-disabled="flag"  id="txtVidRabota"  ng-model="Products.ProductID" required>
               </div><!-- /.form-group -->
 
 

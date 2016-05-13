@@ -22,6 +22,7 @@ angular.module('adminBankaFrontendApp')
     $scope.productExist = false;
 
     $scope.canAdd=false;
+    $scope.flag=false;
 
     /////////////////////////////////   Modeli    ///////////////////////////////////////////
     $scope.Products={
@@ -214,6 +215,7 @@ angular.module('adminBankaFrontendApp')
         if(data.length>0)
         {
           $scope.productExist = false;
+
           gatewayService.request("/api/Products/1/ProductsUpdate", "POST",item).then(function (data, status, heders, config)
           {
             $route.reload();
@@ -228,6 +230,7 @@ angular.module('adminBankaFrontendApp')
         }
         else
         {
+          
           item.Type="I";
           gatewayService.request("/api/Products/1/ProductsInsert", "POST",item).then(function (data, status, heders, config)
           {
@@ -272,7 +275,7 @@ angular.module('adminBankaFrontendApp')
       $scope.fetchProducts = function(products){
         $scope.hasNew=false;
         $scope.hasSelected=true;
-
+        $scope.flag=true;
 
 
       $scope.Products.ProductTypeID=products.ProductTypeID;

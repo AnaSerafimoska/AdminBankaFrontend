@@ -8,7 +8,7 @@
  * Controller of the adminBankaFrontendApp
  */
 angular.module('adminBankaFrontendApp')
-  .controller('GenerateFormCtrl', function($scope, gatewayService, $filter, toastr,ngDialog,$route,$translate, utility, $q, $http){
+  .controller('GenerateFormCtrl', function($scope, gatewayService, $filter, toastr,ngDialog,$route,$translate, utility, $q, $http,$rootScope){
 
 
     $scope.productbody=[
@@ -32,70 +32,70 @@ angular.module('adminBankaFrontendApp')
           "ProductTypeID" : "01",
           "ProductID" : "0001",
           "FieldID" : "2",
-          "FieldName" : "ttttt",
+          "FieldName" : "Textbox",
           "Mandatory" : "З",
           "FieldType" : "Textbox",
           "FieldLength" : "20",
           "ControlType" : "" ,
           "FillApi" : "",
           "DefaultValue" : "",
-          "FieldDescription" : "Vnesi tekst"
+          "FieldDescription" : "Textbox"
       },
       {
         "ProductBodyID" : "3" ,
         "ProductTypeID" : "01",
         "ProductID" : "0001",
         "FieldID" : "2",
-        "FieldName" : "bbbbbb",
+        "FieldName" : "Datepicker",
         "Mandatory" : "З",
         "FieldType" : "Datepicker",
         "FieldLength" : "20",
         "ControlType" : "" ,
         "FillApi" : "",
         "DefaultValue" : "",
-        "FieldDescription" : "Date"
+        "FieldDescription" : "Datepicker"
       },
       {
         "ProductBodyID" : "4" ,
         "ProductTypeID" : "01",
         "ProductID" : "0001",
         "FieldID" : "4",
-        "FieldName" : "tttttdytr",
+        "FieldName" : "Datepicker2",
         "Mandatory" : "З",
         "FieldType" : "Datepicker",
         "FieldLength" : "20",
         "ControlType" : "" ,
         "FillApi" : "",
         "DefaultValue" : "19-05-2016",
-        "FieldDescription" : "Date22"
+        "FieldDescription" : "Datepicker2"
       },
       {
         "ProductBodyID" : "5" ,
         "ProductTypeID" : "01",
         "ProductID" : "0001",
         "FieldID" : "5",
-        "FieldName" : "jjjjj",
+        "FieldName" : "Number",
         "Mandatory" : "З",
         "FieldType" : "Number",
         "FieldLength" : "20",
         "ControlType" : "" ,
         "FillApi" : "",
         "DefaultValue" : "",
-        "FieldDescription" : "Vnesi tekst"
+        "FieldDescription" : "Number"
       },
       {
         "ProductBodyID" : "6" ,
         "ProductTypeID" : "01",
         "ProductID" : "0001",
         "FieldID" : "6",
-        "FieldName" : "sgjgjhyyy",
+        "FieldName" : "Dropdown",
         "Mandatory" : "З",
         "FieldType" : "Dropdown",
         "FieldLength" : "15",
         "ControlType" : "" ,
         "FillApi" : "/api/ProductBody/1/FieldApiFetch",
         "DefaultValue" : "Search",
-        "FieldDescription" : "Prebaruvaj"
+        "FieldDescription" : "Dropdown"
       }
       ,
       {
@@ -103,42 +103,42 @@ angular.module('adminBankaFrontendApp')
         "ProductTypeID" : "01",
         "ProductID" : "0001",
         "FieldID" : "7",
-        "FieldName" : "sfjjtttttt",
+        "FieldName" : "Dropdown1",
         "Mandatory" : "З",
         "FieldType" : "Dropdown",
         "FieldLength" : "15",
         "ControlType" : "" ,
         "FillApi" : "/api/ProductTypes/1/ProductTypesFetch",
         "DefaultValue" : "Search",
-        "FieldDescription" : "Prebaruvaj2"
+        "FieldDescription" : "Dropdown1"
       },
       {
         "ProductBodyID" : "8" ,
         "ProductTypeID" : "01",
         "ProductID" : "0001",
         "FieldID" : "8",
-        "FieldName" : "sfjsj",
+        "FieldName" : "Textarea",
         "Mandatory" : "З",
         "FieldType" : "Textarea",
         "FieldLength" : "15",
         "ControlType" : "" ,
         "FillApi" : "api/ProductTypes/1/ProductTypesFetch",
         "DefaultValue" : "Search",
-        "FieldDescription" : "Opis"
+        "FieldDescription" : "Textarea"
       },
       {
         "ProductBodyID" : "9" ,
         "ProductTypeID" : "01",
         "ProductID" : "0001",
         "FieldID" : "9",
-        "FieldName" : "sfjgjjttt",
+        "FieldName" : "Dropdown3",
         "Mandatory" : "З",
         "FieldType" : "Dropdown",
         "FieldLength" : "15",
         "ControlType" : "" ,
         "FillApi" : "/api/ProductTypes/1/ProductTypesFetch",
         "DefaultValue" : "Search",
-        "FieldDescription" : "Prebaruvaj3"
+        "FieldDescription" : "Dropdown3"
       }
       ,
       {
@@ -146,14 +146,14 @@ angular.module('adminBankaFrontendApp')
         "ProductTypeID" : "01",
         "ProductID" : "0001",
         "FieldID" : "10",
-        "FieldName" : "sfjj",
+        "FieldName" : "Checkbox",
         "Mandatory" : "З",
         "FieldType" : "Checkbox",
         "FieldLength" : "15",
         "ControlType" : "" ,
         "FillApi" : "",
         "DefaultValue" : "",
-        "FieldDescription" : "check"
+        "FieldDescription" : "Checkbox"
       },
       {
         "ProductBodyID" : "11" ,
@@ -168,6 +168,21 @@ angular.module('adminBankaFrontendApp')
         "FillApi" : "",
         "DefaultValue" : "Cancel",
         "FieldDescription" : "check"
+      },
+      {
+        "ProductBodyID" : "12" ,
+        "ProductTypeID" : "01",
+        "ProductID" : "0001",
+        "FieldID" : "12",
+        "FieldName" : "Inputnumber",
+        "Mandatory" : "З",
+        "FieldType" : "Input-Number",
+        "FieldLength" : "20",
+        "ControlType" : "" ,
+        "FillApi" : "",
+        "DefaultValue" : "",
+        "FieldDescription" : "Input Number",
+        "Mask":"4"
       }
     ];
     var niza=[];
@@ -177,7 +192,7 @@ angular.module('adminBankaFrontendApp')
     $scope.temp={};
     $scope.pom=[];
 
-
+    console.log("ovde vo kontroler: ",$scope.prodID);
     $scope.fillDropdown = function (){
 
 
@@ -234,6 +249,10 @@ angular.module('adminBankaFrontendApp')
       $scope.pom.push(key);
 
     }
+    $scope.desc="";
+    console.log("desc",$scope.opis);
+    $scope.desc=$rootScope.opis;
+    console.log("opis",$rootScope.opis);
 
 
 
