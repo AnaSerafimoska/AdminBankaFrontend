@@ -11,15 +11,22 @@ angular.module('adminBankaFrontendApp')
     return {
       templateUrl: "/views/dirSearchTipVidCustomize.html",
       restrict: 'E',
-      controller: function($scope,gatewayService){
-      	
+      controller: function($scope,gatewayService, $rootScope){
+
       	$scope.Products=[];
       	$scope.productsBody=[];
-      	
+        $scope.prodID='huhu';
+        $rootScope.opis="";
+
       	$scope.sendConcatenatedIDs = function(seelectedItem){
- 			gatewayService.request("/api/FormCreating/1/getProductBodyByProductTypeIdAndProductIDConcatenatedIDs?ConcatID="+seelectedItem.Spoeni_VidTipRabota, "GET").then(function (data, status, heders, config) {
-				$scope.productsBody = data;
-        		$scope.prodID = seelectedItem.Spoeni_VidTipRabota.substring(2,6);
+ 			    gatewayService.request("/api/FormCreating/1/getProductBodyByProductTypeIdAndProductIDConcatenatedIDs?ConcatID="+seelectedItem.Spoeni_VidTipRabota, "GET").then(function (data, status, heders, config) {
+				  $scope.productsBody = data;
+       // console.log($scope.productsBody);
+            $scope.spoeni = seelectedItem.Spoeni_VidTipRabota.substring(0,8);
+            $scope.tip = seelectedItem.Spoeni_VidTipRabota.substring(0,2);
+            $scope.vid= seelectedItem.Spoeni_VidTipRabota.substring(2,8);
+            $rootScope.opis= seelectedItem.Description;
+         console.log("ovde vo kontroler: ",$rootScope.opis);
      		}, function (data, status, headers, config) {
         		//console.log(status);
       		});
@@ -35,7 +42,7 @@ angular.module('adminBankaFrontendApp')
       		});
 		}
 
-		
+
 
       }//------------------  end of controller
     };
