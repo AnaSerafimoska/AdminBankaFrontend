@@ -36,3 +36,6 @@ textarea.ng-valid{
 	color: white !important;
     background-color: #00a65a!important;
 }
+.table td  {
+  padding: 5px !important;
+}
