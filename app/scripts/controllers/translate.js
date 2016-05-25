@@ -117,7 +117,7 @@ angular.module('angularTranslateApp', ['pascalprecht.translate'])
     });
 
 
-      $translateProvider.preferredLanguage(localStorage.getItem('lang'));
+      $translateProvider.preferredLanguage(localStorage.getItem('key'));
 
 
 

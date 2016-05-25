@@ -18,7 +18,7 @@ angular.module('adminBankaFrontendApp')
         $scope.prodID='huhu';
         $rootScope.opis="";
 
-      	$scope.sendConcatenatedIDs = function(seelectedItem){
+      	$scope.sendConcatenatedIDs = function(seelectItem){
  			    gatewayService.request("/api/FormCreating/1/getProductBodyByProductTypeIdAndProductIDConcatenatedIDs?ConcatID="+seelectedItem.Spoeni_VidTipRabota, "GET").then(function (data, status, heders, config) {
 
             $scope.productsBody = data;
