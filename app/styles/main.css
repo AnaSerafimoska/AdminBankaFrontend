@@ -37,6 +37,11 @@ textarea.ng-valid{
     background-color: #00a65a!important;
 }
 
+.table td  {
+  padding: 5px !important;
+}
+
+
 .selected {
     background-color:black !important;
     color:white;
@@ -58,6 +63,7 @@ h1, p, a {
   background-color: #6C6C6C !important;
   // feeling like it's a rounded corners kind of day
   border-color: #6C6C6C !important;
-  border-radius: 25px; 
+  border-radius: 25px;
 }
+
 

@@ -12,9 +12,12 @@
 
 
         <ui-select ng-model="item.selected" class="pull-right" style="min-width: 300px; "  theme="select2"  on-select="fetchProducts($select.selected);TableColumns($select.selected)">
-          <ui-select-match placeholder=" {{'searchVidRabota_p' | translate}}">{{$select.selected.ProductID}}-{{$select.selected.Description}}</ui-select-match>
+          <ui-select-match placeholder=" {{'searchVidRabota_p' | translate}}">{{$select.selected.ProductTypeID}}-{{$select.selected.ProductID}} {{$select.selected.Description}}</ui-select-match>
           <ui-select-choices repeat="item in products | filter: $select.search">
-            <div ng-bind-html="item.ProductID  |  highlight: $select.search"></div>
+            <small>
+              <spam ng-bind-html="item.ProductTypeID  | highlight: $select.search"></spam>-
+              <spam ng-bind-html="item.ProductID  | highlight: $select.search"></spam>
+            </small>
             <small ng-bind-html="item.Description  | highlight: $select.search"></small>
 
           </ui-select-choices>
@@ -48,7 +51,7 @@
               <div class="form-group col-md-2">
                 <label >{{'lblTipRabota_p' | translate}}</label>
                 <div >
-                  <select ng-blur="checkTip()" class="form-control ng-touched ng-invalid ng-valid"  ng-model="Products.ProductTypeID" ng-disabled="flag" >
+                  <select ng-blur="checkTip()" class="form-control ng-touched ng-invalid ng-valid"  ng-model="Products.ProductTypeID" ng-disabled="flag" required>
                     <option></option>
                     <option ng-repeat="productType in productTypes" ng-selected= "Products.ProductTypeID==productType.ProductTypeID" value="{{productType.ProductTypeID}}"   >{{productType.ProductTypeID}}-{{productType.Description}}</option>
                   </select>
@@ -173,7 +176,7 @@
 
                 <td>
                 <ui-select  ng-model="productBodyNew.FillApi" ng-disabled="!hasSelected" theme="select2">
-                  <ui-select-match placeholder=" {{'searchApi_p' | translate}}">{{$select.selected.ApiUrl}}</ui-select-match>
+                  <ui-select-match placeholder=" {{'searchApi_p' | translate}}">{{$select.selected.ApiDescription}}</ui-select-match>
                   <ui-select-choices repeat="item in fieldApis | filter: $select.search"   >
                       <div ng-bind-html="item.ApiDescription  |  highlight: $select.search"></div>
                       <small ng-bind-html="item.ApiUrl  | highlight: $select.search"></small>
@@ -193,8 +196,8 @@
                 <td  style="text-align:center; vertical-align: middle;">{{columnOption.FieldID}}</td>
                 <td>{{columnOption.FillApi}}</td>
 
-                <td ng-show="columnOption.isOld" ></td>
-                <td ng-show="!columnOption.isOld" ><span class="glyphicon glyphicon-minus" style="color: red" ng-click="removeRow($index)"></span></td>
+
+                <td  ><span class="glyphicon glyphicon-minus" style="color: red" ng-click="removeRow($index)"></span></td>
 
               </tr>
 

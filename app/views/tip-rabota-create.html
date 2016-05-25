@@ -19,7 +19,7 @@
         <div class="box-header with-border">
           <h3 class="box-title" style=" font-size: 16px;">{{'lblFormName_pt1' | translate}}</h3>
         </div>
-        
+
         <div class="box-body">
             <div class="row ">
               <!--****************** prv red *********************-->
@@ -29,33 +29,33 @@
                       <div class="form-group col-md-2">
                         <label>{{'lblTip_pt' | translate}}</label>
                         <!--****************** proba1 *********************-->
-                        <input 
+                        <input
                          required class="form-control ng-pristine ng-invalid ng-invalid-required ng-touched"
-                        type="text"  class="form-control" mask="99" restrict="reject" maxlength="2" minlength="2" required ng-model="Products.ProductTypeID"  ng-blur="checkTip();" ng-change="checkTipInDb(Products.ProductTypeID)"  ng-class="{custom:flag==true}">
+                        type="text"  class="form-control" mask="9" repeat="7" restrict="reject"   required ng-model="Products.ProductTypeID"  ng-blur="checkTip();" ng-change="checkTipInDb(Products.ProductTypeID)"  ng-class="{custom:flag==true}">
                       <!--****************** end proba1 *********************-->
                       </div>
                       <div class="form-group col-md-3" >
                         <label>{{'lblOpis_pt'| translate}}</label>
                         <!--****************** proba3 *********************-->
-                        <textarea 
-                        required class="form-control ng-pristine ng-invalid ng-invalid-required ng-touched" 
+                        <textarea
+                        required class="form-control ng-pristine ng-invalid ng-invalid-required ng-touched"
                         rows="3" ng-model="Products.Description" ng-blur="checkOpis()"></textarea>
                         <!--****************** end proba3 *********************-->
                       </div>
                       <div class="form-group col-md-2" >
-                        <label>{{'lblWorkingTbl_pt'| translate }}</label>  
+                        <label>{{'lblWorkingTbl_pt'| translate }}</label>
                          <!--****************** proba2 *********************-->
-                        <input 
+                        <input
                          required class="form-control ng-pristine ng-invalid ng-invalid-required ng-touched"
                          type="text" class="form-control" ng-model="Products.WorkingTable"  ng-blur="checkWTable()">
                           <!--****************** end proba2 *********************-->
                       </div>
-                      
+
                         <div class="form-group col-md-1" style="width: 82px;" >
                           <div style=" width: 81px;">
                             <label style="display: block;">{{ 'lblStatus_pt'| translate }} </label>
                             <input type="checkbox" ng-model="Products.Status" [name="string"] [ng-true-value="expression"][ng-false-value="expression"] [ng-change="string"] > {{'lblActive_pt' | translate}}
-                            
+
                           </div>
                         </div>
                         <div class="form-group col-md-2">
@@ -85,7 +85,7 @@
                  <div class="box-footer col-md-12 text-right">
                       <button class="btn  btn-default text-right" style="width: 94px;" ng-click="reset()"><i class="fa fa-ban" aria-hidden="true" style="padding-right: 6px;"></i>{{'btnOtkazhi_pt' | translate}}</button>
                       <button class="btn  btn-default text-right" style="color:white; background-color: #00a65a" ng-click="submit(Products);" ng-disabled="form.$invalid || flag"> <i class="fa fa-fw fa-save"> </i> {{'btnSnimi_pt' | translate}} </button>
-                     
+
                  </div>
              </div>
         </div><!-- /.box-body -->
@@ -93,7 +93,7 @@
       </div><!-- /.box-success -->
     </section>
 
-    
+
 <!-- ********************** PRIKAZ NA PODATOCI OD TABELA  ******************************************* -->
     <section class="content" style="margin-top: -32px;" ng-controller="HeaderCtrl">
       <div class="row">
@@ -101,7 +101,7 @@
           <div class="box" style="border-color: #00a65a;">
             <div class="box-header">
               <h3 class="box-title" style="font-size: 16px; ">{{'lblFormName_pt2' | translate}}</h3>
-              
+
               <div class="box-tools">
                 <div class="input-group" style="width: 150px;">
                   <input type="text" class="search" name="table_search" class="form-control input-sm pull-right" ng-model="searchBox" placeholder="{{'placeholderSearch_pt' | translate}}" style="border: 1px solid #ccc; height: 30px;">
@@ -136,33 +136,33 @@
                                             <div class="form-group col-md-4">
                                               <label> {{'lblProductTupeTbl_pt' | translate }}</label>
                                               <!--****************** proba1 *********************-->
-                                              <input 
+                                              <input
                                                required class="form-control " ng-disabled="true"
-                                              type="text"  class="form-control" mask="99" restrict="reject" maxlength="2" minlength="2" ng-model="x.ProductTypeID" ng-blur="checkTipEdit(x.ProductTypeID);" ng-change="checkTipInDbEdit(x.ProductTypeID)" ng-class="{custom:flag==true}">
+                                              type="text"  class="form-control" mask="9" repeat="7" restrict="reject" ng-model="x.ProductTypeID" ng-blur="checkTipEdit(x.ProductTypeID);" ng-change="checkTipInDbEdit(x.ProductTypeID)" ng-class="{custom:flag==true}">
                                             <!--****************** end proba1 *********************-->
                                             </div>
                                             <div class="form-group col-md-4" >
                                               <label>{{'lblOpis_pt'|translate}}</label>
                                               <!--****************** proba3 *********************-->
-                                              <textarea 
-                                              required class="form-control" 
+                                              <textarea
+                                              required class="form-control"
                                               rows="3" ng-model="x.Description" ng-blur="checkOpisEdit(x.Description)"></textarea>
                                               <!--****************** end proba3 *********************-->
                                             </div>
                                             <div class="form-group col-md-4" >
-                                              <label> {{'lblWorkingTbl_pt'| translate }}</label>  
+                                              <label> {{'lblWorkingTbl_pt'| translate }}</label>
                                                <!--****************** proba2 *********************-->
-                                              <input 
+                                              <input
                                                required class="form-control"
                                                type="text" class="form-control" ng-model="x.WorkingTable"  ng-blur="checkWTableEdit(x.WorkingTable)">
                                                 <!--****************** end proba2 *********************-->
                                             </div>
-                                            
+
                                               <div class="form-group col-md-4" style="width: 82px;" >
                                                 <div style=" width: 81px;">
                                                   <label style="display: block;">{{ 'lblStatus_pt'| translate }} </label>
                                                   <input type="checkbox" ng-model="x.Status" [name="string"] [ng-true-value="expression"][ng-false-value="expression"] [ng-change="string"] > {{'lblActive_pt' | translate}}
-                                                  
+
                                                 </div>
                                               </div>
                                               <div class="form-group col-md-4">
@@ -188,10 +188,10 @@
                                    </div>
 
                                       <!--********** tret red BUTTONS **********************-->
-                                   
+
                                    <!--
-                                   <div class="form-horizontal col-md-12">  
-                                       <div class="box-footer col-md-12 "> 
+                                   <div class="form-horizontal col-md-12">
+                                       <div class="box-footer col-md-12 ">
                                             <button class="btn  btn-default pull-right" style="color:white; background-color: #00a65a" ng-click="submit(Products);" ng-disabled="form.$invalid || flag"> <i class="fa fa-fw fa-save"> </i> Сними </button>
                                             <button class="btn  btn-default pull-right" style="margin-right: 12px; width: 94px;" ng-click="reset()">Откажи</button>
                                        </div>
@@ -199,15 +199,15 @@
                                    -->
 
                             </div><!-- /.box-success -->
-                        </div> 
-                    </td>          
+                        </div>
+                    </td>
 
           <!-- ******************** END ZA IZMENI BUTTON *********************************** -->
 
 
                     <td> <span ng-show="!x.isActive">{{x.Description}}</span> </td>
                     <td> <span ng-show="!x.isActive">{{x.WorkingTable}}</span></td>
-                    <td> 
+                    <td>
                         <div class="text-right">
                             <button href="" style="width: 68px; padding: 3px;" ng-show="!x.isActive" class="btn btn-block btn-primary" ng-click="x.isActive=!x.isActive; izmeni(x)" ng-disabled="blokirajIzmeni">{{'lblEdit_pt' | translate}}</button>
                             <button ng-show="x.isActive" class="btn btn-success btn-sm" ng-disabled="formEdit.$invalid || flag1" ng-click="zachuvaj(x);x.isActive=false" style="background-color:#00a65a; width: 68px;padding: 4px;"><i class="fa fa-fw fa-save"> </i>{{'lblSave_pt' | translate}}</button>
@@ -215,7 +215,7 @@
                         </div>
                     </td>
               </tr>
-            
+
               </table> <dir-pagination-controls
        max-size="5"
        direction-links="true"
