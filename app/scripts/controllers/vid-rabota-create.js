@@ -23,6 +23,7 @@ angular.module('adminBankaFrontendApp')
 
     $scope.canAdd=false;
     $scope.flag=false;
+    $scope.deleted=[];
 
     /////////////////////////////////   Modeli    ///////////////////////////////////////////
     $scope.Products={
@@ -65,7 +66,7 @@ angular.module('adminBankaFrontendApp')
 
         if($scope.productBodyNew.Mandatory==true)
         {
-          $scope.productBodyNew.Mandatory="З";
+          $scope.productBodyNew.Mandatory="М";
         }
         else
         {
@@ -100,9 +101,13 @@ angular.module('adminBankaFrontendApp')
       //$scope.productBody.splice(index, 1);
 
     }
+    $scope.tmpdel={};
     $scope.deleteRow = function(){
       //console.log("i",$scope.temp)
-
+      $scope.tmpdel= $scope.productBody[$scope.temp];
+      $scope.deleted.push($scope.tmpdel);
+    //  console.log("del",$scope.deleted);
+      $scope.hasNew = true;
       $scope.productBody.splice($scope.temp, 1);
 
     }
@@ -230,7 +235,7 @@ angular.module('adminBankaFrontendApp')
         }
         else
         {
-          
+
           item.Type="I";
           gatewayService.request("/api/Products/1/ProductsInsert", "POST",item).then(function (data, status, heders, config)
           {
@@ -368,6 +373,31 @@ angular.module('adminBankaFrontendApp')
 
 
       }
+
+      if($scope.deleted.length>0)
+      {
+        for(var i=0; i<$scope.deleted.length;i++)
+        {
+          $scope.pb={};
+          $scope.pb.ProductTypeID=$scope.deleted[i].ProductTypeID;
+          //console.log($scope.deleted[i].ProductTypeID);
+          $scope.pb.ProductID=$scope.deleted[i].ProductID;
+          $scope.pb.FieldID=$scope.deleted[i].FieldID;
+
+
+
+          gatewayService.request("/api/ProductBody/1/ProductBodyDelete?ProductTypeID="+$scope.pb.ProductTypeID+"&ProductID="+$scope.pb.ProductID+"&FieldID="+  $scope.pb.FieldID, "GET").then(function (data, status, heders, config)
+          {
+
+          }, function (data, status, headers, config) {
+            console.log(status);
+          });
+
+
+        }
+
+      }
+      $scope.deleted=[];
       toastr.success('Записот е успешно снимен!', '');
       $route.reload();
 

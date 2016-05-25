@@ -226,7 +226,7 @@ angular.module('adminBankaFrontendApp')
 
 
 
-    $scope.submit=function () {
+    $scope.submit=function (api) {
 
        angular.forEach($scope.pom, function( key) {
 
@@ -238,7 +238,18 @@ angular.module('adminBankaFrontendApp')
 
 
       });
-       console.log($scope.temp);
+      $scope.temp.ProductID=$rootScope.selectedValue.Spoeni_VidTipRabota;
+
+      gatewayService.request(api, "POST",$scope.temp).then(function (data, status, heders, config)
+      {
+
+      }, function (data, status, headers, config) {
+        console.log(status);
+      });
+
+      $route.reload();
+     // console.log("root",$rootScope.selectedValue);
+      //  console.log($scope.temp);
 
     }
 
@@ -249,10 +260,7 @@ angular.module('adminBankaFrontendApp')
       $scope.pom.push(key);
 
     }
-    $scope.desc="";
-    console.log("desc",$scope.opis);
-    $scope.desc=$rootScope.opis;
-    console.log("opis",$rootScope.opis);
+
 
 
 
