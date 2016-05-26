@@ -16,7 +16,7 @@
 <section class="wrapper" ng-cloak ng-controller="generateForm.js">
   <ng-include src="'views/header.html'"></ng-include>
 
- 
+
 
     <div class="content">
 
@@ -33,7 +33,7 @@
 
         <form novalidate class="form-group "   name="form">
         <div class="box-body" >
-          <div   ng-repeat="item in productsBody track by item.FieldID ">
+          <div   ng-repeat="item in productbody track by item.FieldID ">
           <!--************************************* Textbox ***************************************************-->
                   <div class="row "    ng-if="item.FieldType=='TextBox' ">
                       <label class=" col-md-2 control-label ">{{item.FieldDescription}}</label>
