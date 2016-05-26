@@ -21,8 +21,14 @@ angular
     'toastr',
     'angularUtils.directives.dirPagination',
     'ui.select',
-    'ngDialog'
+    'ngDialog',
+    'pascalprecht.translate',
+    'angularTranslateApp',
+    'LocalStorageModule',
+    'checklist-model'
+
   ])
+
   .config(function ($routeProvider) {
     $routeProvider
       .when('/main', {
@@ -49,16 +55,32 @@ angular
         templateUrl: 'views/login.html',
         controller: 'LoginCtrl',
       })
+
+      .when('/form', {
+        templateUrl: 'views/generateForm.html',
+        controller: 'GenerateFormCtrl',
+      })
+      .when('/forma', {
+        templateUrl: 'views/create-form.html',
+        controller:'formaCtrl',
+      })
+      .when('/adminBaranja', {
+        templateUrl: 'views/adminBaranja.html',
+
+      })
       .otherwise({
         redirectTo: '/main'
       });
   })
+
   .config(function(toastrConfig) {
     angular.extend(toastrConfig, {
       closeButton: true,
       autoDismiss: true,
       timeOut: 2000,
       positionClass: 'toast-bottom-right'
-    });
-  
+    })
+
 });
+  
+
