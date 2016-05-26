@@ -51,7 +51,7 @@
               <div class="form-group col-md-2">
                 <label >{{'lblTipRabota_p' | translate}}</label>
                 <div >
-                  <select ng-blur="checkTip()" class="form-control ng-touched ng-invalid ng-valid"  ng-model="Products.ProductTypeID" ng-disabled="flag" required>
+                  <select ng-blur="checkTip()" class="form-control ng-touched ng-invalid ng-valid input-sm"  ng-model="Products.ProductTypeID" ng-disabled="flag" required>
                     <option></option>
                     <option ng-repeat="productType in productTypes" ng-selected= "Products.ProductTypeID==productType.ProductTypeID" value="{{productType.ProductTypeID}}"   >{{productType.ProductTypeID}}-{{productType.Description}}</option>
                   </select>
@@ -60,7 +60,7 @@
 
               <div class="form-group col-md-2">
                 <label>{{'lblVidRabota_p' | translate}}</label>
-                <input ng-blur="checkVid()" type="text" class="form-control ng-pristine ng-invalid ng-invalid-required ng-touched" mask="9" repeat="6" restrict="reject" ng-disabled="flag"  id="txtVidRabota"  ng-model="Products.ProductID" required>
+                <input ng-blur="checkVid()" type="text" class="form-control ng-pristine ng-invalid ng-invalid-required ng-touched input-sm" mask="9" repeat="6" restrict="reject" ng-disabled="flag"  id="txtVidRabota"  ng-model="Products.ProductID" required>
               </div><!-- /.form-group -->
 
 
@@ -86,7 +86,7 @@
                 <label  >{{'lblDatumOtvaranje_p' | translate}}</label>
                 <div>
                   <div class="input-group " >
-                    <input type="text" class="form-control " ng-model="Products.OpeningDate"  ng-change="test()" ng-init="init()"  restict="reject" container="body" data-date-format="dd-MM-yyyy"   data-min-date="today" data-autoclose="1" name="date1"  bs-datepicker required>
+                    <input type="text" class="form-control input-sm" ng-model="Products.OpeningDate"  ng-change="test()" ng-init="init()"  restict="reject" container="body" data-date-format="dd-MM-yyyy"   data-min-date="today" data-autoclose="1" name="date1"  bs-datepicker required>
                     <div class="input-group-addon " id="date" >
                       <i class="fa fa-calendar"  ></i>
                     </div>
@@ -97,7 +97,7 @@
               <div class="form-group col-md-2" >
                 <label>{{'lblDatumZatvaranje_p' | translate}}</label>
                   <div class="input-group" >
-                    <input type="text" class="form-control " ng-model="Products.ClosingDate" placement="auto" container="body" data-date-format="dd-MM-yyyy" data-date-type="date"  data-min-date="{{Products.OpeningDate}}" data-autoclose="1" name="date2" bs-datepicker>
+                    <input type="text" class="form-control input-sm" ng-model="Products.ClosingDate" placement="auto" container="body" data-date-format="dd-MM-yyyy" data-date-type="date"  data-min-date="{{Products.OpeningDate}}" data-autoclose="1" name="date2" bs-datepicker>
                     <div class="input-group-addon " id="date1" >
                       <i class="fa fa-calendar"  ></i>
                     </div>
@@ -109,8 +109,8 @@
             <div class="form-horizontal col-md-12">
                 <div class="box-footer  text-right" >
 
-                  <button type="submit" ng-click="cancel()" class="btn btn-default" ><i class="fa fa-fw fa-ban"></i>{{'btnOtkazi_p' | translate}}</button>
-                  <button ng-disabled="form.$invalid || productExist" class="btn btn-success "  style="background-color: #00a65a; " ng-click="vidRabotaSave();cancel()"><i class="fa fa-fw fa-save"></i> {{'btnSnimi_p' | translate}}</button>
+                  <button type="submit" ng-click="cancel()" class="btn btn-default btn-sm" ><i class="fa fa-fw fa-ban"></i>{{'btnOtkazi_p' | translate}}</button>
+                  <button ng-disabled="form.$invalid || productExist" class="btn btn-success btn-sm"  style="background-color: #00a65a; " ng-click="vidRabotaSave();cancel()"><i class="fa fa-fw fa-save"></i> {{'btnSnimi_p' | translate}}</button>
 
                 </div>
               </div>
@@ -123,7 +123,7 @@
     </div>
 
 
-      <!---------------------------------------------- Insert ProductBody ------------------------------------------------->
+      <!--Insert ProductBody -->
 
 
       <div class=" box box-success">
@@ -155,7 +155,7 @@
               </thead>
               <tbody>
               <tr >
-                <td><input type="text" ng-disabled="!hasSelected"  ng-model="productBodyNew.FieldDescription" class="form-control" id="txtLabela"   ></td>
+                <td><input type="text" ng-disabled="!hasSelected"  ng-model="productBodyNew.FieldDescription" class="form-control input-sm" id="txtLabela"   ></td>
                 <td>
                   <ui-select style="width: 150px;"  ng-model="productBodyNew.FieldName" ng-disabled="!hasSelected" theme="select2" >
                     <ui-select-match placeholder="Пребарај поле...">{{$select.selected}}</ui-select-match>
@@ -164,18 +164,18 @@
 
                     </ui-select-choices>
                   </ui-select>
-                </td>                <td><select ng-disabled="!hasSelected" class="form-control" ng-model="productBodyNew.FieldType" required>
+                </td>                <td><select ng-disabled="!hasSelected" class="form-control input-sm" ng-model="productBodyNew.FieldType" required>
                   <option></option>
                   <option ng-repeat="fieldType in fieldTypes" ng-selected= "productBodyNew.FieldType==fieldType.Type" value="{{fieldType.Type}}">{{fieldType.Type}}</option>
 
                 </select ></td>
-                <td><input ng-disabled="!hasSelected" type="number" class="form-control"  id="txtDollzina" style="width: 80px" placeholder="25" min="0"  ng-model="productBodyNew.FieldLength" ></td>
-                <td style="width: 140px;;"><input ng-disabled="!hasSelected" type="text" ng-model="productBodyNew.DefaultValue"  class="form-control" id="txtVrednost"   ></td>
+                <td><input ng-disabled="!hasSelected" type="number" class="form-control input-sm"  id="txtDollzina" style="width: 80px" placeholder="25" min="0"  ng-model="productBodyNew.FieldLength" ></td>
+                <td style="width: 140px;;"><input ng-disabled="!hasSelected" type="text" ng-model="productBodyNew.DefaultValue"  class="form-control input-sm" id="txtVrednost"   ></td>
                 <td style="text-align:center; vertical-align: middle;width: 50px;"><input ng-disabled="!hasSelected" type="checkbox"  id="chbMandatory" placeholder="Задолжително"  ng-model="productBodyNew.Mandatory"></td>
-                <td><input type="number" ng-disabled="!hasSelected"   class="form-control" id="txtRedosled" ng-model="productBodyNew.FieldID" style="width: 80px" min="0" style="width: 50px" required></td>
+                <td><input type="number" ng-disabled="!hasSelected"   class="form-control input-sm " id="txtRedosled" ng-model="productBodyNew.FieldID" style="width: 80px" min="0" style="width: 50px" required></td>
 
                 <td>
-                <ui-select  ng-model="productBodyNew.FillApi" ng-disabled="!hasSelected" theme="select2">
+                <ui-select  ng-model="productBodyNew.FillApi" ng-disabled="!hasSelected" theme="select2" >
                   <ui-select-match placeholder=" {{'searchApi_p' | translate}}">{{$select.selected.ApiDescription}}</ui-select-match>
                   <ui-select-choices repeat="item in fieldApis | filter: $select.search"   >
                       <div ng-bind-html="item.ApiDescription  |  highlight: $select.search"></div>
@@ -207,8 +207,8 @@
           <div class="form-horizontal col-lg-12">
             <div class="box-footer text-right">
 
-              <button type="submit" class="btn btn-default " ng-click="cancelProductBody()"><i class="fa fa-fw fa-ban"></i> {{'btnOtkazi_p' | translate}}</button>
-              <button class="btn btn-success" ng-disabled="!hasSelected || !hasNew" style="background-color: #00a65a; " ng-click="AddProductBody()"><i class="fa fa-fw fa-save"></i>  {{'btnSnimi_p' | translate}}</button>
+              <button type="submit" class="btn btn-default btn-sm" ng-click="cancelProductBody()"><i class="fa fa-fw fa-ban"></i> {{'btnOtkazi_p' | translate}}</button>
+              <button class="btn btn-success btn-sm" ng-disabled="!hasSelected || !hasNew" style="background-color: #00a65a; " ng-click="AddProductBody()"><i class="fa fa-fw fa-save"></i>  {{'btnSnimi_p' | translate}}</button>
 
             </div>
           </div>
@@ -221,7 +221,7 @@
 
   </div>
 </section>
-  <!------------------------------------------------ Minus icon dialog open ------------------------------------------------------->
+  <!-- Minus icon dialog open -->
   <script type="text/ng-template" id="templateId">
       <i class="fa fa-question-circle fa-3x fa-pull-left fa-border"  aria-hidden="true"></i>
       <h4>Дали сте сигурни дека сакате да го избришете записот?</h4>

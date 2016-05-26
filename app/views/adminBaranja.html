@@ -73,14 +73,14 @@
 	        				</div>
 	        	</div>
 	        	
-	        	<div class=" row col-md-11 pull-left"> 
-
-	        		<button class="btn btn-default text-right" style="color:white; background-color: #00a65a; float:right; margin-right: 84px;" ng-click="zemiPodatociPo_EMBG(korisnik.embg); setVisibility()" ng-disabled="">  Прикажи </button>
-
-	        	</div>
-
-	        	<div class="row col-md-12 box-header pull-left with-border"></div>
 	        	
+
+	        	<div class="row col-md-12 box-header  with-border"></div>
+
+	        	<div class=" row col-md-12 box-header "> 
+	        		<button class="btn btn-default text-right pull-right btn-sm" style="color: white;background-color: #00a65a; float:right; width: 75px;" ng-click="" ng-disabled="">  Сними </button>
+	        		<button class="btn btn-default text-right pull-right btn-sm" style="color:white; background-color: #3c8dbc; float:right; margin-right: 5px;" ng-click="zemiPodatociPo_EMBG(korisnik.embg); setVisibility()" ng-disabled="">  Прикажи </button>
+	        	</div>
 
 	        </div>
         	<!--  ************** KRAJ NA FORMA ZA VNES NA EMBG *****************************************************       -->
@@ -125,6 +125,10 @@
         			</tbody>
 
         			</table>
+
+        			<div class=" row col-md-11 pull-left " ng-show="flagVisibilityTabs"> 
+						<button class="btn btn-default text-right" style="color:white; background-color: #337ab7; float:right; margin-right: 39px;" ng-click="prikazhi()" ng-disabled="">  Додади сметка </button>
+					</div>
 
         		</div>
 
