@@ -7,8 +7,8 @@
   <div class="content-wrapper">
 
     <section class="content-header" >
-        <h1 style=" font-size: 19px; padding:0px; "> {{'lblHeaderTip_pt' | translate}} </h1>
-    </section>
+        <h1 style="font-size: 19px;padding: 10px; padding: 0px;"> {{'lblHeaderTip_pt' | translate}} </h1>
+  </section>
 
 
   <!-- **********************  VNES NA TIP RABOTA  ************************** -->
@@ -16,7 +16,9 @@
 
     <div class="box box-success" >
         <div class="box-header with-border">
-          <h3 class="box-title" style=" font-size: 16px;">{{'lblFormName_pt1' | translate}}</h3>
+          <h3 class="box-title" >
+            {{'lblFormName_pt1' | translate}}
+          </h3>
         </div>
 
         <div class="box-body">
@@ -97,9 +99,9 @@
     <section class="content" style="margin-top: -32px;" ng-controller="HeaderCtrl">
       <div class="row">
         <div class="col-xs-12">
-          <div class="box" style="border-color: #00a65a;">
-            <div class="box-header">
-              <h3 class="box-title" style="font-size: 16px; ">{{'lblFormName_pt2' | translate}}</h3>
+          <div class="box box-success" >
+            <div class="box-header  with-border">
+              <h3 class="box-title" >{{'lblFormName_pt2' | translate}}</h3>
 
               <div class="box-tools">
                 <div class="input-group" style="width: 150px;">
@@ -121,8 +123,8 @@
                     <th> {{'lblWorkingTbl_pt'| translate }} </th>
                     <th> {{'lblAction_pt' | translate}} </th>
                 </tr>
-                <tr dir-paginate=" x in productTypes | orderBy:sortKey:reverse | filter : searchBox | itemsPerPage:5 ">
-                      <td>
+                <tr  dir-paginate=" x in productTypes | orderBy:sortKey:reverse | filter : searchBox | itemsPerPage:5 ">
+                      <td style="padding-left: 10px !important">
                           <span ng-show="!x.isActive">{{x.ProductTypeID}}</span>
                            <div ng-show="x.isActive">
 

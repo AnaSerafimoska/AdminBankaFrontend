@@ -29,22 +29,23 @@ angular.module('adminBankaFrontendApp')
 
     $scope.previewForEdit = function(item){
       console.log("this is the item: ",item);
-      
+      $scope.productbody=item;
+      console.log("productbody: ", $scope.productbody);
       if( item["VidAplikacija"] == "DPP"){
          console.log("vlezeno vo DPP");
       }
-      
+
       else if( item["VidAplikacija"] == "" || item["VidAplikacija"]=="PLP" ){
-          console.log("vlezeno vo TRANSAKCISKI"); 
+          console.log("vlezeno vo TRANSAKCISKI");
           gatewayService.request("/api/ProductBody/1/ProductBodyFetchByIdType?ProductTypeID=00&ProductID=000003", "GET").then(function (data, status, heders, config) {
               console.log("uspeshno od baza povlecheni za select na red od tabela:  ", data);
               $scope.tabsTSM = data;
               $scope.productsBody = data;
             }, function (data, status, headers, config) {
                  console.log(status);
-         });     
+         });
       }
-      
+
       else if( item["VidAplikacija"] == "CM" || item["VidAplikacija"]=="CMS" ){
           console.log("kreditni kartichki");
       }
@@ -57,12 +58,12 @@ angular.module('adminBankaFrontendApp')
      //      //console.log("uspeshen zapis. ");
      //    }, function (data, status, headers, config) {
      //         console.log(status);
-     // });   
+     // });
 
     };
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  
+
   //////////////////////////////// Fetch na ProductTypes //////////////////////////////////
 
     $scope.ProductTypes = function () {
@@ -112,23 +113,23 @@ angular.module('adminBankaFrontendApp')
   $scope.user = {
     items: []
   };
-  //$scope.prodID - 	DEFINIRANA VO DIREKTIVATA dirSearchTipVid.js zaradi zemanje na selectirana vrednost i upotreba vo procedura za vlechenje podatoci od baza  
+  //$scope.prodID - 	DEFINIRANA VO DIREKTIVATA dirSearchTipVid.js zaradi zemanje na selectirana vrednost i upotreba vo procedura za vlechenje podatoci od baza
   $scope.flag = true;
   $scope.fetchFromBody = function(){
  	$scope.flag = false;
-  }	
+  }
 
 
   $scope.funkcija = function(){
-  	 //$scope.ListtoSave.push(item.ProductBodyID);  
+  	 //$scope.ListtoSave.push(item.ProductBodyID);
   	//console.log("$scope.user.items[i]: ",$scope.user.items[i]);
 	for(var i = 0 ; i < $scope.user.items.length; i++){
 		gatewayService.request("/api/ProductBody/1/admin_baranja_insert?productBodyID="+$scope.user.items[i]+"&productID=1111", "GET").then(function (data, status, heders, config) {
           //console.log("uspeshen zapis. ");
         }, function (data, status, headers, config) {
              console.log(status);
-     });		
-	}  	
+     });
+	}
   		$route.reload();
         toastr.success('Записот е успешно снимен.');
         $scope.flag = true;
@@ -138,7 +139,7 @@ angular.module('adminBankaFrontendApp')
   		//console.log("PRED DA ZEME OD BAZA: ",$scope.user.items);
   		//console.log("product ID: ",$scope.user.items);
   		gatewayService.request("/api/ProductBody/1/admin_Baranja_Fetch_Inserted", "GET", $scope.prodID).then(function (data, status, heders, config) {
-         
+
 		$scope.user.items = [];
 
         for (var i = data.length - 1; i >= 0; i--) {
@@ -173,11 +174,11 @@ $scope.selectedRow = null;  // initialize our variable to null
       console.log("vlezeno vo proverka embg printa korisnik ",$scope.korisnik);
       gatewayService.request("/api/Baranja/1/EbankingFetchZaKomitent?EdinstvenBroj="+embg, "GET").then(function (data, status, heders, config) {
         console.log("data: ",data);
-        console.log(" KorisnickoIme: ",data.Table[0].KorisnickoIme ); 
-        $scope.korisnik.korisnichkoIme = data.Table[0].KorisnickoIme; 
-        $scope.korisnik.BrBaranje = data.Table[0].BrBaranje; 
-        console.log("broj na baranje: ",$scope.korisnik.BrBaranje); 
-        $scope.korisnik.datum = $filter('date')(new Date(),"yyyy-MM-dd"); 
+        console.log(" KorisnickoIme: ",data.Table[0].KorisnickoIme );
+        $scope.korisnik.korisnichkoIme = data.Table[0].KorisnickoIme;
+        $scope.korisnik.BrBaranje = data.Table[0].BrBaranje;
+        console.log("broj na baranje: ",$scope.korisnik.BrBaranje);
+        $scope.korisnik.datum = $filter('date')(new Date(),"yyyy-MM-dd");
         polniTabela(); /// povik do proceduri od core za polnenje tabela
       }, function (data, status, headers, config) {
         console.log(status);
@@ -192,7 +193,7 @@ $scope.selectedRow = null;  // initialize our variable to null
         console.log("ZA PRIKAZ VO TABELA: ",data);
         $scope.TmpPodatoci = data;
         for(var i = 0 ; i < data.Table.length; i++){
-            
+
           if(data.Table[i]['VidAplikacija'] ==  $scope.SifrarnikVidAplikacija.trim() ){
               $scope.temp.push(data.Table[i]);
               console.log("podatoci:  ",$scope.temp);
@@ -222,7 +223,7 @@ $scope.selectedRow = null;  // initialize our variable to null
 
 
   };
-  
+
   $scope.test = function () {
   	   console.log($scope.user.items);
   };
