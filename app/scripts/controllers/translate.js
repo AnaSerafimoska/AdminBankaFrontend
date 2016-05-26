@@ -4,7 +4,7 @@ angular.module('angularTranslateApp', ['pascalprecht.translate'])
 
     ////////////////////////////////  Prevod za forma Vid rabota //////////////////////////////////////
     $translateProvider.translations('mk', {
-      'lblTipRabota_p': 'Тип на работа',
+      'lblTipRabota_p': 'Тип на продукт',
       'lblVidRabota_p': 'Вид на работа',
       'lblOpis_p': 'Опис',
       'lblStatus_p': 'Статус',
@@ -19,7 +19,7 @@ angular.module('angularTranslateApp', ['pascalprecht.translate'])
       'lblVrednost_p': 'Вредност',
       'lblZad_p': 'M/\\О',
       'lblRedosled_p': 'Редослед',
-      'headerVidoviRabota_p': 'Видови работа',
+      'headerVidoviRabota_p': 'Видови на работа',
       'headerSnimiZapis_p': 'Сними запис',
       'searchVidRabota_p': 'Пребарај по Вид на работа/Опис...',
       'searchApi_p': 'Пребарај API...',

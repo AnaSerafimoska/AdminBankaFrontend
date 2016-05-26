@@ -489,6 +489,13 @@ angular.module('adminBankaFrontendApp')
     }
 
 
+/////////////////////////// tooltip ///////////////////////
+
+    $scope.tooltip = {
+      "title": "Вид на работа содржи 6 цифри!",
+      "checked": false
+    };
+
 
   });
 

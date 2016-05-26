@@ -9,10 +9,13 @@
 angular.module('adminBankaFrontendApp')
   .directive('dirDinamycForm', function () {
     return {
-      template: "/views/generateFormMain.html",
+      template: "/views/generateFormDir.html",
+    
       restrict: 'E',
-      link: function postLink(scope, element, attrs) {
-        element.text('this is the generateForm directive');
+
+     link: function postLink(scope, element, attrs) {
+       element.text('this is the generateForm directive');
+      console.log("obj",obj);
       }
     };
   });
