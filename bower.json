@@ -14,6 +14,7 @@
     "ngMask": "angular-mask#^3.0.16",
     "angular-toastr": "^1.7.0",
     "angularUtils-pagination": "angular-utils-pagination#^0.11.1",
+
     "ui-select": "angular-ui-select#^0.16.1",
     "ng-dialog": "^0.6.0",
     "angular-translate": "^2.11.0",
