@@ -45,10 +45,32 @@
                       </div>
                       <div class="form-group col-md-2" >
                         <label>{{'lblWorkingTbl_pt'| translate }}</label>
+
+
+
                          <!--****************** proba2 *********************-->
-                        <input
+                        <ui-select ng-model="Products.WorkingTable" class="pull-right " on-select="onSelectUIvalidation()" style="max-width: 165px; min-width: 165px; margin-top:-2px"  theme="select2"  ng-init="fetchTableNames()" ng-blur="checkWTable()">
+                          <!-- TableColumns($select.selected) -->
+                          <ui-select-match placeholder=" Пребарај табела ">{{$select.selected}} </ui-select-match>
+                          <ui-select-choices repeat="item in iminjaTabeliOdBaza | filter: $select.search">
+                            <small>
+                              <spam ng-bind-html="item  | highlight: $select.search"></spam>
+                            <!--   <spam ng-bind-html="item.ProductID  | highlight: $select.search"></spam> -->
+                            </small>
+                            <!-- <small ng-bind-html="item.Description  | highlight: $select.search"></small> -->
+
+                          </ui-select-choices>
+                        </ui-select>
+
+
+
+                        <!-- *** tuka e inputot star od product type so site funkcionalnosti -->
+                       <!--  <input
                          required class="form-control ng-pristine ng-invalid ng-invalid-required ng-touched input-sm"
-                         type="text" class="form-control" ng-model="Products.WorkingTable"  ng-blur="checkWTable()">
+                         type="text" class="form-control" ng-model="Products.WorkingTable"  ng-blur="checkWTable()"> -->
+
+
+
                           <!--****************** end proba2 *********************-->
                       </div>
 
@@ -85,7 +107,7 @@
              <div class="form-horizontal col-md-12">
                  <div class="box-footer col-md-12 text-right">
                       <button class="btn  btn-default text-right btn-sm"  ng-click="reset()" style="padding-right: 16px;"><i class="fa fa-ban" aria-hidden="true" style="padding-right: 6px;"></i>{{'btnOtkazhi_pt' | translate}}</button>
-                      <button class="btn  btn-default text-right btn-sm" style="color:white; background-color: #00a65a; padding: 6px 15px;" ng-click="submit(Products);" ng-disabled="form.$invalid || flag"> <i class="fa fa-fw fa-save"> </i> {{'btnSnimi_pt' | translate}} </button>
+                      <button class="btn  btn-default text-right btn-sm" style="color:white; background-color: #00a65a; padding: 6px 15px;" ng-click="submit(Products);" ng-disabled="form.$invalid || flag || onSelectUI_validation"> <i class="fa fa-fw fa-save"> </i> {{'btnSnimi_pt' | translate}} </button>
 
                  </div>
              </div>
@@ -153,16 +175,25 @@
                                             <div class="form-group col-md-4" >
                                               <label> {{'lblWorkingTbl_pt'| translate }}</label>
                                                <!--****************** proba2 *********************-->
-                                              <input
-                                               required class="form-control  input-sm"
-                                               type="text" class="form-control" ng-model="x.WorkingTable"  ng-blur="checkWTableEdit(x.WorkingTable)">
+                                               <ui-select ng-model="x.WorkingTable" class="pull-right  "  style="max-width: 165px; min-width: 165px; margin-top:-2px"  theme="select2"  ng-init="fetchTableNames()" ng-blur="checkWTable()" >
+                                                  <!-- TableColumns($select.selected) -->
+                                                  <ui-select-match placeholder=" Пребарај табела ">{{$select.selected}} </ui-select-match>
+                                                  <ui-select-choices repeat="item in iminjaTabeliOdBaza | filter: $select.search">
+                                                    <small>
+                                                      <spam ng-bind-html="item  | highlight: $select.search"></spam>
+                                                    <!--   <spam ng-bind-html="item.ProductID  | highlight: $select.search"></spam> -->
+                                                    </small>
+                                                    <!-- <small ng-bind-html="item.Description  | highlight: $select.search"></small> -->
+
+                                                  </ui-select-choices>
+                                                </ui-select>
                                                 <!--****************** end proba2 *********************-->
                                             </div>
 
                                               <div class="form-group col-md-4" style="width: 82px;" >
                                                 <div style=" width: 81px;">
                                                   <label style="display: block;">{{ 'lblStatus_pt'| translate }} </label>
-                                                  <input type="checkbox" ng-model="x.Status" [name="string"] [ng-true-value="expression"][ng-false-value="expression"] [ng-change="string"] > {{'lblActive_pt' | translate}}
+                                                  <input type="checkbox" ng-model="x.Status" [name="string"] [ng-true-value="expression"][ng-false-value="expression"] [ng-change="string"] ng-click="setirajDatumZatvaranje(x, x.Status)"> {{'lblActive_pt' | translate}}
 
                                                 </div>
                                               </div>
