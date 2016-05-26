@@ -43,7 +43,7 @@
                   <div class="row "    ng-if="item.FieldType=='TextBox' ">
                       <label class=" col-md-2 control-label " >{{item.FieldDescription}}</label>
                       <div class="col-md-3 ">
-                        <input class="form-control ng-touched ng-invalid ng-valid" ng-required="{{item.Mandatory=='М'}}" dynamic-model="'temp.'+item.FieldName" type="{{item.FieldType}}" maxlength="{{item.FieldLength}}" value="{{item.DefaultValue}}" />
+                        <input class="form-control ng-touched ng-invalid ng-valid " ng-required="{{item.Mandatory=='М'}}" dynamic-model="'temp.'+item.FieldName" type="{{item.FieldType}}" maxlength="{{item.FieldLength}}" value="{{item.DefaultValue}}" />
                       </div>
                   </div>
 
@@ -52,7 +52,7 @@
 
                     <label class=" col-md-2 control-label ">{{item.FieldDescription}}</label>
                     <div class="col-md-3 ">
-                      <input class="form-control ng-touched ng-invalid ng-valid" ng-required="{{item.Mandatory=='М'}}" dynamic-model="'temp.'+item.FieldName"  type="{{item.FieldType}}" min="0" maxlength="{{item.FieldLength}}" value="{{item.DefaultValue}}" />
+                      <input class="form-control ng-touched ng-invalid ng-valid " ng-required="{{item.Mandatory=='М'}}" dynamic-model="'temp.'+item.FieldName"  type="{{item.FieldType}}" min="0" maxlength="{{item.FieldLength}}" value="{{item.DefaultValue}}" />
                     </div>
                   </div>
           <!--*********************************** Input-Number *****************************************-->

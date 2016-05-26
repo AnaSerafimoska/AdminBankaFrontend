@@ -1,5 +1,5 @@
 angular.module('adminBankaFrontendApp')
-  .controller('adminBaranjaCtrl', function($scope, gatewayService, $filter, toastr, $route, $rootScope) {
+  .controller('adminBaranjaCtrl', function($scope, gatewayService, $filter, toastr, $route, $rootScope, ngDialog) {
 
    	$scope.ListtoShow = [];
    	$scope.ListtoSave = [];
@@ -230,8 +230,10 @@ $scope.selectedRow = null;  // initialize our variable to null
 
   $scope.zemiSelektiranTipNaProdukt = function(item){
       $scope.selektiranTip = item;
-      //console.log("vleguva vo zemi produkt po tip: ", item);
+  };
 
-};
+  $scope.prikazhi = function(){
+    ngDialog.open({ template: '', className: 'ngdialog-theme-default' });
+  }
 
 });
