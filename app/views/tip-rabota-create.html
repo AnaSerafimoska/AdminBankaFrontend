@@ -7,11 +7,8 @@
   <div class="content-wrapper">
 
     <section class="content-header" >
-
         <h1 style="font-size: 19px;padding: 10px; padding: 0px;"> {{'lblHeaderTip_pt' | translate}} </h1>
-
-
-    </section>
+  </section>
 
 
   <!-- **********************  VNES NA TIP RABOTA  ************************** -->
@@ -34,7 +31,7 @@
                         <label>{{'lblTip_pt' | translate}}</label>
                         <!--****************** proba1 *********************-->
                         <input
-                         required class="form-control ng-pristine ng-invalid ng-invalid-required ng-touched"
+                         required class="form-control ng-pristine ng-invalid ng-invalid-required ng-touched input-sm"
                         type="text"  class="form-control" mask="9" repeat="7" restrict="reject"   required ng-model="Products.ProductTypeID"  ng-blur="checkTip();" ng-change="checkTipInDb(Products.ProductTypeID)"  ng-class="{custom:flag==true}">
                       <!--****************** end proba1 *********************-->
                       </div>
@@ -50,7 +47,7 @@
                         <label>{{'lblWorkingTbl_pt'| translate }}</label>
                          <!--****************** proba2 *********************-->
                         <input
-                         required class="form-control ng-pristine ng-invalid ng-invalid-required ng-touched"
+                         required class="form-control ng-pristine ng-invalid ng-invalid-required ng-touched input-sm"
                          type="text" class="form-control" ng-model="Products.WorkingTable"  ng-blur="checkWTable()">
                           <!--****************** end proba2 *********************-->
                       </div>
@@ -65,7 +62,7 @@
                         <div class="form-group col-md-2">
                           <label>{{'lblDateOpen_pt' | translate}}</label>
                           <div class="input-group">
-                            <input type="text" class="form-control" ng-init="init()" ng-model="Products.OpeningDate" container="body" data-date-format="dd-MM-yyyy" data-date-type="longDate"  data-min-date="today" data-autoclose="1" name="date1" bs-datepicker required>
+                            <input type="text" class="form-control input-sm" ng-init="init()" ng-model="Products.OpeningDate" container="body" data-date-format="dd-MM-yyyy" data-date-type="longDate"  data-min-date="today" data-autoclose="1" name="date1" bs-datepicker required>
                             <div class="input-group-addon" id="date1" >
                               <i class="fa fa-calendar"> </i>
                             </div>
@@ -74,7 +71,7 @@
                         <div class="form-group col-md-2" >
                           <label>{{'lblDateClose_pt' | translate}}</label>
                           <div class="input-group">
-                            <input type="text" class="form-control" placement="auto" ng-model="Products.ClosingDate" container="body" data-date-format="dd-MM-yyyy" data-date-type="longDate"  data-min-date="{{Products.OpeningDate}}" data-autoclose="1" name="date2" bs-datepicker id="ClosingDate" >
+                            <input type="text" class="form-control input-sm" placement="auto" ng-model="Products.ClosingDate" container="body" data-date-format="dd-MM-yyyy" data-date-type="longDate"  data-min-date="{{Products.OpeningDate}}" data-autoclose="1" name="date2" bs-datepicker id="ClosingDate" >
                             <div class="input-group-addon" id="date1" required >
                               <i class="fa fa-calendar"  ></i>
                             </div>
@@ -87,8 +84,8 @@
                 <!--********** tret red BUTTONS **********************-->
              <div class="form-horizontal col-md-12">
                  <div class="box-footer col-md-12 text-right">
-                      <button class="btn  btn-default text-right" style="width: 94px;" ng-click="reset()"><i class="fa fa-ban" aria-hidden="true" style="padding-right: 6px;"></i>{{'btnOtkazhi_pt' | translate}}</button>
-                      <button class="btn  btn-default text-right" style="color:white; background-color: #00a65a" ng-click="submit(Products);" ng-disabled="form.$invalid || flag"> <i class="fa fa-fw fa-save"> </i> {{'btnSnimi_pt' | translate}} </button>
+                      <button class="btn  btn-default text-right btn-sm"  ng-click="reset()" style="padding-right: 16px;"><i class="fa fa-ban" aria-hidden="true" style="padding-right: 6px;"></i>{{'btnOtkazhi_pt' | translate}}</button>
+                      <button class="btn  btn-default text-right btn-sm" style="color:white; background-color: #00a65a; padding: 6px 15px;" ng-click="submit(Products);" ng-disabled="form.$invalid || flag"> <i class="fa fa-fw fa-save"> </i> {{'btnSnimi_pt' | translate}} </button>
 
                  </div>
              </div>
@@ -141,7 +138,7 @@
                                               <label> {{'lblProductTupeTbl_pt' | translate }}</label>
                                               <!--****************** proba1 *********************-->
                                               <input
-                                               required class="form-control " ng-disabled="true"
+                                               required class="form-control input-sm" ng-disabled="true"
                                               type="text"  class="form-control" mask="9" repeat="7" restrict="reject" ng-model="x.ProductTypeID" ng-blur="checkTipEdit(x.ProductTypeID);" ng-change="checkTipInDbEdit(x.ProductTypeID)" ng-class="{custom:flag==true}">
                                             <!--****************** end proba1 *********************-->
                                             </div>
@@ -157,7 +154,7 @@
                                               <label> {{'lblWorkingTbl_pt'| translate }}</label>
                                                <!--****************** proba2 *********************-->
                                               <input
-                                               required class="form-control"
+                                               required class="form-control  input-sm"
                                                type="text" class="form-control" ng-model="x.WorkingTable"  ng-blur="checkWTableEdit(x.WorkingTable)">
                                                 <!--****************** end proba2 *********************-->
                                             </div>
@@ -172,7 +169,7 @@
                                               <div class="form-group col-md-4">
                                                 <label>{{'lblDateOpen_pt' | translate}}</label>
                                                 <div class="input-group">
-                                                  <input type="text" class="form-control" ng-model="x.OpeningDate" container="body" data-date-format="dd-MM-yyyy" data-date-type="longDate"  data-min-date="x.OpeningDate" data-autoclose="1" name="date1" bs-datepicker required>
+                                                  <input type="text" class="form-control  input-sm" ng-model="x.OpeningDate" container="body" data-date-format="dd-MM-yyyy" data-date-type="longDate"  data-min-date="x.OpeningDate" data-autoclose="1" name="date1" bs-datepicker required>
                                                   <div class="input-group-addon" id="date1" >
                                                     <i class="fa fa-calendar"> </i>
                                                   </div>
@@ -181,7 +178,7 @@
                                               <div class="form-group col-md-4" >
                                                 <label>{{'lblDateClose_pt' | translate}}</label>
                                                 <div class="input-group">
-                                                  <input type="text" class="form-control" placement="auto" ng-model="x.ClosingDate" container="body" data-date-format="dd-MM-yyyy" data-date-type="longDate"  data-min-date="{{x.OpeningDate}}" data-autoclose="1" name="date2" bs-datepicker >
+                                                  <input type="text" class="form-control input-sm" placement="auto" ng-model="x.ClosingDate" container="body" data-date-format="dd-MM-yyyy" data-date-type="longDate"  data-min-date="{{x.OpeningDate}}" data-autoclose="1" name="date2" bs-datepicker >
                                                   <div class="input-group-addon" id="date1" required >
                                                     <i class="fa fa-calendar" ></i>
                                                   </div>
@@ -213,9 +210,10 @@
                     <td> <span ng-show="!x.isActive">{{x.WorkingTable}}</span></td>
                     <td>
                         <div class="text-right">
-                            <button href="" style="width: 68px; padding: 3px;" ng-show="!x.isActive" class="btn btn-block btn-primary" ng-click="x.isActive=!x.isActive; izmeni(x)" ng-disabled="blokirajIzmeni">{{'lblEdit_pt' | translate}}</button>
-                            <button ng-show="x.isActive" class="btn btn-success btn-sm" ng-disabled="formEdit.$invalid || flag1" ng-click="zachuvaj(x);x.isActive=false" style="background-color:#00a65a; width: 68px;padding: 4px;"><i class="fa fa-fw fa-save"> </i>{{'lblSave_pt' | translate}}</button>
-                            <button href="" ng-show="x.isActive" class="btn btn-warning btn-sm" ng-click="x.isActive=false; close()" style=" width: 68px;padding: 4px; margin-top: 10px;"> <i class="fa fa-ban" aria-hidden="true" ></i> {{'btnOtkazhi_pt' | translate}}</button>
+                            <button ng-show="!x.isActive" class="btn btn-block btn-primary btn-sm" ng-click="x.isActive=!x.isActive; izmeni(x)" ng-disabled="blokirajIzmeni">{{'lblEdit_pt' | translate}}</button>
+                            <button ng-show="x.isActive" class="btn btn-success btn-sm" ng-disabled="formEdit.$invalid || flag1" ng-click="zachuvaj(x);x.isActive=false" style="background-color:#00a65a;"><i class="fa fa-fw fa-save"> </i>{{'lblSave_pt' | translate}}</button>
+                            <button href="" ng-show="x.isActive" class="btn btn-warning btn-sm" ng-click="x.isActive=false; close()" style="margin-top: 10px;
+    width: 80px;"> <i class="fa fa-ban" aria-hidden="true" ></i> {{'btnOtkazhi_pt' | translate}}</button>
                         </div>
                     </td>
               </tr>
