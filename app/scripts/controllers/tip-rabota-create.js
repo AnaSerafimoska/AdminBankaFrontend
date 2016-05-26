@@ -13,6 +13,7 @@ angular.module('adminBankaFrontendApp')
 $scope.flag = false;
 $scope.flag1 = false;
 $scope.blokirajIzmeni=false;
+$scope.StatusZaDatumZatvoranje="";
 $scope.Products = {
       'ProductTypeID':null,
       "Description":null,
@@ -22,6 +23,8 @@ $scope.Products = {
       "ClosingDate":null
 
     };
+$scope.iminjaTabeliOdBaza=[];
+$scope.onSelectUI_validation = true;
 var PID=null;
 var ProduktTip = 'ProductType';///////////////////////////////////da se vidi////
 
@@ -44,7 +47,7 @@ $scope.ProductTypes = function () {
       gatewayService.request("/api/ProductTypes/1/ProductTypesFetch", "GET").then(function (data, status, heders, config) {
         // console.log("data" ,data);
         $scope.productTypes = data;
-        //console.log("pocetok ", $scope.productTypes);
+        console.log("pocetok ", $scope.productTypes);
 
       }, function (data, status, headers, config) {
         console.log(status);
@@ -258,8 +261,6 @@ $scope.reset = function(){
 
 ////////////////////////////// IZMENI KOD PREVZEMEN ////////////////////////////////////////////////////
   
-
-
   $scope.showEditRow = function (r) {
     if ($scope.active != r) {
       $scope.active = r;
@@ -270,9 +271,36 @@ $scope.reset = function(){
     console.log("active: ",$scope.active);
   };
  
-
-
-
 ///////////////////////////////// KRAJ IZMENI //////////////////////////////////////////////////////////
+
+
+///////////////////////////////// setiranje na datum zatvaranje ako kliknat status  /////////////////////////////////////////////////////
+$scope.setirajDatumZatvaranje = function(item,status){
+    if(status == true){
+      item['ClosingDate'] = "";
+    }
+    else if(status == false){
+      
+      item['ClosingDate'] = new Date();
+    }
+};
+
+///////////////////////////  fetch na table names od baza ////////////
+$scope.fetchTableNames = function(){
+   gatewayService.request("/api/Baranja/1/admin_bank_Fetch_Table_Names", "GET").then(function (data, status, heders, config) {
+         $scope.iminjaTabeliOdBaza = data;
+         console.log("iminja tabeli: ",$scope.iminjaTabeliOdBaza);
+        }, function (data, status, headers, config) {
+            console.log(status);
+
+        });
+ };
+
+
+ $scope.onSelectUIvalidation = function(){
+    $scope.onSelectUI_validation = false;
+
+ };
+
 
 });

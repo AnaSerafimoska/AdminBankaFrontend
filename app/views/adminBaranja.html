@@ -74,22 +74,21 @@
 	        	</div>
 
 
-	        	<div class=" row col-md-11 pull-left">
+	    
 
 
-	        	<div class="row col-md-12 box-header  with-border"></div>
+	        	<div class="row col-md-12 box-header with-border pull-right"></div>
 
-	        	<div class=" row col-md-12 box-header "> 
-	        		<button class="btn btn-default text-right pull-right btn-sm" style="color: white;background-color: #00a65a; float:right; width: 75px;" ng-click="" ng-disabled="">  Сними </button>
+	        	<div class=" row col-md-12 box-header pull-right "> 
+	        		<!-- <button class="btn btn-default text-right pull-right btn-sm" style="color: white;background-color: #00a65a; float:right; width: 75px;" ng-click="" ng-disabled="">  Сними </button> -->
 	        		<button class="btn btn-default text-right pull-right btn-sm" style="color:white; background-color: #3c8dbc; float:right; margin-right: 5px;" ng-click="zemiPodatociPo_EMBG(korisnik.embg); setVisibility()" ng-disabled="">  Прикажи </button>
 	        	</div>
 
 
-	        	<div class="row col-md-12 box-header pull-left with-border"></div>
+	        	<div class="row col-md-12 box-header pull-right with-border"></div>
 
 
 
-	        </div>
         	<!--  ************** KRAJ NA FORMA ZA VNES NA EMBG *****************************************************       -->
 
 
@@ -133,16 +132,14 @@
 
         			</table>
 
-        			<div class=" row col-md-11 pull-left " ng-show="flagVisibilityTabs"> 
-						<button class="btn btn-default text-right" style="color:white; background-color: #337ab7; float:right; margin-right: 39px;" ng-click="prikazhi()" ng-disabled="">  Додади сметка </button>
+        			<div class=" row col-md-12 pull-left" ng-show="flagVisibilityTabs"> 
+						<button class="btn btn-default text-right input-sm" style="color:white; background-color: #337ab7; float:right; " ng-click="prikazhi()" ng-disabled="">  Додади сметка </button>
 					</div>
 
         		</div>
 
          <!-- ng-controller="adminBaranjaCtrl" -->
-         <div >
-           <dir-Dinamyc-Form > </dir-Dinamyc-Form>
-         </div>
+         
 
 			 <!-- KRAJ NA CELA FORMA -->
 
