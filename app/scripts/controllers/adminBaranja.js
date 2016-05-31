@@ -226,11 +226,11 @@ $scope.setSelected = function (idSelectedVote) {
 };
 
 
-$scope.selectedRow = null;  // initialize our variable to null
-  $scope.setClickedRow = function(index){  //function that sets the value of selectedRow to current index
-     $scope.selectedRow = ($scope.selectedRow == index) ? null : index;
-     console.log("this is selected item: ",index);
-  };
+    $scope.selectedRow = null;  // initialize our variable to null
+    $scope.setClickedRow = function(index){  //function that sets the value of selectedRow to current index
+      $scope.selectedRow = ($scope.selectedRow == index) ? null : index;
+      console.log("this is selected item: ",index);
+    };
 
 
 ////////////////////////  PODATOCI ZA IDENTIFIKACIJA NA KORISNIK PO EMBG   ///////////////////
