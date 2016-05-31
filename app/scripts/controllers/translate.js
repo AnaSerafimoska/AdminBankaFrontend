@@ -54,10 +54,13 @@ angular.module('angularTranslateApp', ['pascalprecht.translate'])
       'lblTipError_pt':'Тип на продукт е задолжително поле.',
       'lblDbError_pt': 'Грешка при запишување во база.',
       'lblDbSuccess_pt':'Записот е успешно снимен.',
-      'lblDbSuccessEdit_pt':'Записот е успешно едитиран.',
-      'placeholderSearch_pt': 'Пребарувај ...',
+
       'lblTipPodatok_p':"Тип на податок",
-      'lblIzvornaLista_p':'Изворна листа API'
+      'lblIzvornaLista_p':'Изворна листа API',
+
+      'lblDbSuccessEdit_pt':'Записот е успешно изменет.',
+      'placeholderSearch_pt': 'Пребарувај ...'
+
 
 
     });
