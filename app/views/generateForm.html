@@ -78,7 +78,7 @@
                    </div>
                   </div>
 
-          <!------------------------------------------------- Textarea ------------------------------------------------------->
+          <!-- Textarea -->
                   <div class="row "ng-model="item.FieldName"  ng-if="item.FieldType=='Textarea' ">
 
                     <label class=" col-md-2 control-label ">{{item.FieldDescription}}</label>
@@ -87,7 +87,7 @@
                     </div>
                   </div>
 
-          <!------------------------------------------------- Checkbox ------------------------------------------------------->
+          <!-- Checkbox-->
                   <div class="row "  ng-if="item.FieldType=='Checkbox' ">
 
 
@@ -97,7 +97,7 @@
                     <label class=" col-md-3 control-label ">{{item.FieldDescription}}</label>
                   </div>
 
-          <!------------------------------------------------- Dropdown ------------------------------------------------------->
+          <!-- Dropdown -->
                   <div class="row "  ng-if="item.FieldType=='Dropdown' ">
 
                     <label class=" col-md-2 control-label">{{item.FieldDescription}}</label>
@@ -120,11 +120,11 @@
 
                   </div>
 
-            <!------------------------------------------------- Buttons------------------------------------------------------->
+            <!-- Buttons-->
 
             <div class="col-md-4"   ng-if=" item.FieldType=='ButtonCancel' ">
               <div class="pull-right"  >
-                <button class="btn btn-default "    value="{{item.DefaultValue}}" ><i class="fa fa-fw fa-ban"></i>{{item.DefaultValue}}</button>
+                <button class="btn btn-default" value="{{item.DefaultValue}}" ><i class="fa fa-fw fa-ban"></i>{{item.DefaultValue}}</button>
 
               </div>
             </div>
