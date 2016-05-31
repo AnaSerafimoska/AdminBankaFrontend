@@ -15,7 +15,7 @@
           <ui-select-match placeholder=" {{'searchVidRabota_p' | translate}}">{{$select.selected.ProductTypeID}}-{{$select.selected.ProductID}} {{$select.selected.Description}}</ui-select-match>
           <ui-select-choices repeat="item in products | filter: $select.search">
             <small>
-              <spam ng-bind-html="item.ProductTypeID  | highlight: $select.search"></spam>-
+              <spam  ng-bind-html="item.ProductTypeID  | highlight: $select.search"></spam>-
               <spam ng-bind-html="item.ProductID  | highlight: $select.search"></spam>
             </small>
             <small ng-bind-html="item.Description  | highlight: $select.search"></small>
@@ -24,7 +24,7 @@
         </ui-select>
 
       </div>
-      <h1 style=" font-size: 19px;padding: 10px; padding: 0px"> {{'headerVidoviRabota_p' | translate}} </h1>
+      <h1> {{'headerVidoviRabota_p' | translate}} </h1>
 
     </div>
 
@@ -55,15 +55,13 @@
                     <!--<option></option>-->
                     <!--<option ng-repeat="productType in productTypes" ng-selected= "Products.ProductTypeID==productType.ProductTypeID" value="{{productType.ProductTypeID}}"   >{{productType.ProductTypeID}}-{{productType.Description}}</option>-->
                   <!--</select>-->
-                  <ui-select ng-model="Products.ProductTypeID" style="width: 160px"   theme="select2" ng-disabled="flag" required>
+                  <ui-select ng-blur="checkTip()"  ng-model="Products" on-select="change($select.selected)" style="width: 160px" theme="select2" ng-disabled="flag" required>
                     <ui-select-match >{{$select.selected.ProductTypeID}}</ui-select-match>
                     <ui-select-choices repeat="item in productTypes | filter: $select.search">
                       <small>
                         <spam ng-bind-html="item.ProductTypeID  | highlight: $select.search"></spam>-
                         <spam ng-bind-html="item.Description  | highlight: $select.search"></spam>
                       </small>
-
-
                     </ui-select-choices>
                   </ui-select>
                 </div>
@@ -71,7 +69,7 @@
 
               <div class="form-group col-md-2">
                 <label>{{'lblVidRabota_p' | translate}}</label>
-                <input ng-blur="checkVid()" type="text"  class="red-tooltip" class=" form-control ng-pristine ng-invalid ng-invalid-required ng-touched input-sm" mask="9" repeat="6" restrict="reject" ng-disabled="flag"  id="txtVidRabota"  ng-model="Products.ProductID" data-placement="bottom" data-type="success" data-container="body" data-trigger="focus" bs-tooltip="tooltip" required>
+                <input ng-blur="checkVid()" type="text"  class=" form-control ng-pristine ng-invalid ng-invalid-required ng-touched input-sm" mask="9" repeat="6" restrict="reject" ng-disabled="flag"  id="txtVidRabota"  ng-model="Products.ProductID" data-placement="bottom" data-type="success" data-container="body" data-trigger="focus" bs-tooltip="tooltip" required>
               </div><!-- /.form-group -->
 
 
@@ -87,7 +85,7 @@
 
                 <div class="checkbox" style="padding-left: 0px ;margin-top: 0px">
                   <label>
-                    <input  ng-model="Products.Status"  ng-checked="true" type="checkbox" >    {{'lblAktiven_p' | translate}}
+                    <input  ng-model="Products.Status" ng-click="changeClosingDate()"  ng-checked="true" type="checkbox" >    {{'lblAktiven_p' | translate}}
                   </label>
                 </div>
               </div><!-- /.form-group -->
@@ -160,8 +158,8 @@
                 </td>
                 <td><input type="text" ng-disabled="!hasSelected"  ng-model="productBodyNew.FieldDescription" class="form-control input-sm" id="txtLabela"   ></td>
 
-                <td>
-                  <ui-select style="width: 150px;" ng-model="productBodyNew.FieldName" ng-disabled="!hasSelected" theme="select2" >
+                <td style="width: 200px;">
+                  <ui-select style="width: 200px;" ng-model="productBodyNew.FieldName" on-select="polniTipDolzina($select.selected)" ng-disabled="!hasSelected" theme="select2" required >
                     <ui-select-match placeholder="Пребарај поле...">{{$select.selected}}</ui-select-match>
                     <ui-select-choices repeat="item in tableColumns | filter: $select.search"   >
                       <div ng-bind-html="item |  highlight: $select.search"></div>
@@ -172,12 +170,12 @@
 
                 <td style="text-align:center; vertical-align: middle;width: 50px;"><input ng-disabled="!hasSelected" type="checkbox"  id="chbMandatory" placeholder="Задолжително"  ng-model="productBodyNew.Mandatory"></td>
 
-                <td><input type="text" ng-disabled="!hasSelected"  ng-model="productBodyNew.FieldDescription" class="form-control input-sm" id="txtLabela"   ></td>
+                <td style="width: 80px"><input  type="text" ng-disabled="!hasSelected"  ng-model="productBodyNew.DataType" class="form-control input-sm" id="txtTipPodatok"   ></td>
 
-                <td><input ng-disabled="!hasSelected" type="number" class="form-control input-sm"  id="txtDollzina" style="width: 80px"  min="0"  ng-model="productBodyNew.FieldLength" ></td>
+                <td style="width: 80px"><input ng-disabled="!hasSelected" type="text" class="form-control input-sm"  id="txtDollzina"   min="0"  ng-model="productBodyNew.FieldLength" ></td>
 
                 <td>
-                  <select ng-disabled="!hasSelected" class="form-control input-sm" ng-model="productBodyNew.FieldType" required>
+                  <select ng-disabled="!hasSelected" on-select="disableFields($selected)" class="form-control input-sm" ng-model="productBodyNew.FieldType" required>
                    <option></option>
                    <option ng-repeat="fieldType in fieldTypes" ng-selected= "productBodyNew.FieldType==fieldType.Type" value="{{fieldType.Type}}">{{fieldType.Type}}</option>
                   </select >
@@ -199,8 +197,8 @@
 
 
                 <td>
-                  <span class="glyphicon glyphicon-plus" ng-disabled="canAdd" ng-click="addRow()"></span><br/>
-                  <span class="glyphicon glyphicon-minus" style="color: red" ng-click="removeRow($index)"></span>
+                  <span  class="fa fa-floppy-o" style="width: 16px;height: 14px ;text-align: center"  ng-disabled="canAdd" ng-click="addRow(productBodyNew)"></span><br/>
+                  <span  class="fa fa-trash" style="width: 16px;height: 14px; text-align: center"  ng-click="removeRow($index)"></span>
                 </td>
 
               </tr>
@@ -226,23 +224,21 @@
 
 
 
-              <tr ng-repeat="columnOption in productBody | orderBy:sortKey:reverse | orderBy:reverse">
+              <tr ng-repeat="columnOption in productBody" ng-class="{'selected':$index == selectedRow}"  ng-click="setClickedRow($index); previewForEdit(columnOption);">
+                <td></td>
                 <td>{{columnOption.FieldDescription}}</td>
                 <td>{{columnOption.FieldName}}</td>
-                <td>{{columnOption.FieldType}}</td>
-                <td >{{columnOption.FieldLength}}</td>
-                <td>{{columnOption.DefaultValue}}</td>
                 <td style="text-align:center; vertical-align: middle;width: 50px;">{{columnOption.Mandatory}}</td>
-                <td  style="text-align:center; vertical-align: middle;">{{columnOption.FieldID}}</td>
+                <td>{{columnOption.DataType}}</td>
+                <td >{{columnOption.FieldLength}}</td>
+                <td>{{columnOption.FieldType}}</td>
                 <td>{{columnOption.FillApi}}</td>
-
-
-                <td  ><span class="glyphicon glyphicon-minus" style="color: red" ng-click="removeRow($index)"></span></td>
-
+                <td>{{columnOption.DefaultValue}}</td>
+                <!--<td  ><span class="glyphicon glyphicon-minus" style="color: red" ng-click="removeRow($index)"></span></td>-->
               </tr>
-
               </tbody>
             </table>
+
           </div>
           <!--<div class="form-horizontal col-lg-12">-->
             <!--<div class="box-footer text-right">-->
@@ -266,8 +262,8 @@
       <i class="fa fa-question-circle fa-3x fa-pull-left fa-border"  aria-hidden="true"></i>
       <h4>Дали сте сигурни дека сакате да го избришете записот?</h4>
       <div class=" text-right">
-        <button class="btn btn-warning "  ng-click="closeThisDialog()">Не</button>
-        <button class="btn btn-success "  ng-click="deleteRow(); closeThisDialog()">Да</button>
+        <button style="width:40px; height:30px" class="btn btn-warning "  ng-click="closeThisDialog()">Не</button>
+        <button style="width:40px; height:30px" class="btn btn-success "  ng-click="deleteRow(); closeThisDialog()">Да</button>
 
 
       </div>
