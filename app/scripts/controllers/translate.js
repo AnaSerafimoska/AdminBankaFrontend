@@ -13,13 +13,13 @@ angular.module('angularTranslateApp', ['pascalprecht.translate'])
       'btnSnimi_p': 'Сними',
       'btnOtkazi_p': 'Откажи',
       'lblLabela_p': 'Лабела',
-      'lblPoleTabela_p': 'Поле од табела',
-      'lblTipPole_p': 'Тип поле',
+      'lblPoleTabela_p': 'Поле во табела',
+      'lblTipPole_p': 'Тип на контрола',
       'lblDolzina_p': 'Должина',
-      'lblVrednost_p': 'Вредност',
+      'lblVrednost_p': 'Основна вредност',
       'lblZad_p': 'M/\\О',
       'lblRedosled_p': 'Редослед',
-      'headerVidoviRabota_p': 'Видови на работа',
+      'headerVidoviRabota_p': 'Вид на работа',
       'headerSnimiZapis_p': 'Сними запис',
       'searchVidRabota_p': 'Пребарај по Вид на работа/Опис...',
       'searchApi_p': 'Пребарај API...',
@@ -28,7 +28,7 @@ angular.module('angularTranslateApp', ['pascalprecht.translate'])
       'errorOpis_p': 'Опис е задолжително поле!',
       'errorVidRabota_p': 'Вид работа е задолжително поле!',
       'errorVidRabotaExist_p': 'Видот на работа постои!',
-      'meniVidoviRabota_p': 'Вид работа',
+      'meniVidoviRabota_p': 'Вид на работа',
       'zadolzitelno_p': 'З',
       'opcionalno_p': 'О',
       'zacuvanZapis_p' : 'Записот е успешно снимен!',
@@ -54,8 +54,13 @@ angular.module('angularTranslateApp', ['pascalprecht.translate'])
       'lblTipError_pt':'Тип на продукт е задолжително поле.',
       'lblDbError_pt': 'Грешка при запишување во база.',
       'lblDbSuccess_pt':'Записот е успешно снимен.',
+
+      'lblTipPodatok_p':"Тип на податок",
+      'lblIzvornaLista_p':'Изворна листа API',
+
       'lblDbSuccessEdit_pt':'Записот е успешно изменет.',
       'placeholderSearch_pt': 'Пребарувај ...'
+
 
 
     });
@@ -111,7 +116,8 @@ angular.module('angularTranslateApp', ['pascalprecht.translate'])
       'lblDbError_pt':'Database error while saving.',
       'lblDbSuccess_pt':'The input was saved successfully.',
       'lblDbSuccessEdit_pt':'The input was edited successfully.',
-      'placeholderSearch_pt': 'Search ...'
+      'placeholderSearch_pt': 'Search ...',
+
 
 
     });
