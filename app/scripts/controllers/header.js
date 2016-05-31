@@ -5,7 +5,6 @@ angular.module('adminBankaFrontendApp')
   .controller('HeaderCtrl', function($scope,$translate,$rootScope,localStorageService){
 
     $scope.loggedUser = {};
-
     // $scope.loggedUser = "filip NIkolovski"
     //$rootScope.loggedUser.KindergardenName = "kinder garden name"
     $rootScope.tmp = true;
@@ -22,8 +21,9 @@ angular.module('adminBankaFrontendApp')
       $translate.use(langKey);
       localStorage.setItem('lang', langKey);
 
-
-
     };
+
+
+
 
   });

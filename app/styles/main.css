@@ -78,3 +78,14 @@ td .fa{
   padding: 10px; padding: 0px;
 }
 
+/*.content-header>h1 {
+  font-size: 19px !important;
+  font-weight: bold;
+}*/
+
+.sorting_asc:hover {
+    background-color: green !important;
+}
+.table-hover > tbody > tr:hover {
+    background-color: green !important;
+  }

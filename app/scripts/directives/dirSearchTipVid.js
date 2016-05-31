@@ -26,7 +26,7 @@ angular.module('adminBankaFrontendApp')
 
        // console.log($scope.productsBody);
           $scope.opis=seelectedItem.Description;
-            $rootScope.selectedValue= seelectedItem;
+            $rootScope.selectedValue = seelectedItem;
          console.log("ovde vo kontroler: ",$rootScope.selectedValue);
      		}, function (data, status, headers, config) {
         		//console.log(status);
