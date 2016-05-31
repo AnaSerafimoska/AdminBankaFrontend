@@ -289,7 +289,7 @@ $scope.setirajDatumZatvaranje = function(item,status){
 $scope.fetchTableNames = function(){
    gatewayService.request("/api/Baranja/1/admin_bank_Fetch_Table_Names", "GET").then(function (data, status, heders, config) {
          $scope.iminjaTabeliOdBaza = data;
-         console.log("iminja tabeli: ",$scope.iminjaTabeliOdBaza);
+         //console.log("iminja tabeli: ",$scope.iminjaTabeliOdBaza);
         }, function (data, status, headers, config) {
             console.log(status);
 
