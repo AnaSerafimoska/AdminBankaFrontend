@@ -65,5 +65,16 @@ h1, p, a {
   border-color: #6C6C6C !important;
   border-radius: 25px;
 }
+td .glyphicon  {
+  cursor: pointer;
+}
 
+td .fa{
+  cursor: pointer;
+}
+
+.content-header>h1 {
+  font-size: 19px;
+  padding: 10px; padding: 0px;
+}
 

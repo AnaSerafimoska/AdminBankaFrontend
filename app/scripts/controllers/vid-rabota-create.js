@@ -18,12 +18,11 @@ angular.module('adminBankaFrontendApp')
 
 
     $scope.hasNew=false;
-
     $scope.productExist = false;
-
     $scope.canAdd=false;
     $scope.flag=false;
     $scope.deleted=[];
+    $scope.LastId = 0;
 
     /////////////////////////////////   Modeli    ///////////////////////////////////////////
     $scope.Products={
@@ -38,11 +37,39 @@ angular.module('adminBankaFrontendApp')
     ];
 
     $scope.productBodyNew = {};
+    $scope.item = {};
+
+    /////////////////////////   Change closing date ///////////////////
+    $scope.changeClosingDate=function () {
+      if($scope.Products.Status==false)
+      {
+        $scope.Products.ClosingDate = new Date();
+      }
+      else {
+        $scope.Products.ClosingDate="";
+      }
+    }
+
+
+    $scope.polniTipDolzina=function (item) {
+      console.log(item);
+      gatewayService.request("/api/ProductBody/1/TipPodatokDolzinaFetch?FieldName="+item, "GET").then(function (data, status, heders, config) {
+        console.log("data" ,data[0]);
+        $scope.productBodyNew.DataType=data[0].Data_Type;
+        $scope.productBodyNew.FieldLength=data[0].CHARACTER_MAXIMUM_LENGTH;
+
+        $scope.productTypes = data;
+
+      }, function (data, status, headers, config) {
+        console.log(status);
+      });
+
+    }
 
 
     ///////////////////////   Dodadi i brisi red vo tabelata /////////////////////////////////
-    $scope.addRow = function(){
-
+    $scope.addRow = function(test){
+      console.log(test);
       if ($scope.productBodyNew != undefined && $scope.productBodyNew.FieldName != undefined) {
         // console.log("zz", $scope.productBodyNew.FieldName != undefined);
         var result = $scope.productBody.filter(function (obj) {
@@ -72,21 +99,79 @@ angular.module('adminBankaFrontendApp')
         {
           $scope.productBodyNew.Mandatory="О";
         }
-        if($scope.productBodyNew.FieldType==null && $scope.productBodyNew.FieldID==null)
+        if($scope.productBodyNew.FieldType==null || $scope.productBodyNew.FieldName==null)
         {
           $scope.canAdd=false;
-          toastr.error('Тип поле и редослед се задолжителни!');
+          toastr.error('Поле во табела и тип поле се задолжителни!');
         }
         else {
           $scope.canAdd = true;
          // console.log("false");
 
           $scope.hasNew = true;
-          // console.log($scope.hasNew);
-          $scope.productBody.push($scope.productBodyNew);
-          $scope.productBodyNew = {};
-        }
+
+          //Dodeli redosled na noviot vnesen element
+          // gatewayService.request("/api/ProductBody/1/ProductBody_LastInserted?ProductTypeID="+$scope.Products.ProductTypeID+"&ProductID="+$scope.Products.ProductID, "GET").then(function (data, status, heders, config) {
+          //   console.log("result1" ,data.length);
+          //  // console.log("result" ,$scope.Products.ProductTypeID);
+          //  // console.log("result" ,$scope.Products.ProductID);
+          //   if(data.length==0)
+          //   {
+          //     $scope.lastInserted=1;
+          //   }
+          //   else {
+          //     $scope.lastInserted = data[0].FieldID+1;
+          //   }
+          //   $scope.productBodyNew.FieldID=$scope.lastInserted;
+          //   $scope.pushData();
+          //
+          //
+          // }, function (data, status, headers, config) {
+          //   console.log(status);
+          // });
+
+
+
+          //  console.log($scope.productBodyNew);
+            //  $scope.productBody.push($scope.productBodyNew);
+            $scope.pb={};
+            $scope.pb.Type="I";
+            $scope.pb.ProductTypeID=$scope.Products.ProductTypeID;
+            $scope.pb.ProductID=$scope.Products.ProductID;
+            if($scope.lastId==0)
+            {
+              $scope.pb.FieldID=$scope.lastId;
+            }
+            else {
+              $scope.pb.FieldID=$scope.lastId+1;
+            }
+            $scope.pb.FieldName=$scope.productBodyNew.FieldName;
+            $scope.pb.Mandatory=$scope.productBodyNew.Mandatory;
+            $scope.pb.FieldType=$scope.productBodyNew.FieldType;
+            $scope.pb.FieldLength=$scope.productBodyNew.FieldLength;
+            $scope.pb.ControlType="";
+            $scope.pb.Mask="";
+            $scope.pb.FillApi=$scope.productBodyNew.FillApi;
+            $scope.pb.DefaultValue=$scope.productBodyNew.DefaultValue;
+            $scope.pb.DataType=$scope.productBodyNew.DataType;
+            $scope.pb.FieldDescription=$scope.productBodyNew.FieldDescription;
+
+            console.log("data",$scope.pb)
+            gatewayService.request("/api/ProductBody/1/ProductBodyInsertUpdate1", "POST", $scope.pb).then(function (data, status, heders, config)
+            {
+              console.log("Uspeh");
+              $scope.lastId++;
+            }, function (data, status, headers, config) {
+              console.log(status);
+            });
+            $scope.productBody.push($scope.pb);
+            $scope.productBodyNew = {};
+
+          }
+
+
       }
+
       $scope.productBodyNew = {};
 
     }
@@ -97,18 +182,30 @@ angular.module('adminBankaFrontendApp')
         template: 'templateId',
         scope: $scope
       });
-    $scope.temp=index;
+       //$scope.temp=index+1;
+      console.log("i",index);
       //$scope.productBody.splice(index, 1);
 
     }
+
     $scope.tmpdel={};
+
+
     $scope.deleteRow = function(){
-      //console.log("i",$scope.temp)
+      console.log("temp",$scope.temp)
       $scope.tmpdel= $scope.productBody[$scope.temp];
-      $scope.deleted.push($scope.tmpdel);
-    //  console.log("del",$scope.deleted);
-      $scope.hasNew = true;
-      $scope.productBody.splice($scope.temp, 1);
+      console.log("tmpdel", $scope.tmpdel);
+      console.log("tmpdel", $scope.tmpdel.ProductBodyID);
+
+      // gatewayService.request("/api/ProductBody/1/ProductBodyDelete?ProductTypeID="+$scope.pb.ProductTypeID+"&ProductID="+$scope.pb.ProductID+"&FieldID="+  $scope.pb.FieldID, "GET").then(function (data, status, heders, config)
+      // {
+      //
+      // }, function (data, status, headers, config) {
+      //   console.log(status);
+      // });
+
+   //   $scope.productBody.splice($scope.temp, 1);
+      $scope.productBodyNew={};
 
     }
 
@@ -193,6 +290,9 @@ angular.module('adminBankaFrontendApp')
 
   ///////////////////////////////// Snimi Vid Rabota ////////////////////////////////
 
+
+    console.log("zz" ,$scope.Products.ProductTypeID)
+
     $scope.vidRabotaSave = function () {
 
       var item={}
@@ -213,17 +313,21 @@ angular.module('adminBankaFrontendApp')
       {
         item.ClosingDate=$filter('date')(   $scope.Products.ClosingDate, "yyyy-MM-dd");
       }
+     // console.log("Item",item);
       gatewayService.request("/api/Products/1/ProductsFetchByProductIDProductTypeID?ProductTypeID="+$scope.Products.ProductTypeID+"&ProductID="+$scope.Products.ProductID, "GET").then(function (data, status, heders, config)
       {
 
 
         if(data.length>0)
-        {
+        { //console.log("dat",data);
           $scope.productExist = false;
 
           gatewayService.request("/api/Products/1/ProductsUpdate", "POST",item).then(function (data, status, heders, config)
           {
-            $route.reload();
+           // $route.reload();
+            console.log("sel111",$scope.item.selected);
+            $scope.item.selected={ProductTypeID:item.ProductTypeID,ProductID: item.ProductID,Description:item.Description};
+            console.log("sel",$scope.item.selected);
             toastr.success('Записот е успешно уреден!', '');
           }, function (data, status, headers, config) {
             console.log(status);
@@ -235,6 +339,8 @@ angular.module('adminBankaFrontendApp')
         }
         else
         {
+          console.log("pro", $scope.Products);  console.log("ii", item)//return false;
+          //item.ProductTypeID =$scope.Products.ProductTypeID.ProductTypeID ;
 
           item.Type="I";
           gatewayService.request("/api/Products/1/ProductsInsert", "POST",item).then(function (data, status, heders, config)
@@ -242,6 +348,8 @@ angular.module('adminBankaFrontendApp')
            // console.log("Item",item);
            // console.log("data",data);
             $route.reload();
+
+            $scope.item.selected={ProductTypeID:item.ProductTypeID,ProductID: item.ProductID,Description:item.Description};
             toastr.success('Записот е успешно снимен!', '');
           }, function (data, status, headers, config) {
             console.log(status);
@@ -281,9 +389,13 @@ angular.module('adminBankaFrontendApp')
         $scope.hasNew=false;
         $scope.hasSelected=true;
         $scope.flag=true;
+        console.log("Product", products);
+
+      $scope.Products=products;
+        console.log("zz11", $scope.Products.ProductTypeID   )
 
 
-      $scope.Products.ProductTypeID=products.ProductTypeID;
+
       $scope.Products.ProductID=products.ProductID;
       $scope.Products.Decsription=products.Description;
       if(products.Status==0)
@@ -302,9 +414,14 @@ angular.module('adminBankaFrontendApp')
      gatewayService.request("/api/ProductBody/1/ProductBodyFetchByIdType?ProductTypeID="+products.ProductTypeID+"&ProductID="+products.ProductID, "GET").then(function (data, status, heders, config) {
 
        $scope.productBody = data;
-
+       $scope.lastId = 0;
        for (var i = 0; i<$scope.productBody.length; i++){
           $scope.productBody[i].isOld = true;
+
+          if($scope.productBody[i].FieldID > $scope.LastId){
+            $scope.lastId = $scope.productBody[i].FieldID;
+          }
+
        }
 
      //  console.log( $scope.productBody);
@@ -492,9 +609,35 @@ angular.module('adminBankaFrontendApp')
 /////////////////////////// tooltip ///////////////////////
 
     $scope.tooltip = {
+
       "title": "Вид на работа содржи 6 цифри!",
       "checked": false
     };
+
+    $scope.change=function (item) {
+      console.log("it",item)
+      $scope.Products.ProductTypeID=item.ProductTypeID;
+    }
+
+
+
+
+    $scope.selectedRow = null;  // initialize our variable to null
+
+    $scope.setClickedRow = function(index){  //function that sets the value of selectedRow to current index
+      $scope.selectedRow = ($scope.selectedRow == index) ? null : index;
+      console.log("this is selected item: ",index);
+      $scope.temp=index;
+    };
+
+    $scope.previewForEdit = function(item) {
+      console.log("this is the item: ", item);
+      $scope.productBodyNew = item;
+    }
+
+    $scope.disableFields=function (item) {
+      console.log(item)
+    }
 
 
   });
