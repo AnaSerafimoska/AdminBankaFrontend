@@ -24,13 +24,13 @@ angular.module('adminBankaFrontendApp')
     $scope.deleted=[];
     $scope.LastId = 0;
 
-    /////////////////////////////////   Modeli    ///////////////////////////////////////////
+    // Modeli
+
     $scope.Products={
       "Status": true,
       "ProductTypeID" :"",
       "ClosingDate":null
     }
-
 
     $scope.productBody =  [
 
@@ -39,7 +39,7 @@ angular.module('adminBankaFrontendApp')
     $scope.productBodyNew = {};
     $scope.item = {};
 
-    /////////////////////////   Change closing date ///////////////////
+    // Change closing date
     $scope.changeClosingDate=function () {
       if($scope.Products.Status==false)
       {
@@ -50,6 +50,7 @@ angular.module('adminBankaFrontendApp')
       }
     }
 
+    // Polni gi polinjata tip na pole i dolzina so podatoci od baza soodvetno
 
     $scope.polniTipDolzina=function (item) {
       console.log(item);
@@ -66,23 +67,21 @@ angular.module('adminBankaFrontendApp')
 
     }
 
+    // Dodadi nov ProductBody vo tabelata
 
-    ///////////////////////   Dodadi i brisi red vo tabelata /////////////////////////////////
     $scope.addRow = function(test){
-      console.log(test);
-      if ($scope.productBodyNew != undefined && $scope.productBodyNew.FieldName != undefined) {
+      //if ($scope.productBodyNew != undefined && $scope.productBodyNew.FieldName != undefined) {
         // console.log("zz", $scope.productBodyNew.FieldName != undefined);
-        var result = $scope.productBody.filter(function (obj) {
-          if (obj.FieldName == $scope.productBodyNew.FieldName) {
-            return 1;
-          } else {
-            return 0;
-          }
-        });
-
-      }
-
-      // if(result != undefined && result.length <= 0){
+      //   var result = $scope.productBody.filter(function (obj) {
+      //     if (obj.FieldName == $scope.productBodyNew.FieldName) {
+      //       return 1;
+      //     } else {
+      //       return 0;
+      //     }
+      //   });
+      //
+      // }
+        // if(result != undefined && result.length <= 0){
       if ($scope.productBodyNew != undefined){
 
 
@@ -109,62 +108,57 @@ angular.module('adminBankaFrontendApp')
          // console.log("false");
 
           $scope.hasNew = true;
-
-          //Dodeli redosled na noviot vnesen element
-          // gatewayService.request("/api/ProductBody/1/ProductBody_LastInserted?ProductTypeID="+$scope.Products.ProductTypeID+"&ProductID="+$scope.Products.ProductID, "GET").then(function (data, status, heders, config) {
-          //   console.log("result1" ,data.length);
-          //  // console.log("result" ,$scope.Products.ProductTypeID);
-          //  // console.log("result" ,$scope.Products.ProductID);
-          //   if(data.length==0)
-          //   {
-          //     $scope.lastInserted=1;
-          //   }
-          //   else {
-          //     $scope.lastInserted = data[0].FieldID+1;
-          //   }
-          //   $scope.productBodyNew.FieldID=$scope.lastInserted;
-          //   $scope.pushData();
-          //
-          //
-          // }, function (data, status, headers, config) {
-          //   console.log(status);
-          // });
-
-
-
-          //  console.log($scope.productBodyNew);
-            //  $scope.productBody.push($scope.productBodyNew);
-            $scope.pb={};
-            $scope.pb.Type="I";
-            $scope.pb.ProductTypeID=$scope.Products.ProductTypeID;
-            $scope.pb.ProductID=$scope.Products.ProductID;
-            if($scope.lastId==0)
+          var pb={};
+          pb.Type="I";
+          pb.ProductTypeID=$scope.Products.ProductTypeID;
+          pb.ProductID=$scope.Products.ProductID;
+          pb.FieldID=$scope.lastId;
+          pb.FieldName=$scope.productBodyNew.FieldName;
+          pb.Mandatory=$scope.productBodyNew.Mandatory;
+          pb.FieldType=$scope.productBodyNew.FieldType;
+          pb.FieldLength=$scope.productBodyNew.FieldLength;
+          pb.ControlType="";
+          pb.Mask="";
+          pb.FillApi=$scope.productBodyNew.FillApi;
+          pb.DefaultValue=$scope.productBodyNew.DefaultValue;
+          pb.DataType=$scope.productBodyNew.DataType;
+          pb.FieldDescription=$scope.productBodyNew.FieldDescription;
+          pb.ProductBodyID=$scope.productBodyNew.ProductBodyID;
+          gatewayService.request("/api/ProductBody/1/ProductBody_FetchByProductBodyID?ProductBodyID="+$scope.productBodyNew.ProductBodyID, "GET").then(function (data, status, heders, config)
+          {
+            console.log("pbid",$scope.productBodyNew.ProductBodyID);
+            if(data.length>0)
             {
-              $scope.pb.FieldID=$scope.lastId;
-            }
-            else {
-              $scope.pb.FieldID=$scope.lastId+1;
-            }
-            $scope.pb.FieldName=$scope.productBodyNew.FieldName;
-            $scope.pb.Mandatory=$scope.productBodyNew.Mandatory;
-            $scope.pb.FieldType=$scope.productBodyNew.FieldType;
-            $scope.pb.FieldLength=$scope.productBodyNew.FieldLength;
-            $scope.pb.ControlType="";
-            $scope.pb.Mask="";
-            $scope.pb.FillApi=$scope.productBodyNew.FillApi;
-            $scope.pb.DefaultValue=$scope.productBodyNew.DefaultValue;
-            $scope.pb.DataType=$scope.productBodyNew.DataType;
-            $scope.pb.FieldDescription=$scope.productBodyNew.FieldDescription;
+              console.log("pb",pb);
+              pb.Type="U";
+              gatewayService.request("/api/ProductBody/1/ProductBodyUpdate", "POST", pb).then(function (data, status, heders, config)
+              {
 
-            console.log("data",$scope.pb)
-            gatewayService.request("/api/ProductBody/1/ProductBodyInsertUpdate1", "POST", $scope.pb).then(function (data, status, heders, config)
-            {
-              console.log("Uspeh");
-              $scope.lastId++;
-            }, function (data, status, headers, config) {
-              console.log(status);
-            });
-            $scope.productBody.push($scope.pb);
+                console.log("Uspesno izmenet");
+              }, function (data, status, headers, config) {
+                console.log(status);
+              });
+            }
+            else{
+
+
+
+              gatewayService.request("/api/ProductBody/1/ProductBodyInsertUpdate1", "POST", pb).then(function (data, status, heders, config)
+              {
+                console.log("Uspeh");
+                $scope.lastId++;
+                console.log("lastID",  $scope.lastId)
+              }, function (data, status, headers, config) {
+                console.log(status);
+              });
+              $scope.productBody.push(pb);
+            }
+          }, function (data, status, headers, config) {
+            console.log(status);
+          });
+
+
+
             $scope.productBodyNew = {};
 
           }
@@ -183,7 +177,8 @@ angular.module('adminBankaFrontendApp')
         scope: $scope
       });
        //$scope.temp=index+1;
-      console.log("i",index);
+      //console.log("i",index);
+
       //$scope.productBody.splice(index, 1);
 
     }
@@ -192,19 +187,39 @@ angular.module('adminBankaFrontendApp')
 
 
     $scope.deleteRow = function(){
-      console.log("temp",$scope.temp)
+      //console.log("temp",$scope.temp)
       $scope.tmpdel= $scope.productBody[$scope.temp];
-      console.log("tmpdel", $scope.tmpdel);
-      console.log("tmpdel", $scope.tmpdel.ProductBodyID);
+     // console.log("tmpdel", $scope.tmpdel);
+     // console.log("tmpdel", $scope.tmpdel.ProductBodyID);
 
-      // gatewayService.request("/api/ProductBody/1/ProductBodyDelete?ProductTypeID="+$scope.pb.ProductTypeID+"&ProductID="+$scope.pb.ProductID+"&FieldID="+  $scope.pb.FieldID, "GET").then(function (data, status, heders, config)
-      // {
-      //
-      // }, function (data, status, headers, config) {
-      //   console.log(status);
-      // });
+      gatewayService.request("/api/ProductBody/1/ProductBodyDelete?ProductBodyID="+ $scope.tmpdel.ProductBodyID, "GET").then(function (data, status, heders, config)
+      {
+        console.log("pred",$scope.lastId);
+        $scope.lastId--;
+        console.log("pred",$scope.lastId);
+      }, function (data, status, headers, config) {
+        console.log(status);
+      });
 
-   //   $scope.productBody.splice($scope.temp, 1);
+      // Smeni go redosledot na site naredni
+      for(var i=$scope.temp;i<$scope.productBody.length-1;i++)
+      {
+        $scope.pbtemp={};
+        $scope.pbtemp=$scope.productBody[i+1];
+        $scope.pbtemp.FieldID=i;
+        console.log("item111",$scope.pbtemp);
+        gatewayService.request("/api/ProductBody/1/ProductBodyUpdate", "POST",$scope.pbtemp).then(function (data, status, heders, config)
+        {
+          console.log("success");
+          $scope.pbtemp={};
+
+        }, function (data, status, headers, config) {
+          console.log(status);
+        });
+
+      }
+      $scope.productBody.splice($scope.temp, 1);
+      $scope.selectedRow=null;
       $scope.productBodyNew={};
 
     }
@@ -283,6 +298,7 @@ angular.module('adminBankaFrontendApp')
     $scope.checkTip = function (){
       if($scope.Products.ProductTypeID == null || $scope.Products.ProductTypeID == ""){
         toastr.error($filter('translate')('errorTipRabota_p'));
+        toastr.error($filter('translate')('errorTipRabota_p'));
 
       }
     }
@@ -339,7 +355,7 @@ angular.module('adminBankaFrontendApp')
         }
         else
         {
-          console.log("pro", $scope.Products);  console.log("ii", item)//return false;
+         // console.log("pro", $scope.Products);  console.log("ii", item)//return false;
           //item.ProductTypeID =$scope.Products.ProductTypeID.ProductTypeID ;
 
           item.Type="I";
@@ -414,9 +430,11 @@ angular.module('adminBankaFrontendApp')
      gatewayService.request("/api/ProductBody/1/ProductBodyFetchByIdType?ProductTypeID="+products.ProductTypeID+"&ProductID="+products.ProductID, "GET").then(function (data, status, heders, config) {
 
        $scope.productBody = data;
+       $scope.productBodyNew={};
+       $scope.selectedRow=null;
        $scope.lastId = 0;
        for (var i = 0; i<$scope.productBody.length; i++){
-          $scope.productBody[i].isOld = true;
+         // $scope.productBody[i].isOld = true;
 
           if($scope.productBody[i].FieldID > $scope.LastId){
             $scope.lastId = $scope.productBody[i].FieldID;
@@ -606,13 +624,25 @@ angular.module('adminBankaFrontendApp')
     }
 
 
-/////////////////////////// tooltip ///////////////////////
+    // All tooltips
 
     $scope.tooltip = {
 
       "title": "Вид на работа содржи 6 цифри!",
       "checked": false
     };
+
+    // var tooltipSave = $tooltip(element, {title: 'Сними'});
+
+
+
+    $scope.tooltipDelete = {
+
+      "title": "Избриши",
+      "checked": false
+    };
+
+
 
     $scope.change=function (item) {
       console.log("it",item)
@@ -631,12 +661,111 @@ angular.module('adminBankaFrontendApp')
     };
 
     $scope.previewForEdit = function(item) {
-      console.log("this is the item: ", item);
-      $scope.productBodyNew = item;
+      console.log("selectedRow",$scope.selectedRow);
+      if($scope.selectedRow!=null) {
+        console.log("this is the item: ", item);
+        $scope.productBodyNew = item;
+        $scope.productBodyNew.ProductBodyID = item.ProductBodyID;
+        console.log(item.Mandatory);
+        if (item.Mandatory == "М") {
+          $scope.productBodyNew.Mandatory = true;
+          //  $scope.productBody[$scope.selectedRow]="M";
+          console.log("Mandatory");
+        }
+        else {
+          $scope.productBodyNew.Mandatory = false;
+          // $scope.productBody[$scope.selectedRow]="O";
+        }
+        if ($scope.productBodyNew.Mandatory == true) {
+          $scope.productBody[$scope.selectedRow].Mandatory = "M";
+        }
+        else {
+          $scope.productBody[$scope.selectedRow].Mandatory = "O";
+        }
+      }
+      else {
+        $scope.productBodyNew={};
+      }
+
+    }
+    $scope.enableAPI=false;
+    $scope.API="Изворна листа API";
+    $scope.disableFields=function (item) {
+      //console.log("selektiraniot",$scope.API);
+      if(!(item=="oButtonSuccess" || item=="oDropDown" ))
+      {
+        $scope.enableAPI=true;
+      }
+      else
+      {
+        $scope.enableAPI=false;
+      }
+
+      if(item=="oButtonSuccess")
+      {
+        $scope.API="Action API";
+      }
+      else {
+        $scope.API="Изворна листа API";
+      }
     }
 
-    $scope.disableFields=function (item) {
-      console.log(item)
+
+
+    $scope.up=function () {
+
+      if($scope.selectedRow!=null)
+      {
+        console.log($scope.selectedRow);
+        if($scope.productBody[$scope.selectedRow-1]!=null)
+        {
+          console.log("Ima nad nego");
+          gatewayService.request("/api/ProductBody/1/ProductBody_FieldIDChangePosition?Type=U&FieldID="+$scope.selectedRow+"&ProductTypeID="+$scope.productBody[$scope.selectedRow].ProductTypeID+"&ProductID="+$scope.productBody[$scope.selectedRow].ProductID+"&ProductBodyID="+$scope.productBody[$scope.selectedRow].ProductBodyID, "GET").then(function (data, status, heders, config) {
+            //  console.log("data" ,data);
+
+            console.log("success");
+            $scope.pom={};
+            $scope.pom= $scope.productBody[$scope.selectedRow-1];
+            $scope.productBody[$scope.selectedRow-1]= $scope.productBody[$scope.selectedRow];
+            $scope.productBody[$scope.selectedRow]= $scope.pom;
+            $scope.pom={};
+            $scope.selectedRow=$scope.selectedRow-1;
+
+
+          }, function (data, status, headers, config) {
+            console.log(status);
+          });
+
+        }
+      }
+    }
+
+    $scope.down=function () {
+
+      if($scope.selectedRow!=null)
+      {
+        console.log($scope.selectedRow);
+        if($scope.productBody[$scope.selectedRow+1]!=null)
+        {
+          console.log("Ima pod nego");
+          gatewayService.request("/api/ProductBody/1/ProductBody_FieldIDChangePosition?Type=D&FieldID="+$scope.selectedRow+"&ProductTypeID="+$scope.productBody[$scope.selectedRow].ProductTypeID+"&ProductID="+$scope.productBody[$scope.selectedRow].ProductID+"&ProductBodyID="+$scope.productBody[$scope.selectedRow].ProductBodyID, "GET").then(function (data, status, heders, config) {
+            //  console.log("data" ,data);
+
+            console.log("success");
+            $scope.pom={};
+            $scope.pom= $scope.productBody[$scope.selectedRow+1];
+            $scope.productBody[$scope.selectedRow+1]= $scope.productBody[$scope.selectedRow];
+            $scope.productBody[$scope.selectedRow]= $scope.pom;
+            $scope.pom={};
+            $scope.selectedRow=$scope.selectedRow+1;
+
+
+          }, function (data, status, headers, config) {
+            console.log(status);
+          });
+
+        }
+      }
     }
 
 

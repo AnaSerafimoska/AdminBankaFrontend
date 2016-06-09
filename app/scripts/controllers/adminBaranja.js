@@ -18,7 +18,7 @@ angular.module('adminBankaFrontendApp')
     $scope.KorisnikPrikazInfo={};
     $scope.korisnikSmetka = {};
     $scope.productsBodyNew =[];
-
+    $scope.valueA = 'AA';
 
     $scope.setTab = function(newTab){
       //console.log("set tab: ",newTab);
@@ -73,7 +73,7 @@ angular.module('adminBankaFrontendApp')
         console.log("this is the item: ",item);
         $scope.productbody=item;
         $scope.prikazNaFormaDinamichka = true;
-        
+
         /// PREVZEMANJE PODATOCI OD KOGA KJE SE KLIKNE NA SMETKA ///
         gatewayService.request("/api/Baranja/1/Fetch_By_VidAplikacija_From_Sifrarnik?VidAplikacija="+item["VidAplikacija"], "GET").then(function (data, status, heders, config) {
                 console.log("PODATOCI PREVZEMENI PO VID APPLIKACIJA:  ", data);
@@ -286,7 +286,7 @@ $scope.setSelected = function (idSelectedVote) {
         console.log("ZA PRIKAZ VO TABELA: ",data);
         $scope.TmpPodatoci = data;
         $scope.KorisnikPrikazInfo.ImePrezime = data.Table[0]['Име и презиме'];
-        
+
         console.log("Ime prezime: ", data.Table[0]['Име и презиме']);
 
         for(var i = 0 ; i < data.Table.length; i++){
@@ -340,5 +340,24 @@ $scope.setSelected = function (idSelectedVote) {
   $scope.prikazhi = function(){
     ngDialog.open({ template: '', className: 'ngdialog-theme-default' });
   }
+
+
+    $scope.products={};
+    $scope.showDir=false;
+    //Fetch na site vidovi rabota
+    $scope.productsFetch=function (selektiranTip) {
+      gatewayService.request("/api/Products/1/ProductsFetchByProductType?ProductTypeID="+selektiranTip, "GET").then(function (data, status, heders, config) {
+        $scope.products=data;
+        console.log("data",data);
+        $scope.showDir=true;
+        // for(var i=0;i<$scope.products.length;i++)
+        // {
+        //   $scope.productID=$scope.products[i].ProductID;
+        // //  console.log( $scope.productID);
+        // }
+      }, function (data, status, headers, config) {
+        console.log(status);
+      });
+    }
 
 });

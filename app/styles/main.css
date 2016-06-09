@@ -72,6 +72,9 @@ td .glyphicon  {
 td .fa{
   cursor: pointer;
 }
+.fa {
+  cursor: pointer;
+}
 
 .content-header>h1 {
   font-size: 19px;
@@ -86,6 +89,12 @@ td .fa{
 .sorting_asc:hover {
     background-color: green !important;
 }
-.table-hover > tbody > tr:hover {
-    background-color: green !important;
-  }
+/*.table-hover > tbody > tr:hover {*/
+    /*background-color: green !important;*/
+  /*}*/
+.table-hover > tbody > tr:hover > td, .table-hover > tbody > tr:hover > th{
+  background-color:transparent !important;
+}
+.select2-container, .select2-choice {
+  border-radius: 0px !important;
+}
