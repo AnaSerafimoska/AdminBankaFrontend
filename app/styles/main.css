@@ -61,7 +61,6 @@ h1, p, a {
 /* button recolor */
 .nav-pills > li.active > a, .btn-primary {
   background-color: #6C6C6C !important;
-  // feeling like it's a rounded corners kind of day
   border-color: #6C6C6C !important;
   border-radius: 25px;
 }
@@ -89,6 +88,10 @@ td .fa{
 .sorting_asc:hover {
     background-color: green !important;
 }
+.table-hover > tbody > tr:hover {
+    background-color: green !important;
+  }
+
 /*.table-hover > tbody > tr:hover {*/
     /*background-color: green !important;*/
   /*}*/
