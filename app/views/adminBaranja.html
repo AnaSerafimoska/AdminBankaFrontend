@@ -10,7 +10,7 @@
 		<h1 style="font-size: 19px; padding: 10px; padding: 0px;"> Внесување на барања </h1>
 	</section>
 
-	 <section class="content" > 
+	 <section class="content" >
 
     	 <div class=" box box-success  ">
     	 	<div class="box-header with-border">
@@ -35,7 +35,7 @@
 							<div class=" col-md-4">
 				        		<label class="col-md-5">Тип на продукт:</label>
 				        		<div class="col-md-7">
-				                    <select class="form-control ng-touched ng-invalid ng-valid ng-pristine ng-empty" ng-change="zemiSelektiranTipNaProdukt(selectiranTip)"  ng-model="selectiranTip" ng-disabled="">
+				                    <select class="form-control ng-touched ng-invalid ng-valid ng-pristine ng-empty" ng-change="zemiSelektiranTipNaProdukt(selectiranTip);productsFetch(selectiranTip)"  ng-model="selectiranTip" ng-disabled="">
 				                    	<option></option>
                     					<option ng-repeat="productType in productTypes" value="{{productType.ProductTypeID}}"   >{{productType.ProductTypeID}}-{{productType.Description}}</option>
 				                  	</select>
@@ -65,7 +65,7 @@
 
 		        		<div class="col-md-12 box-header with-border "></div>
 
-			        	<div class=" row col-md-12 box-header pull-right "> 
+			        	<div class=" row col-md-12 box-header pull-right ">
 			        		<!-- <button class="btn btn-default text-right pull-right btn-sm" style="color: white;background-color: #00a65a; float:right; width: 75px;" ng-click="" ng-disabled="">  Сними </button> -->
 			        		<button class="btn btn-default text-right pull-right btn-sm" style="color:white; background-color: #3c8dbc; float:right; margin-right: 15px;" ng-click="zemiPodatociPo_EMBG(korisnik.embg); setVisibility();zemiPodatoci_CORE(korisnik.embg)" ng-disabled="">  Прикажи </button>
 			        	</div>
@@ -112,11 +112,18 @@
 
 		        		</table>
 		        	</div>
-        			<div class=" row pull-right" ng-show="flagVisibilityTabs"> 
+        			<div class=" row pull-right" ng-show="flagVisibilityTabs">
 						<button class="btn btn-default text-right btn-sm box-header with-border" style="color:white; background-color: #337ab7;margin-right: 30px;margin-bottom: 20px; margin-top: -20px;" ng-click="prikazhi()" >  Додади сметка </button>
 					</div>
 
-					<!--********  DINAMICHKI DEL PRIKAZ NA FORMA PRI KLIK NA SMETKA **************************************************-->
+
+              <div ng-repeat="item in products">
+                <dir-Dinamyc-Form ng-show="showDir" value='item.ProductID' type="item.ProductTypeID" desc="item.Description"></dir-Dinamyc-Form>
+              </div>
+
+						<!--<dir-Dinamyc-Form value='valueA'></dir-Dinamyc-Form>-->
+
+									<!--********  DINAMICHKI DEL PRIKAZ NA FORMA PRI KLIK NA SMETKA **************************************************-->
 					<div class=" col-md-12 box-header with-border" style="background-color: rgba(238, 238, 238, 0.37);" ng-show="prikazNaFormaDinamichka">
 
 						<form novalidate name="form" >
@@ -229,7 +236,7 @@
 					     </form><!--**************   kraj na dinamichka forma ***********************-->
 					</div>
 
-					<div class=" row col-md-12 pull-right box-header "  ng-show="prikazNaFormaDinamichka"> 
+					<div class=" row col-md-12 pull-right box-header "  ng-show="prikazNaFormaDinamichka">
 						<button class="btn btn-success text-right btn-sm" style="float:right; margin-right: 15px;" ng-click="snimiBaranje()" ng-disabled="">  Сними барање </button>
 					</div>
 			</div>

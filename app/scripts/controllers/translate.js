@@ -17,7 +17,7 @@ angular.module('angularTranslateApp', ['pascalprecht.translate'])
       'lblTipPole_p': 'Тип на контрола',
       'lblDolzina_p': 'Должина',
       'lblVrednost_p': 'Основна вредност',
-      'lblZad_p': 'M/\\О',
+      'lblZad_p': 'M/О',
       'lblRedosled_p': 'Редослед',
       'headerVidoviRabota_p': 'Вид на работа',
       'headerSnimiZapis_p': 'Сними запис',

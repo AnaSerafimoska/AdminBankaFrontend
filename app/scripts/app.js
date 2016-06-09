@@ -68,6 +68,11 @@ angular
         templateUrl: 'views/adminBaranja.html',
 
       })
+      .when('/komitenti', {
+        templateUrl: 'views/vnesuvanjeKomitenti.html',
+        controller: 'KomitentiCtrl'
+
+      })
       .otherwise({
         redirectTo: '/main'
       });
@@ -82,5 +87,5 @@ angular
     })
 
 });
-  
+
 
