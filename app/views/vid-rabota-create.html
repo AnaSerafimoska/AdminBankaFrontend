@@ -153,12 +153,12 @@
             <table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
               <tr style="border:1px solid black">
                 <td>
-                  <i class="fa fa-arrow-circle-up" aria-hidden="true"></i><br/>
-                  <i class="fa fa-arrow-circle-down" aria-hidden="true"></i>
+                  <i class="fa fa-arrow-circle-up" ng-click="up()" aria-hidden="true"></i><br/>
+                  <i class="fa fa-arrow-circle-down" ng-click="down()" aria-hidden="true"></i>
                 </td>
-                <td><input type="text" ng-disabled="!hasSelected"  ng-model="productBodyNew.FieldDescription" class="form-control input-sm" id="txtLabela"   ></td>
+                <td style="vertical-align: middle"><input type="text" ng-disabled="!hasSelected"  ng-model="productBodyNew.FieldDescription" class="form-control input-sm" id="txtLabela"   ></td>
 
-                <td style="width: 200px;">
+                <td style="width: 200px;vertical-align: middle">
                   <ui-select style="width: 200px;" ng-model="productBodyNew.FieldName" on-select="polniTipDolzina($select.selected)" ng-disabled="!hasSelected" theme="select2" required >
                     <ui-select-match placeholder="Пребарај поле...">{{$select.selected}}</ui-select-match>
                     <ui-select-choices repeat="item in tableColumns | filter: $select.search"   >
@@ -170,19 +170,19 @@
 
                 <td style="text-align:center; vertical-align: middle;width: 50px;"><input ng-disabled="!hasSelected" type="checkbox"  id="chbMandatory" placeholder="Задолжително"  ng-model="productBodyNew.Mandatory"></td>
 
-                <td style="width: 80px"><input  type="text" ng-disabled="!hasSelected"  ng-model="productBodyNew.DataType" class="form-control input-sm" id="txtTipPodatok"   ></td>
+                <td style="width: 80px;vertical-align: middle"><input  type="text" ng-disabled="true"   ng-model="productBodyNew.DataType" class="form-control input-sm" id="txtTipPodatok"   ></td>
 
-                <td style="width: 80px"><input ng-disabled="!hasSelected" type="text" class="form-control input-sm"  id="txtDollzina"   min="0"  ng-model="productBodyNew.FieldLength" ></td>
+                <td style="width: 80px;vertical-align: middle"><input ng-disabled="true" type="text" class="form-control input-sm"  id="txtDollzina"   min="0"  ng-model="productBodyNew.FieldLength" ></td>
 
-                <td>
-                  <select ng-disabled="!hasSelected" on-select="disableFields($selected)" class="form-control input-sm" ng-model="productBodyNew.FieldType" required>
+                <td style="vertical-align: middle">
+                  <select ng-disabled="!hasSelected" ng-change="disableFields(productBodyNew.FieldType)" class="form-control input-sm" ng-model="productBodyNew.FieldType" required>
                    <option></option>
                    <option ng-repeat="fieldType in fieldTypes" ng-selected= "productBodyNew.FieldType==fieldType.Type" value="{{fieldType.Type}}">{{fieldType.Type}}</option>
                   </select >
                 </td>
 
-                <td>
-                  <ui-select  ng-model="productBodyNew.FillApi" ng-disabled="!hasSelected" theme="select2" >
+                <td style="vertical-align: middle; width: 160px">
+                  <ui-select style="width: 160px"  ng-model="productBodyNew.FillApi" ng-disabled="!hasSelected|| enableAPI" theme="select2" >
                     <ui-select-match placeholder=" {{'searchApi_p' | translate}}">{{$select.selected.ApiDescription}}</ui-select-match>
                     <ui-select-choices repeat="item in fieldApis | filter: $select.search"   >
                       <div ng-bind-html="item.ApiDescription  |  highlight: $select.search"></div>
@@ -191,14 +191,16 @@
                   </ui-select>
                 </td>
 
-                <td style="width: 140px;;"><input ng-disabled="!hasSelected" type="text" ng-model="productBodyNew.DefaultValue"  class="form-control input-sm" id="txtVrednost"   ></td>
+                <td style="width: 140px;vertical-align: middle"><input ng-disabled="!hasSelected" type="text" ng-model="productBodyNew.DefaultValue"  class="form-control input-sm" id="txtVrednost"   ></td>
 
 
 
 
-                <td>
-                  <span  class="fa fa-floppy-o" style="width: 16px;height: 14px ;text-align: center"  ng-disabled="canAdd" ng-click="addRow(productBodyNew)"></span><br/>
-                  <span  class="fa fa-trash" style="width: 16px;height: 14px; text-align: center"  ng-click="removeRow($index)"></span>
+                <td style="text-align: center;vertical-align: middle">
+                  <i  class="fa fa-floppy-o fa-lg"   ng-disabled="canAdd" ng-click="addRow(productBodyNew)" data-placement="bottom" data-type="success" data-container="body" data-trigger="focus" bs-tooltip="tooltipSave()" ></i>
+
+
+                  <i  class="fa fa-trash fa-lg"   ng-click="removeRow($index)" data-placement="bottom" data-type="success" data-container="body" data-trigger="focus" bs-tooltip="tooltipDelete" ></i>
                 </td>
 
               </tr>
@@ -209,7 +211,7 @@
               <tbody>
 
 
-              <tr role="row" style="font-size: 13px;">
+              <tr role="row" class="main-header" style="background-color: #00A65A;color: white; font-size: 13px">
                 <th></th>
                 <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" >{{'lblLabela_p' | translate}}</th>
                 <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" >{{'lblPoleTabela_p' | translate}}</th>
@@ -217,8 +219,9 @@
                 <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" >{{'lblTipPodatok_p' | translate}}</th>
                 <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" >{{'lblDolzina_p' | translate}}</th>
                 <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" >{{'lblTipPole_p' | translate}}</th>
-                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" >{{'lblIzvornaLista_p' | translate}}</th>
+                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" >{{API}}</th>
                 <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" >{{ 'lblVrednost_p' | translate}}</th>
+              <th></th>
               </tr>
 
 
@@ -235,6 +238,7 @@
                 <td>{{columnOption.FillApi}}</td>
                 <td>{{columnOption.DefaultValue}}</td>
                 <!--<td  ><span class="glyphicon glyphicon-minus" style="color: red" ng-click="removeRow($index)"></span></td>-->
+                <td></td>
               </tr>
               </tbody>
             </table>
@@ -262,8 +266,8 @@
       <i class="fa fa-question-circle fa-3x fa-pull-left fa-border"  aria-hidden="true"></i>
       <h4>Дали сте сигурни дека сакате да го избришете записот?</h4>
       <div class=" text-right">
-        <button style="width:40px; height:30px" class="btn btn-warning "  ng-click="closeThisDialog()">Не</button>
-        <button style="width:40px; height:30px" class="btn btn-success "  ng-click="deleteRow(); closeThisDialog()">Да</button>
+        <button style="width:40px; height:30px; text-align: center" class="btn btn-warning "  ng-click="closeThisDialog()">Не</button>
+        <button style="width:40px; height:30px; text-align: center" class="btn btn-success "  ng-click="deleteRow(); closeThisDialog()">Да</button>
 
 
       </div>

@@ -61,7 +61,6 @@ h1, p, a {
 /* button recolor */
 .nav-pills > li.active > a, .btn-primary {
   background-color: #6C6C6C !important;
-  // feeling like it's a rounded corners kind of day
   border-color: #6C6C6C !important;
   border-radius: 25px;
 }
@@ -70,6 +69,9 @@ td .glyphicon  {
 }
 
 td .fa{
+  cursor: pointer;
+}
+.fa {
   cursor: pointer;
 }
 
@@ -90,3 +92,12 @@ td .fa{
     background-color: green !important;
   }
 
+/*.table-hover > tbody > tr:hover {*/
+    /*background-color: green !important;*/
+  /*}*/
+.table-hover > tbody > tr:hover > td, .table-hover > tbody > tr:hover > th{
+  background-color:transparent !important;
+}
+.select2-container, .select2-choice {
+  border-radius: 0px !important;
+}

@@ -19,8 +19,13 @@ $scope.loading = true;
     $scope.KorisnikPrikazInfo={};
     $scope.korisnikSmetka = {};
     $scope.productsBodyNew =[];
+<<<<<<< HEAD
     $scope.Flag_Prikazhi = true;
     $scope.korisnik.FlagDisableSnimi = true;
+=======
+    $scope.valueA = 'AA';
+
+>>>>>>> refs/remotes/origin/master
     $scope.setTab = function(newTab){
       //console.log("set tab: ",newTab);
       $scope.tab = newTab;
@@ -74,7 +79,8 @@ $scope.loading = true;
         console.log("this is the item: ",item);
         $scope.productbody=item;
         $scope.prikazNaFormaDinamichka = true;
-        $scope.KorisnikPrikazInfo.Partija = item['Партија'];
+       // $scope.KorisnikPrikazInfo.Partija = item['Партија'];
+
         /// PREVZEMANJE PODATOCI OD KOGA KJE SE KLIKNE NA SMETKA ///
         gatewayService.request("/api/Baranja/1/Fetch_By_VidAplikacija_From_Sifrarnik?VidAplikacija="+item["VidAplikacija"], "GET").then(function (data, status, heders, config) {
                 console.log("PODATOCI PREVZEMENI PO VID APPLIKACIJA:  ", data);
@@ -256,15 +262,27 @@ $scope.setSelected = function (idSelectedVote) {
         gatewayService.request("/api/Baranja/1/EbankingKorisniciServisFetch?EdinstvenBroj="+$scope.korisnik.embg, "GET").then(function (data, status, heders, config) {
         console.log("ZA PRIKAZ VO TABELA: ",data);
         $scope.TmpPodatoci = data;
+
         $scope.temp = data;
         //$scope.KorisnikPrikazInfo.ImePrezime = data.Table[0]['Име и презиме'];
         // console.log("Ime prezime: ", data.Table[0]['Име и презиме']);
+
+        $scope.KorisnikPrikazInfo.ImePrezime = data.Table[0]['Име и презиме'];
+
+        console.log("Ime prezime: ", data.Table[0]['Име и презиме']);
+
+        for(var i = 0 ; i < data.Table.length; i++){
+
+          if(data.Table[i]['VidAplikacija'] ==  $scope.SifrarnikVidAplikacija.trim() ){
+              $scope.temp.push(data.Table[i]);
+              console.log("podatoci:  ",$scope.temp);
+          }
 
 
        // $scope.SmetkaVidAplikacija = data.Table[0]['VidAplikacija'];
       }, function (data, status, headers, config) {
         console.log(status);
-      });
+      };
 
 //////////// POVIK ZA PREVZEMANJE NA SHIFRARNIK PO PRODUCT_TYPE////////
         gatewayService.request("/api/Baranja/1/Fetch_ByProductType_From_Sifrarnik?productTypeID="+$scope.selektiranTip, "GET").then(function (data, status, heders, config) {
@@ -273,14 +291,6 @@ $scope.setSelected = function (idSelectedVote) {
           }, function (data, status, headers, config) {
           console.log(status);
         });
-
-          // console.log("za vid od selekcija tabela: ",$scope.SmetkaVidAplikacija );
-          // console.log("za vid promenliva od shifrarnik: ", $scope.SifrarnikVidAplikacija );
-        // for(var i = 0 ; i > data.length; i++){
-        //   console.log("vo for za tabela data "+i);
-        //    //console.log(data[i]);
-        // }
-
 
   };
 
@@ -348,5 +358,24 @@ $scope.setSelected = function (idSelectedVote) {
       toastr.error("Внесете единствен број.");
     }
   };
+
+
+    $scope.products={};
+    $scope.showDir=false;
+    //Fetch na site vidovi rabota
+    $scope.productsFetch=function (selektiranTip) {
+      gatewayService.request("/api/Products/1/ProductsFetchByProductType?ProductTypeID="+selektiranTip, "GET").then(function (data, status, heders, config) {
+        $scope.products=data;
+        console.log("data",data);
+        $scope.showDir=true;
+        // for(var i=0;i<$scope.products.length;i++)
+        // {
+        //   $scope.productID=$scope.products[i].ProductID;
+        // //  console.log( $scope.productID);
+        // }
+      }, function (data, status, headers, config) {
+        console.log(status);
+      });
+    }
 
 });
