@@ -18,6 +18,7 @@
     	 	</div>
 
 			<div class=" box-body" style="margin-left: -10px ">
+			<form novalidate class="css-form" name="form">
 						<div class="col-md-12 " style="margin-left: -20px; margin-top: 4px;" >
 							<div class="col-md-3 form-group ">
 					                  <label class="col-sm-4 control-label">Име и презиме:</label>
@@ -51,7 +52,7 @@
 					                  </div>
 							</div>
 						</div>
-					<form novalidate class="css-form" name="form">
+					
 						<div class=" row  box-header " style="margin-top: 37px;">
 	        				<div class="col-md-4 form-group">
 	        						<label class="col-md-5">Единствен број:</label>
@@ -60,12 +61,10 @@
 	        						</div>
 	        				</div>
 
-							<div class=" col-md-4">
-				        		<label class="col-md-5">Тип на продукт:</label>
-				        		<div class="col-md-7">
-
-
-				                    <select class="form-control ng-touched ng-invalid ng-valid ng-pristine ng-empty" ng-change="zemiSelektiranTipNaProdukt(selectiranTip);productsFetch(selectiranTip)"  ng-model="selectiranTip" ng-disabled="">
+							<div class=" col-md-8">
+				        		<label class="col-md-3">Тип на продукт:</label>
+				        		<div class="col-md-8">
+										<select class="form-control ng-touched ng-invalid ng-valid ng-pristine ng-empty" ng-change="zemiSelektiranTipNaProdukt(selectiranTip);productsFetch(selectiranTip)"  ng-model="selectiranTip" ng-disabled="">
 				                    	<option></option>
                     					<option ng-repeat="productType in productTypes" value="{{productType.ProductTypeID}}" >{{productType.ProductTypeID}}-{{productType.Description}}</option>
 				                  	</select>
@@ -129,7 +128,7 @@
 		        			</tr>
 		        				<!--  ************** REDOVI VO TABELA TUKA *********************************       -->
 		        			<tbody >
-		        				<tr ng-repeat=" y in temp" ng-class="{'selected':$index == selectedRow}"  ng-click="setClickedRow($index); previewForEdit(y);">
+		        				<tr ng-repeat=" y in temp" ng-class="{'selected':$index == selectedRow}"  ng-click="setClickedRow($index); previewForEdit(y);" ng-if="getDigit(y)"> <!-- ng-if="getPrviDve(y.ProductTypeId) == prvidve" -->
 		        					<td >{{y["ProductTypeID"]}} </td>
 		        					<td >{{y["ProductID"]}} </td>
 		        					<td >{{y["Partija"]}} </td>
@@ -145,15 +144,15 @@
 		        			</tbody>
 
 		        		</table>
-		        		<!-- <img id="mySpinner" src="/images/loading.gif" style="width: 100px;height: 100px; margin-top: -17px;margin-left: 41%;" ng-show="loading" /> -->
+		        		<img id="mySpinner"  src="/images/loading.gif" style="width: 100px;height: 100px; margin-top: -17px;margin-left: 41%;" ng-show="loading"/> 
 		        	</div>
         			<div class=" row pull-right" ng-show="flagVisibilityTabs">
 						<button class="btn btn-default text-right btn-sm box-header with-border" style="color:white; background-color: #337ab7;margin-right: 30px;margin-bottom: 20px; margin-top: -20px;" ng-click="prikazhi()" >  Додади сметка </button>
 					</div>
 
 
-		              <div ng-repeat="item in products">
-		                <dir-Dinamyc-Form ng-show="showDir" value='item.ProductID' type="item.ProductTypeID" desc="item.Description"></dir-Dinamyc-Form>
+		              <div ng-repeat="item in products" ng-show="flagVisibilityTabs">
+		                <dir-Dinamyc-Form  value='item.ProductID' type="item.ProductTypeID" desc="item.Description"></dir-Dinamyc-Form>
 		              </div>
 
 						

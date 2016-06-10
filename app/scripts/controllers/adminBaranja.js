@@ -65,10 +65,8 @@ $scope.loading = true;
 //     "Pregled_na_izveshtai_krediti":"",
 //     "Pregled_na_izveshtai_kartichki":""
 // }
-
-
-
 /////////END SNIMANJE BARANJA    /////////////////////
+
 
 //////////////////////////// TUKA SE ZEMAAT PODATOCITE ZA PRIKAZ VO TABOVITE  ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -76,49 +74,14 @@ $scope.loading = true;
         console.log("this is the item: ",item);
         $scope.productbody=item;
         $scope.prikazNaFormaDinamichka = true;
-       // $scope.KorisnikPrikazInfo.Partija = item['Партија'];
+        gatewayService.request("/api/Baranja/1/fetchPrivilegiiZaSmetka?EdinstvenBroj=" + item.EdinstvenBroj + "&Banka=" + item.Banka + "&OrgDel=" + item.OrgDel + "&ProductID=" + item.ProductID+ "&ProductTypeID=" + item.ProductTypeID + "&Partija="+item.Partija, "GET").then(function (data, status, heders, config) {
+        console.log("Vrateni po datoci so PRIVILEGII: " ,data);
+        console.log("red od Forma fo BARANJA.js",$rootScope.productbody)
 
-        /// PREVZEMANJE PODATOCI OD KOGA KJE SE KLIKNE NA SMETKA ///
-        gatewayService.request("/api/Baranja/1/Fetch_By_VidAplikacija_From_Sifrarnik?VidAplikacija="+item["VidAplikacija"], "GET").then(function (data, status, heders, config) {
-                console.log("PODATOCI PREVZEMENI PO VID APPLIKACIJA:  ", data);
-               $scope.korisnikSmetka.ProductTypeID = data.Table[0]['ProductTypeID'];
-              $scope.KorisnikPrikazInfo.ProductTypeID = data.Table[0]['ProductTypeID'];
-               /// PREVZEMANJE PODATOCI ZA PRIKAZ NA DINAMICHKA FORMA DOLU VO BARANJA ///
-               gatewayService.request("/api/Baranja/1/ProductBodyFetchByProductTypeID?productTypeID="+$scope.korisnikSmetka.ProductTypeID, "GET").then(function (data, status, heders, config) {
-                  console.log("PODATOCI PREVZEMENI PO PRODUCT BODY PO SELEKTIRANA SMETKA ZA DINAMICHKO KREIRANJE FORMA:  ", data);
-                  $scope.productsBodyNew = data;
-                  }, function (data, status, headers, config) {
-                   console.log(status);
-                  });
-              }, function (data, status, headers, config) {
-                   console.log(status);
-           });
-          /// END NA PREVZEMANJE PODATOCI OD KOGA KJE SE KLIKNE NA SMETKA ///
-
-        if( item["VidAplikacija"] == "DPP"){
-           //console.log("vlezeno vo DPP");
-        }
-
-        else if( item["VidAplikacija"] == "" || item["VidAplikacija"]=="PLP" ){
-            //console.log("vlezeno vo TRANSAKCISKI");
-            gatewayService.request("/api/ProductBody/1/ProductBodyFetchByIdType?ProductTypeID=00&ProductID=000003", "GET").then(function (data, status, heders, config) {
-                //console.log("uspeshno od baza povlecheni za select na red od tabela:  ", data);
-                $scope.tabsTSM = data;
-                $scope.productsBody = data;
-              }, function (data, status, headers, config) {
-                   console.log(status);
-           });
-        }
-
-        else if( item["VidAplikacija"] == "CM" || item["VidAplikacija"]=="CMS" ){
-            //console.log("kreditni kartichki");
-        }
-        else if(item["VidAplikacija"] == "KR"){
-            //console.log("kredit");
-        }
-        else{}
-
-    };
+        }, function (data, status, headers, config) {
+          console.log(status);
+        });
+};
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -136,6 +99,14 @@ $scope.loading = true;
 
     $scope.ProductTypes();
 
+    $scope.getDigit = function(prod){
+      if($scope.KorisnikPrikazInfo.ProductId.substring(3,5) == prod.ProductTypeID.substring(0,2))
+        {
+          return true;
+        }
+      else{return false;}
+
+    }
 
 
 //////////////////////////////// Fetch na Products //////////////////////////////////
@@ -255,44 +226,21 @@ $scope.setSelected = function (idSelectedVote) {
 
  ////////////////////////  TUKA SE POLNI TABELATA SO SMETKI   ///////////////////
   function polniTabela(){
+    $scope.loading = true;
     $scope.temp=[];
         gatewayService.request("/api/Baranja/1/EbankingKorisniciServisFetch?EdinstvenBroj="+$scope.korisnik.embg, "GET").then(function (data, status, heders, config) {
         console.log("ZA PRIKAZ VO TABELA: ",data);
+
         $scope.TmpPodatoci = data;
         $scope.temp = data;
-        //$scope.KorisnikPrikazInfo.ImePrezime = data.Table[0]['Име и презиме'];
-
-        //console.log("Ime prezime: ", data.Table[0]['Име и презиме']);
-
-        // for(var i = 0 ; i < data.Table.length; i++){
-
-        //   if(data.Table[i]['VidAplikacija'] ==  $scope.SifrarnikVidAplikacija.trim() ){
-        //       $scope.temp.push(data.Table[i]);
-        //       console.log("podatoci:  ",$scope.temp);
-        //   }
-
-        // }
+        $scope.loading = false;
 
        // $scope.SmetkaVidAplikacija = data.Table[0]['VidAplikacija'];
       }, function (data, status, headers, config) {
         console.log(status);
       });
 
-        /////// POVIK ZA PREVZEMANJE NA SHIFRARNIK PO PRODUCT_TYPE////////
-        gatewayService.request("/api/Baranja/1/Fetch_ByProductType_From_Sifrarnik?productTypeID="+$scope.selektiranTip, "GET").then(function (data, status, heders, config) {
-          console.log("PREVZEMENO OD SHIFRARNIK: ",data);
-          $scope.SifrarnikVidAplikacija = data[0]['VidAplikacija'];
-          }, function (data, status, headers, config) {
-          console.log(status);
-        });
-
-          // console.log("za vid od selekcija tabela: ",$scope.SmetkaVidAplikacija );
-          // console.log("za vid promenliva od shifrarnik: ", $scope.SifrarnikVidAplikacija );
-        // for(var i = 0 ; i > data.length; i++){
-        //   console.log("vo for za tabela data "+i);
-        //    //console.log(data[i]);
-        // }
-
+        
 
   };
 
@@ -345,6 +293,7 @@ $scope.setSelected = function (idSelectedVote) {
   $scope.zemiSelektiranTipNaProdukt = function(item){
       $scope.selektiranTip = item;
       $scope.KorisnikPrikazInfo.ProductId = item;
+
   };
 
   $scope.prikazhi = function(){

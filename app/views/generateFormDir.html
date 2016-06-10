@@ -5,6 +5,7 @@
       <!--<h5>{{desc}}</h5>-->
       <div class="box-body" >
         <div   ng-repeat="item in productbody track by item.FieldID ">
+        {{temp}}
           <!--************************************* Textbox ***************************************************-->
           <div class="row "    ng-if="item.FieldType=='oTextBox' ">
             <label class=" col-md-2 control-label " >{{item.FieldDescription}}</label>

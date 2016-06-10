@@ -19,8 +19,8 @@ angular.module('adminBankaFrontendApp')
         desc: '='
       },
       controller: function($scope, gatewayService, $filter, toastr,ngDialog,$route,$translate, utility, $q, $http,$rootScope) {
-        console.log('value',  $scope.value);
-        console.log('type',  $scope.type);
+        //console.log('value',  $scope.value);
+       // console.log('type',  $scope.type);
 
 
         var niza=[];
@@ -36,7 +36,7 @@ angular.module('adminBankaFrontendApp')
         $scope.productBodyFetch=function () {
           gatewayService.request("/api/ProductBody/1/ProductBodyFetchByIdType?ProductTypeID="+$scope.type+"&ProductID="+$scope.value, "GET").then(function (data, status, heders, config) {
             $scope.productbody=data;
-            console.log("pb",$scope.productbody)
+            console.log("red od forma",$scope.productbody)
 
           }, function (data, status, headers, config) {
             console.log(status);
