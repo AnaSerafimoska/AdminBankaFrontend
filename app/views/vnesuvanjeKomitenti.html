@@ -36,11 +36,12 @@
 
                 <div class="form-group col-md-3">
                   <label>Вид на комитент</label>
+                  {{Komitent.VidKomitent}}
                   <ui-select ng-blur="checkVidKomitent()" ng-model="Komitent.VidKomitent" class="pull-right" style="min-width: 260px; height: 30px"  theme="select2"  on-select="disableFields()" required>
-                    <ui-select-match > {{$select.selected.Vid}}</ui-select-match>
-                    <ui-select-choices repeat="item in vidKomitent | filter: $select.search">
+                    <ui-select-match > {{$select.selected.desc}}</ui-select-match>
+                    <ui-select-choices repeat="item.id as item in vidKomitent | filter: $select.search">
                       <small>
-                        <spam  ng-bind-html="item.Vid  | highlight: $select.search"></spam>
+                        <spam  ng-bind-html="item.desc  | highlight: $select.search"></spam>
                       </small>
                     </ui-select-choices>
                   </ui-select>
@@ -111,25 +112,26 @@
 
                 </div>
               <div class="row">
-
                 <div class="form-group col-md-3">
-                  <label>Општина</label>
-                  <input ng-blur="checkOpstina()" type="text"  class=" form-control ng-pristine  ng-invalid-required ng-touched input-sm"     ng-model="Komitent.Opstina"  required>
+                  <label>Држава</label>
+                  <input type="text" class=" form-control ng-pristine  ng-invalid-required ng-touched input-sm" ng-blur="placesFetch(Komitent.Drzava.Name)"  ng-model="Komitent.Drzava" bs-options=" state.Name  for state in states" bs-typeahead required>
                 </div><!-- /.form-group -->
-
 
 
                   <div class="form-group col-md-3">
                     <label>Место на живеење</label>
-                    <input ng-blur="checkMesto()" type="text"  class=" form-control ng-pristine  ng-invalid-required ng-touched input-sm"   ng-model="Komitent.Mesto"  required>
+                    <input type="text" class=" form-control ng-pristine  ng-invalid-required ng-touched input-sm" ng-blur="municipalityFetch(Komitent.Mesto.Place)"  ng-model="Komitent.Mesto"  bs-options="place.Place for place in places"  bs-typeahead required>
                   </div><!-- /.form-group -->
 
+                <div class="form-group col-md-3">
+                  <label>Општина</label>
+                  <input type="text" class=" form-control ng-pristine  ng-invalid-required ng-touched input-sm"ng-model="Komitent.Opstina"  bs-options="municipality for municipality in municipalities"  bs-typeahead>
+
+                  <!--<input ng-blur="checkOpstina()" type="text"  class=" form-control ng-pristine  ng-invalid-required ng-touched input-sm"     ng-model="Komitent.Opstina"  required>-->
+                </div><!-- /.form-group -->
 
 
-                  <div class="form-group col-md-3">
-                    <label>Држава</label>
-                    <input ng-blur="checkDrzava()" type="text"  class=" form-control ng-pristine  ng-invalid-required ng-touched input-sm"   ng-model="Komitent.Drzava"  required>
-                  </div><!-- /.form-group -->
+
 
                   <div class="form-group col-md-3">
                     <label>Поштенски код</label>
@@ -207,7 +209,7 @@
 
 
 
-              <div class="form-horizontal col-md-12">
+              <div class="form-horizontal col-md-12" style="padding-right: 0px">
                 <div class="box-footer  text-right"  >
 
                   <button ng-click="cancel()" class="btn btn-default btn-sm" ><i class="fa fa-fw fa-ban"></i>{{'btnOtkazi_p' | translate}}</button>
@@ -227,18 +229,18 @@
 
       <div class=" box box-success">
         <div class="box-header with-border">
-          <div class="col-md-4 pull-right " style="margin-right: 0px;padding-right: 0px">
+          <div class="col-md-4 pull-right " style="margin-right: -30px;">
 
-            <div class="input-group ">
-              <div class="input-group-btn">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{valueForSearch}}<span class="caret"></span></button>
+            <div class="input-group">
+              <div class="input-group-btn" style="width: 128px">
+                <button type="button " style="width: 128px" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{valueForSearch}}<span class="caret"></span></button>
                 <ul class="dropdown-menu">
                   <li><a ng-click="changeValue(0)">Единствен број</a></li>
                   <li><a  ng-click="changeValue(1)">Име или презиме</a></li>
                 </ul>
               </div><!-- /btn-group -->
               <div class="input-group " >
-                <input type="text" placeholder="Пребарај..." ng-model="SearchValue" class="form-control" aria-label="...">
+                <input type="text" class="input-sm" placeholder="Пребарај..." ng-model="SearchValue" class="form-control" aria-label="...">
                 <div class="input-group-addon " id="date" >
                   <i class="fa fa-search" ng-click="searchRecord(SearchValue)"></i>
                 </div>
@@ -268,10 +270,10 @@
                   <th class="col-md-3">Презиме</th>
                 </thead>
                 <tr  dir-paginate=" item in Komitenti  | itemsPerPage:5 " ng-class="{'selected':$index == selectedRow}"  ng-click="setClickedRow($index); previewForEdit(item);">
-                  <td style="padding-left: 10px !important"> {{item.VidKomitent}}</td>
-                  <td> {{item.EdinstvenBroj}}</span> </td>
-                  <td> {{item.ImeNaziv}}</span> </td>
-                  <td> {{item.Prezime}}</span> </td>
+                  <td style="padding-left: 10px !important" ng-model="KomitentNew.VidKomitent"> {{item.VidKomitent}}</td>
+                  <td  ng-model="KomitentNew.EdinstvenBroj"> {{item.EdinstvenBroj}}</span> </td>
+                  <td  ng-model="KomitentNew.ImeNaziv"> {{item.ImeNaziv}}</span> </td>
+                  <td  ng-model="KomitentNew.Prezime"> {{item.Prezime}}</span> </td>
 
                 </tr>
 
