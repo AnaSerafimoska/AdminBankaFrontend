@@ -1,4 +1,24 @@
 
+<script type="text/ng-template" id="templateId" ng-controller="adminBaranjaCtrl">
+     
+		<div>
+			<form name="formSmetka"> 
+        		<label>Сметка:</label>
+	        	<div>
+		        	<input  type="text" class=" input-sm ng-valid ng-invalid form-control" required ng-change="setirajFlagPotpisnik()" ng-model="novPotpisnikPartija" mask-restrict="reject" mask="999999999999999" ng-blur="setFlagToPrikazhi()" ></input>
+		        	{{novPotpisnikPartija}}
+		        </div>
+
+		        <div>
+		        	<button style="margin-top: 10px;margin-left: 264px;" ng-model="btn2" class="btn btn-warning"  ng-click="closeThisDialog()" >Откажи </button>
+		        	<button style="margin-top: 10px;" class="btn btn-success" ng-model="btn1" ng-click="dodadiSmetka(novPotpisnikPartija)"  ng-disabled="potpisnikFlag || formSmetka.$invalid" >Додади</button>
+	        		
+		        </div>
+			</form>
+      </div>
+
+  </script>
+
 <section class="wrapper" ng-controller="adminBaranjaCtrl">
 
   <ng-include src="'views/header.html'"></ng-include>
@@ -18,6 +38,7 @@
     	 	</div>
 
 			<div class=" box-body" style="margin-left: -10px ">
+			<form novalidate class="css-form" name="form">
 						<div class="col-md-12 " style="margin-left: -20px; margin-top: 4px;" >
 							<div class="col-md-3 form-group ">
 					                  <label class="col-sm-4 control-label">Име и презиме:</label>
@@ -31,7 +52,7 @@
 					                  <label class="col-sm-6 control-label">Лична карта:</label>
 
 					                  <div class="col-sm-6">
-					                    <input type="text" class="input-sm form-control" ng-model="KorisnikPrikazInfo.BrLicnaKarta" style =" margin-left: -25px;border: 1px solid rgba(128, 128, 128, 0.22); background-color: #f4f4f4;" ng-disabled="flag" ></input>
+					                    <input type="text" class="input-sm form-control" ng-model="korisnik.BrLicnaKarta" style =" margin-left: -25px;border: 1px solid rgba(128, 128, 128, 0.22); background-color: #f4f4f4;" ng-disabled="flag" ></input>
 					                  </div>
 							</div>
 
@@ -51,21 +72,19 @@
 					                  </div>
 							</div>
 						</div>
-					<form novalidate class="css-form" name="form">
+					
 						<div class=" row  box-header " style="margin-top: 37px;">
 	        				<div class="col-md-4 form-group">
 	        						<label class="col-md-5">Единствен број:</label>
 	        						<div class="col-md-7">
-	        							<input  type="text" class=" input-sm ng-valid ng-invalid form-control" mask="9999999999999" required ng-model="korisnik.embg" ng-blur="setFlagToPrikazhi()" ></input>
+	        							<input  type="text" class=" input-sm ng-valid ng-invalid form-control" mask="9999999999999" mask-restrict="reject" required ng-model="korisnik.embg" ng-blur="setFlagToPrikazhi()" ></input>
 	        						</div>
 	        				</div>
 
-							<div class=" col-md-4">
-				        		<label class="col-md-5">Тип на продукт:</label>
-				        		<div class="col-md-7">
-
-
-				                    <select class="form-control ng-touched ng-invalid ng-valid ng-pristine ng-empty" ng-change="zemiSelektiranTipNaProdukt(selectiranTip);productsFetch(selectiranTip)"  ng-model="selectiranTip" ng-disabled="">
+							<div class=" col-md-8">
+				        		<label class="col-md-3">Тип на продукт:</label>
+				        		<div class="col-md-8">
+										<select class="form-control ng-touched ng-invalid ng-valid ng-pristine ng-empty" ng-change="zemiSelektiranTipNaProdukt(selectiranTip);productsFetch(selectiranTip)"  ng-model="selectiranTip" ng-disabled="">
 				                    	<option></option>
                     					<option ng-repeat="productType in productTypes" value="{{productType.ProductTypeID}}" >{{productType.ProductTypeID}}-{{productType.Description}}</option>
 				                  	</select>
@@ -129,34 +148,27 @@
 		        			</tr>
 		        				<!--  ************** REDOVI VO TABELA TUKA *********************************       -->
 		        			<tbody >
-		        				<tr ng-repeat=" y in temp" ng-class="{'selected':$index == selectedRow}"  ng-click="setClickedRow($index); previewForEdit(y);">
+		        				<tr ng-repeat=" y in temp" ng-class="{'selected':$index == selectedRow}"  ng-click="setClickedRow($index); previewForEdit(y)" ng-if="getDigit(y)"> <!-- ng-if="getPrviDve(y.ProductTypeId) == prvidve" -->
 		        					<td >{{y["ProductTypeID"]}} </td>
 		        					<td >{{y["ProductID"]}} </td>
 		        					<td >{{y["Partija"]}} </td>
 		        					<td >{{y["NazivPartija"]}} </td>
-		        					<!-- <td >{{y["Функција"]}} </td> -->
-		        					<!-- <td >{{y["ШифраСервис"]}} </td> -->
-		        					<!-- <td >{{y["SifraPrivilegija"]}} </td> -->
-		        					<!-- <td >{{y["VidAplikacija"]}} </td> -->
-		        					<!-- <td >{{y["Меил"]}} </td> -->
-		        					<!-- <td >{{y["TelefonskiBroj"]}} </td> -->
 		        				</tr>
 
 		        			</tbody>
 
 		        		</table>
-		        		<!-- <img id="mySpinner" src="/images/loading.gif" style="width: 100px;height: 100px; margin-top: -17px;margin-left: 41%;" ng-show="loading" /> -->
+		        		<img id="mySpinner"  src="/images/loading.gif" style="width: 100px;height: 100px; margin-top: -17px;margin-left: 41%;" ng-show="loading"/> 
 		        	</div>
         			<div class=" row pull-right" ng-show="flagVisibilityTabs">
-						<button class="btn btn-default text-right btn-sm box-header with-border" style="color:white; background-color: #337ab7;margin-right: 30px;margin-bottom: 20px; margin-top: -20px;" ng-click="prikazhi()" >  Додади сметка </button>
+						<button class="btn btn-default text-right btn-sm box-header with-border" style="color:white; background-color: #337ab7;margin-right: 30px;margin-bottom: 20px; margin-top: -20px;" ng-click="popUp()" >  Додади сметка </button>
 					</div>
 
-
-		              <div ng-repeat="item in products">
-		                <dir-Dinamyc-Form ng-show="showDir" value='item.ProductID' type="item.ProductTypeID" desc="item.Description"></dir-Dinamyc-Form>
-		              </div>
-
-						
+					<div ng-repeat="item in products" ng-show="flagVisibilityTabs" style="margin-left:18px">
+					    <dir-Dinamyc-Form ng-show="showDir" ng-model="finalno" value='item.ProductID' type="item.ProductTypeID" desc="item.Description"></dir-Dinamyc-Form>
+					    <br/>
+					</div>
+			       			
 
 					<div class=" row col-md-12 pull-right box-header "  ng-show="prikazNaFormaDinamichka">
 						<button class="btn btn-success text-right btn-sm" style="float:right; margin-right: 15px;" ng-click="snimiBaranje()" ng-disabled="">  Сними барање </button>
@@ -165,20 +177,4 @@
 		</div>
 	</section>
 
-<script type="text/ng-template" id="templateId">
-     
-      <div>
-        <label>Сметка:</label>
-	        <div>
-	        	<input  type="text" class=" input-sm ng-valid ng-invalid form-control" required ng-model="korisnik.embg" ng-blur="setFlagToPrikazhi()" ></input>
-	        </div>
 
-	        <div>
-	        	<button style="margin-top: 10px;margin-left: 264px;" class="btn btn-warning"  ng-click="closeThisDialog()" >Откажи</button>
-	        	<button style="margin-top: 10px;" class="btn btn-success" >Додади</button>
-        		
-	        </div>
-        
-      </div>
-
-  </script>
