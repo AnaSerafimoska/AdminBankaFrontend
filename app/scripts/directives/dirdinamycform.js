@@ -15,6 +15,7 @@ angular.module('adminBankaFrontendApp')
      // template: '<div><label class="control-label">Value{{value}}</label>',
       scope: {
         value: '=',
+        obj: '=ngModel',
         type: '=',
         desc: '='
       },
@@ -28,21 +29,37 @@ angular.module('adminBankaFrontendApp')
         var output;
 
         $scope.temp={};
+        //  for (var a = 0; a < $scope.productbody.length; ++a) {
+        //       if($scope.productbody[a].FieldType == "o0700101000004") {
+        //         $scope.productbody[a].DefaultValue = $scope.productbody[a].data;
+        //           }}
         $scope.pom=[];
         $scope.pom=[];
 
         //console.log("ovde vo kontroler: ",$scope.prodID);
 
+
         $scope.productBodyFetch=function () {
           gatewayService.request("/api/ProductBody/1/ProductBodyFetchByIdType?ProductTypeID="+$scope.type+"&ProductID="+$scope.value, "GET").then(function (data, status, heders, config) {
             $scope.productbody=data;
-            console.log("red od forma",$scope.productbody)
+            console.log("red od forma",$scope.productbody);
+
+            // for(var i=0;i<$scope.productbody.length;i++)
+            // {
+            //   $scope.productbody[i].Privilegija=true;
+
+            // }
+            console.log("pb",$scope.productbody)
 
           }, function (data, status, headers, config) {
             console.log(status);
           });
         }
+
+
+        
         $scope.productBodyFetch();
+        $route.temp=$scope.temp;
 
 
         $scope.fillDropdown = function (){
@@ -74,11 +91,7 @@ angular.module('adminBankaFrontendApp')
         }
 
           //   $scope.fillDropdown();
-
-
-
-
-        $scope.submit=function (api) {
+          $scope.submit=function (api) {
 
           angular.forEach($scope.pom, function( key) {
 

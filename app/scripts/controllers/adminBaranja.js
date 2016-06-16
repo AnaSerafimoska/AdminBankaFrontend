@@ -1,8 +1,9 @@
 angular.module('adminBankaFrontendApp')
-  .controller('adminBaranjaCtrl', function($scope, gatewayService, $filter, toastr, $route, $rootScope, ngDialog) {
-$scope.loading = true;
+  .controller('adminBaranjaCtrl', function($scope, gatewayService, $filter, toastr, $route, $rootScope, ngDialog, $parse) {
 
-   	$scope.ListtoShow = [];
+
+    $scope.loading = true;
+    $scope.ListtoShow = [];
    	$scope.ListtoSave = [];
   	$scope.ProductToShow = {
   		'ProductBody_ID':'',
@@ -22,6 +23,10 @@ $scope.loading = true;
     $scope.Flag_Prikazhi = true;
     $scope.korisnik.FlagDisableSnimi = true;
     $scope.valueA = 'AA';
+    $scope.FormaBody={};
+    $scope.novPotpisnik = {};
+    $scope.potpisnikFlag=false;
+    $scope.korisnik.Privilegii = [];
 
     $scope.setTab = function(newTab){
       //console.log("set tab: ",newTab);
@@ -33,6 +38,43 @@ $scope.loading = true;
       return $scope.tab === tabNum;
     };
 
+  $scope.dodadiSmetka = function(smetka){
+     
+      gatewayService.request("/api/Baranja/1/ProveriDaliPostoiSmetka?Partija="+smetka, "GET").then(function (data, status, heders, config) {
+               if(data.Table.length != 0){
+                    toastr.success('Сметката е успешно додадена.');
+                   // console.log("************************");
+                   // console.log("Dali postoi takva smetka: ",data);
+                    $scope.novPotpisnik = data.Table[0];
+                    $scope.potpisnikFlag = false;
+                    $scope.temp.push($scope.novPotpisnik);
+                   // console.log("potpisnikFlag:",$scope.potpisnikFlag);
+                   // console.log("Nov Potpisnik:",$scope.novPotpisnik);
+                   // console.log("************************");
+               }
+               else{
+                    toastr.error('Сметката не постои.');
+                    $scope.potpisnikFlag = true;
+               }
+          }, function (data, status, headers, config) {
+            console.log(status);
+          });
+  }
+
+
+  $scope.setirajFlagPotpisnik = function(){
+      $scope.potpisnikFlag = false;
+  }
+
+ $scope.productBodyFetch = function () {
+          gatewayService.request("/api/ProductBody/1/ProductBodyFetchByIdType?ProductTypeID="+$scope.type+"&ProductID="+$scope.value, "GET").then(function (data, status, heders, config) {
+            $scope.FormaBody=data;
+            console.log("Forma body:",$scope.FormaBody);
+
+          }, function (data, status, headers, config) {
+            console.log(status);
+          });
+        }
 
 /////////////////////////// ***************** SNIMANJE NA BARANJA ******************/////////////////////////////////////////////
 // {
@@ -71,12 +113,39 @@ $scope.loading = true;
 //////////////////////////// TUKA SE ZEMAAT PODATOCITE ZA PRIKAZ VO TABOVITE  ///////////////////////////////////////////////////////////////////////////////////////
 
     $scope.previewForEdit = function(item){
-        console.log("this is the item: ",item);
+        
         $scope.productbody=item;
         $scope.prikazNaFormaDinamichka = true;
-        gatewayService.request("/api/Baranja/1/fetchPrivilegiiZaSmetka?EdinstvenBroj=" + item.EdinstvenBroj + "&Banka=" + item.Banka + "&OrgDel=" + item.OrgDel + "&ProductID=" + item.ProductID+ "&ProductTypeID=" + item.ProductTypeID + "&Partija="+item.Partija, "GET").then(function (data, status, heders, config) {
+        console.log("THIS IS SELECTED ITEM: ",item);
+        console.log("THIS IS SELECTED ITEM: ",$scope.KorisnikPrikazInfo.ProductTypeId);
+        console.log("THIS IS SELECTED ITEM so substring: ",$scope.KorisnikPrikazInfo.ProductTypeId.substring(3,5));
+        gatewayService.request("/api/Baranja/1/EbankingKorisniciServis_FetchPrivilegii?EdinstvenBroj=" + item.EdinstvenBroj  + "&ProductTypeID=" +  $scope.KorisnikPrikazInfo.ProductTypeId.substring(3,5) + "&Partija=" + item.Partija, "GET").then(function (data, status, heders, config) {
         console.log("Vrateni po datoci so PRIVILEGII: " ,data);
-        console.log("red od Forma fo BARANJA.js",$rootScope.productbody)
+        $scope.KorisnikPrikazInfo.Partija = item.Partija;
+
+        if(data.length != 0){
+          $scope.korisnik.BrBaranje = data[0]["BrojBaranje"];
+        }
+        else{
+          $scope.korisnik.BrBaranje = "";
+        }
+
+        $scope.finalno = {};
+
+        for(var i = 0 ; i < data.length; i++){
+          
+          if(data[i]["EdinstvenBroj"] == item.EdinstvenBroj && data[i]["Partija"] == item.Partija){
+              var pomoshna="";
+              pomoshna = "o"+data[i]["ProductId"];
+              $scope.korisnik.Privilegii[i] = pomoshna;
+              console.log("TUKA SE POLNI SUBSTRING:", $scope.korisnik.Privilegii[i]);
+              $scope.finalno[pomoshna] = {
+              Privilegii : true
+            }
+
+          }
+
+        }
 
         }, function (data, status, headers, config) {
           console.log(status);
@@ -100,7 +169,7 @@ $scope.loading = true;
     $scope.ProductTypes();
 
     $scope.getDigit = function(prod){
-      if($scope.KorisnikPrikazInfo.ProductId.substring(3,5) == prod.ProductTypeID.substring(0,2))
+      if($scope.KorisnikPrikazInfo.ProductTypeId.substring(3,5) == prod.ProductTypeID.substring(0,2))
         {
           return true;
         }
@@ -125,6 +194,7 @@ $scope.loading = true;
     $scope.GetProducts();
     $scope.setVisibility = function(){
       $scope.flagVisibilityTabs = true;
+      console.log("povikano flag visibility.");
     };
 
   
@@ -134,8 +204,9 @@ $scope.loading = true;
   };
   //$scope.prodID - DEFINIRANA VO DIREKTIVATA dirSearchTipVid.js zaradi zemanje na selectirana vrednost i upotreba vo procedura za vlechenje podatoci od baza
   $scope.flag = true;
+
   $scope.fetchFromBody = function(){
- 	$scope.flag = false;
+ 	  $scope.flag = false;
   }
 
 
@@ -175,7 +246,6 @@ $scope.loading = true;
 ////////////////////////  TUKA ZA SELECT OD TABELATA   ///////////////////
 $scope.idSelectedVote = null;
 $scope.setSelected = function (idSelectedVote) {
-  console.log("this is selected item: ",idSelectedVote);
    $scope.idSelectedVote = idSelectedVote;
 };
 
@@ -183,7 +253,7 @@ $scope.setSelected = function (idSelectedVote) {
     $scope.selectedRow = null;  // initialize our variable to null
     $scope.setClickedRow = function(index){  //function that sets the value of selectedRow to current index
       $scope.selectedRow = ($scope.selectedRow == index) ? null : index;
-      console.log("this is selected item: ",index);
+     // console.log("this is selected item: ",index);
     };
 
 
@@ -195,11 +265,10 @@ $scope.setSelected = function (idSelectedVote) {
         console.log("tuka: ",data);
         $scope.korisnik.korisnichkoIme = data.Table[0].KorisnickoIme;
         $scope.korisnik.BrBaranje = data.Table[0].BrBaranje;
-        $scope.KorisnikPrikazInfo.BrojBaranje = data.Table[0].BrBaranje;
         
-        $scope.KorisnikPrikazInfo.EMBG = $scope.korisnik.embg;
+        $scope.KorisnikPrikazInfo.EdinstvenBroj = $scope.korisnik.embg;
         $scope.KorisnikPrikazInfo.DatumBaranje="2016-05-31";
-        
+
         //console.log("broj na baranje: ",$scope.korisnik.BrBaranje);
         $scope.korisnik.datum = $filter('date')(new Date(),"yyyy-MM-dd");
         $scope.KorisnikPrikazInfo.DatumInsert = $scope.korisnik.datum;
@@ -216,26 +285,43 @@ $scope.setSelected = function (idSelectedVote) {
       gatewayService.request("/api/Baranja/1/FetchPersonalInfo_CORE?EdinstvenBroj="+embg, "GET").then(function (data, status, heders, config) {
          console.log("LICHNI PODATOCI: ",data);
          $scope.KorisnikPrikazInfo.TelefonskiBroj = data.Table[0]['Mobilen'];
-         $scope.KorisnikPrikazInfo.BrLicnaKarta = data.Table[0]['BrLicnaKarta'];
+         $scope.korisnik.BrLicnaKarta = data.Table[0]['BrLicnaKarta'];
          $scope.KorisnikPrikazInfo.Adresa = data.Table[0]['Adresa'];
       }, function (data, status, headers, config) {
         console.log(status);
       });
   };
 
+////////////////////////  NG DIALOG   ///////////////////
+  $scope.popUp = function() {
+        ngDialog.open({
+            template: 'templateId',
+            scope: $scope
+        });
+  }
 
  ////////////////////////  TUKA SE POLNI TABELATA SO SMETKI   ///////////////////
   function polniTabela(){
     $scope.loading = true;
     $scope.temp=[];
+    $scope.dodadenaSmetka={};
+    $scope.tmp={};
+    $scope.tmp=$route.temp;
+    $scope.tmp
+    console.log("tmp",$scope.tmp);
         gatewayService.request("/api/Baranja/1/EbankingKorisniciServisFetch?EdinstvenBroj="+$scope.korisnik.embg, "GET").then(function (data, status, heders, config) {
         console.log("ZA PRIKAZ VO TABELA: ",data);
+
+        var the_string = 'o010005.TelefonskiBroj';
+
+        // Get the model
+        var model = $parse(the_string);
+        model.assign($scope, "156156");
 
         $scope.TmpPodatoci = data;
         $scope.temp = data;
         $scope.loading = false;
 
-       // $scope.SmetkaVidAplikacija = data.Table[0]['VidAplikacija'];
       }, function (data, status, headers, config) {
         console.log(status);
       });
@@ -249,42 +335,49 @@ $scope.setSelected = function (idSelectedVote) {
         $scope.KorisnikPrikazInfo.KorisnickoIme = $scope.korisnik.korisnichkoIme;
 
         if($scope.korisnik.korisnichkoIme == "" || $scope.korisnik.korisnichkoIme == null){
-          console.log("korisnicko ime e prazno");
-          toastr.warning("Внесете корисничко име.");
+                toastr.warning("Внесете корисничко име.");
         }
 
-        $scope.KorisnikPrikazInfo.ReferentInsert="1";
-        $scope.KorisnikPrikazInfo.OrgDel = "4444";
-        $scope.KorisnikPrikazInfo.Status_S ="";
-        $scope.KorisnikPrikazInfo.Email = "";
-        $scope.KorisnikPrikazInfo.SeriskiBrojSertifikat="";
-        $scope.KorisnikPrikazInfo.Sertifikat = "";
-        $scope.KorisnikPrikazInfo.Zabeleshka="";
-        $scope.KorisnikPrikazInfo.Limit = "";
-        $scope.KorisnikPrikazInfo.StatusBaranje = "";
-        $scope.KorisnikPrikazInfo.Email_Adresa="";
-        $scope.KorisnikPrikazInfo.Pregled_izveshtai="";
-        $scope.KorisnikPrikazInfo.Pregled_nalozi = "";
-        $scope.KorisnikPrikazInfo.Vnesuvanje_nalozi = "";
-        $scope.KorisnikPrikazInfo.Prakjanje_nalozi = "";
-        $scope.KorisnikPrikazInfo.Potpishuvanje_nalozi = "";
-        $scope.KorisnikPrikazInfo.Pregled_na_izveshtai_depoziti = "";
-        $scope.KorisnikPrikazInfo.Pregled_na_izveshtai_krediti = "";
-        $scope.KorisnikPrikazInfo.Pregled_na_izveshtai_kartichki = "";
 
-        gatewayService.request("/api/Baranja/1/ProductTypeBaranja_Insert", "POST", $scope.KorisnikPrikazInfo).then(function (data, status, heders, config) {
-          //$route.reload();
-          toastr.success("Успешно внесено барање.");
-        }, function (data, status, headers, config) {
-             console.log(status);
-             toastr.error("Погрешен внес.");
+        else{
 
-        });
+                console.log("PRED DA SNIMI BARANJE: ",$scope.finalno);
+                $scope.KorisnikPrikazInfo.BrBaranje = $scope.korisnik.BrBaranje; 
+                $scope.KorisnikPrikazInfo.ReferentInsert="22"; /// statichki referent broj, treba da se smeni da zema od logiran referent
+                $scope.KorisnikPrikazInfo.KorisnickoIme = $scope.korisnik.korisnichkoIme;
+                $scope.KorisnikPrikazInfo.OrgDel = "00001"; /// fiksen org del treba da se smeni da zema od logiran referent
+                $scope.KorisnikPrikazInfo.Status_S ="N";
+                $scope.KorisnikPrikazInfo.Email = "";
+                $scope.KorisnikPrikazInfo.SeriskiBrojSertifikat=""; /// treba da se vnesuva ili postoechki da se zema od ePartii
+                $scope.KorisnikPrikazInfo.Sertifikat = "";
+                $scope.KorisnikPrikazInfo.SertifikatOTP = "";
+                $scope.KorisnikPrikazInfo.Zabeleshka="";
+                $scope.KorisnikPrikazInfo.Limit = "";
+                $scope.KorisnikPrikazInfo.StatusBaranje = "";
+                $scope.KorisnikPrikazInfo.Email_Adresa="";
+                $scope.KorisnikPrikazInfo.Privilegii="";
+                $scope.KorisnikPrikazInfo.ProductId="000001";
 
+                for(var i = 0; i < 3; i++){
+                    //console.log("substring od productID:", $scope.finalno[$scope.korisnik.Privilegii[i]]);
+                    console.log("substring od productID:", $scope.korisnik.Privilegii[i]);
+                    gatewayService.request("/api/Baranja/1/ProductTypeBaranja_Insert", "POST", $scope.KorisnikPrikazInfo).then(function (data, status, heders, config) {
+                
+                     
+                    }, function (data, status, headers, config) {
+                         console.log(status);
+                         toastr.error("Погрешен внес.");
+
+                    });
+
+                }
+                 toastr.success("Успешно внесено барање.");
+        }////end else
+        
+        
+       
       console.log("baranje za korisnik:",$scope.KorisnikPrikazInfo);
   }
-
-
 
   $scope.test = function () {
   	   console.log($scope.user.items);
@@ -292,7 +385,7 @@ $scope.setSelected = function (idSelectedVote) {
 
   $scope.zemiSelektiranTipNaProdukt = function(item){
       $scope.selektiranTip = item;
-      $scope.KorisnikPrikazInfo.ProductId = item;
+      $scope.KorisnikPrikazInfo.ProductTypeId = item;
 
   };
 
@@ -310,6 +403,8 @@ $scope.setSelected = function (idSelectedVote) {
   };
 
 
+
+
     $scope.products={};
     $scope.showDir=false;
     //Fetch na site vidovi rabota
@@ -318,11 +413,6 @@ $scope.setSelected = function (idSelectedVote) {
         $scope.products=data;
         console.log("data",data);
         $scope.showDir=true;
-        // for(var i=0;i<$scope.products.length;i++)
-        // {
-        //   $scope.productID=$scope.products[i].ProductID;
-        // //  console.log( $scope.productID);
-        // }
       }, function (data, status, headers, config) {
         console.log(status);
       });

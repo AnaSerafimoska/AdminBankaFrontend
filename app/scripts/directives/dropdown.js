@@ -18,5 +18,6 @@ angular.module('adminBankaFrontendApp')
         elem.attr('ng-model', name);
         $compile(elem)(scope);
       }
+      
     };
   }]);
