@@ -6,9 +6,9 @@
 
           <!--************************************* Textbox ***************************************************-->
           <div class="row "    ng-if="item.FieldType=='oTextBox' ">
-            <label class=" col-md-2 control-label " >{{item.FieldDescription}}</label>
+            <label class=" col-md-2 control-label " >{{item.FieldDescription}}</label>{{item.FieldName}}
             <div class="col-md-2 ">
-              <input class="form-control ng-touched ng-invalid ng-valid input-sm "  ng-required="{{item.Mandatory=='М'}}" dynamic-model="'obj.'+'o'+item.ProductID+'.'+item.FieldName" type="{{item.FieldType}}" maxlength="{{item.FieldLength}}" value="{{item.DefaultValue}}" />
+              <input ng-disabled="isdisabled"  class="form-control ng-touched ng-invalid-required  input-sm "  ng-required="{{item.Mandatory=='М'}}" dynamic-model="'obj.'+'o'+item.ProductID+'.'+item.FieldName" type="{{item.FieldType}}" maxlength="{{item.FieldLength}}" value="{{item.DefaultValue}}" />
             </div>
           </div>
 
@@ -17,14 +17,14 @@
 
             <label class=" col-md-2 control-label ">{{item.FieldDescription}}</label>
             <div class="col-md-2 ">
-              <input class="form-control ng-touched ng-invalid ng-valid " ng-required="{{item.Mandatory=='М'}}" dynamic-model="'obj.'+'o'+item.ProductID+'.'+item.FieldName"  type="{{item.FieldType}}" min="0" maxlength="{{item.FieldLength}}" value="{{item.DefaultValue}}" />
+              <input class="form-control ng-touched ng-invalid-required ng-valid " ng-required="{{item.Mandatory=='М'}}" dynamic-model="'obj.'+'o'+item.ProductID+'.'+item.FieldName"  type="{{item.FieldType}}" min="0" maxlength="{{item.FieldLength}}" value="{{item.DefaultValue}}" />
             </div>
           </div>
           <!--*********************************** Input-Number *****************************************-->
           <div class="row "  ng-if="item.FieldType=='Input-Number' ">
             <label class=" col-md-2 control-label ">{{item.FieldDescription}}</label>
             <div class="col-md-2 ">
-              <input class="form-control ng-touched ng-invalid ng-valid" ng-required="{{item.Mandatory=='М'}}" dynamic-model="'obj.'+'o'+item.ProductID+'.'+item.FieldName"  type="text" mask="9"  restrict="reject"  repeat="{{item.FieldLength}}"   />
+              <input class="form-control ng-touched ng-invalid-required ng-valid" ng-required="{{item.Mandatory=='М'}}" dynamic-model="'obj.'+'o'+item.ProductID+'.'+item.FieldName"  type="text" mask="9"  restrict="reject"  repeat="{{item.FieldLength}}"   />
             </div>
           </div>
 
@@ -47,7 +47,7 @@
 
             <label class=" col-md-2 control-label ">{{item.FieldDescription}}</label>
             <div class="col-md-2 ">
-              <textarea class="form-control ng-touched ng-invalid ng-valid" ng-required="{{item.Mandatory=='М'}}" dynamic-model="'obj.o'+item.ProductID+'.'+item.FieldName" rows="3"   ></textarea>
+              <textarea class="form-control ng-touched ng-invalid-required ng-valid" ng-required="{{item.Mandatory=='М'}}" dynamic-model="'obj.o'+item.ProductID+'.'+item.FieldName" rows="3"   ></textarea>
             </div>
           </div>
 
@@ -57,10 +57,11 @@
 
             <label class=" col-md-2 control-label ">{{item.FieldDescription}}</label>
             <div class="col-md-1 ">
-              <input  dynamic-model="'obj.'+'o'+item.ProductID+'.'+item.FieldName"   type="checkbox"  >
+              <input ng-disabled="checkIsDisabled(this, disableall)" dynamic-model="'obj.'+'o'+item.ProductID+'.'+item.FieldName"  ng-init="getStatus(this)"  type="checkbox"  >
             </div>
 
           </div>
+
 
           <!-- Dropdown -->
           <div class="row "  ng-if="item.FieldType=='oDropDown' ">

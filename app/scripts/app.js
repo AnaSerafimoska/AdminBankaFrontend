@@ -68,13 +68,22 @@ angular
         templateUrl: 'views/adminBaranja.html',
 
       })
+      .when('/odobruvanjeBaranja', {
+        templateUrl: 'views/odobruvanjeBaranje.html',
+        controller: 'odobruvanjeBaranjaCtrl'
+
+      })
       .when('/komitenti', {
         templateUrl: 'views/vnesuvanjeKomitenti.html',
         controller: 'KomitentiCtrl'
 
       })
+      .when('/partii', {
+        templateUrl: 'views/partii.html',
+        controller: 'partiiCtrl'
+      })
       .otherwise({
-        redirectTo: '/main'
+        redirectTo: '/login'
       });
   })
 

@@ -8,20 +8,28 @@
  * Controller of the eBankingAdminApp
  */
 angular.module('adminBankaFrontendApp')
-  .controller('MainCtrl', function ($scope, gatewayService, authService) {
+  .controller('MainCtrl', function ($scope,  gatewayService,localStorageService, $location, authService, $filter, toastr,ngDialog,$route,$translate) {
 
 
 
-    $scope.getTest = function () {
-      gatewayService.request("/api/Portal/1/AllAccounts?embg=0101959415065&jazik=mk-MK", "GET").then(function (data, status, heders, config) {
-        console.log("data" ,data);
+    if(localStorage.getItem("loginData")){
 
-      }, function (data, status, headers, config) {
-        console.log(status);
-      });
+      var authData = JSON.parse(localStorage.getItem("loginData"));
+      console.log(authData);
+    }
+
+    if(authData)
+    {
 
     }
-    $scope.getTest();
+    else
+    {
+      $location.path('/login');
+      localStorage.clear();
+    }
+
+
+
 
 
 
