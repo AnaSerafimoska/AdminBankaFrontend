@@ -2,11 +2,11 @@
 <html>
   <head>
   <style>
-.selected {
-    background-color:#337ab7;
-    color:white;
-}
-</style>
+  .selected {
+      background-color:#337ab7;
+      color:white;
+  }
+  </style>
     <meta charset="utf-8">
     <title></title>
     <meta name="description" content="">
@@ -22,11 +22,11 @@
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
     <!-- FontAwesome 4.3.0 -->
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-    <!-- Ionicons 2.0.0 -->
+    <!--<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />-->
     <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css" />
 
     <link href="styles/AdminLTE.min.css" rel="stylesheet"  />
+    <link href="styles/css/font-awesome.css" rel="stylesheet"  />
     <link href="styles/skins/_all-skins.min.css" rel="stylesheet"  />
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.css">
@@ -36,7 +36,7 @@
     <!-- endbuild -->
   </head>
 
-  <body class="skin-green login-page" ng-app="adminBankaFrontendApp">
+  <body class="skin-black login-page" ng-app="adminBankaFrontendApp">
 
 
   <div ng-view="" ng-controller="IndexCtrl"> </div>
@@ -85,6 +85,8 @@
   <script src="scripts/controllers/adminBaranja.js"></script>
   <script src="scripts/controllers/generateForm.js"></script>
   <script src="scripts/controllers/vnesuvanjeKomitenti.js"></script>
+  <script src="scripts/controllers/odobruvanjeBaranje.js"></script>
+  <script src="scripts/controllers/partii.js"></script>
 
   <script src="scripts/services/gateway.js"></script>
   <script src="scripts/services/authentication.js"></script>
@@ -93,6 +95,7 @@
   <script src="scripts/directives/dirSearchTipVid.js"></script>
   <script src="scripts/directives/dropdown.js"></script>
   <script src="scripts/directives/dirdinamycform.js"></script>
+  <script src="scripts/directives/searchkomitent.js"></script>
   <!-- endbuild -->
 
 

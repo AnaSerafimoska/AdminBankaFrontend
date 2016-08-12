@@ -17,10 +17,16 @@ angular.module('adminBankaFrontendApp')
 
 
     $scope.vidKomitent = [
-      {'Vid': 'Домашно физичко'},
-      {'Vid': 'Домашно правно'},
-      {'Vid': 'Странско физичко'},
-      {'Vid': 'Странско правно'}
+      {
+        'desc': 'Домашно физичко',
+        'id': 'ДФ'
+      },
+      {'desc': 'Домашно правно',
+        'id': 'ДП'},
+      {'desc': 'Странско физичко',
+        'id': 'СФ'},
+      {'desc': 'Странско правно',
+        'id': 'СП'}
     ];
 
     $scope.vidPol = [
@@ -34,6 +40,8 @@ angular.module('adminBankaFrontendApp')
       "DatumRaganje":null,
       "Pol":null
     };
+
+    $scope.KomitentNew={};
 
 
     $scope.checkVidKomitent = function () {
@@ -121,16 +129,16 @@ angular.module('adminBankaFrontendApp')
       item.ImeNaziv=$scope.Komitent.ImeNaziv;
       item.Prezime=$scope.Komitent.Prezime;
       item.Roditel=$scope.Komitent.Roditel;
-      item.DatumRaganje=$scope.Komitent.DatumRaganje;
+      item.DatumRaganje=$filter('date')( $scope.Komitent.DatumRaganje, "yyyy-MM-dd");
       item.MestoRaganje=$scope.Komitent.MestoRaganje;
       item.MaticenBrojFirma=$scope.Komitent.MaticenBrojFirma;
       item.BrLicnaKarta=$scope.Komitent.BrLicnaKarta;
       item.BrojPasos=$scope.Komitent.BrojPasos;
       item.Adresa=$scope.Komitent.Adresa;
       item.PostenskiBroj=$scope.Komitent.PostenskiBroj;
-      item.Mesto=$scope.Komitent.Mesto;
+      item.Mesto=$scope.Komitent.Mesto.Place;
       item.Opstina=$scope.Komitent.Opstina;
-      item.Drzava=$scope.Komitent.Drzava;
+      item.Drzava=$scope.Komitent.Drzava.Name;
       item.Telefon=$scope.Komitent.Telefon;
       item.Mobilen=$scope.Komitent.Mobilen;
       item.Email=$scope.Komitent.Email;
@@ -150,7 +158,7 @@ angular.module('adminBankaFrontendApp')
 
           item.Type="U";
           console.log("itemU",item);
-          gatewayService.request("/api/Komitent/1/KomitentInsertUpdate", "POST", item).then(function (data, status, heders, config) {
+          gatewayService.request("/api/Komitent/1/KomitentUpdate", "POST", item).then(function (data, status, heders, config) {
 
             toastr.success('Записот е успешно изменет');
             $route.reload();
@@ -208,9 +216,61 @@ angular.module('adminBankaFrontendApp')
       console.log("flag", $scope.flag)
       console.log("val", $scope.valueForSearch)
       gatewayService.request("/api/Komitent/1/KomitentSearch?Type="+$scope.flag+"&Value="+ val, "GET").then(function (data, status, heders, config) {
-        console.log(data)
+    //    console.log(data)
+        if(data.length<1)
+        {
+          toastr.warning("Не постојат податоци.");
+        }
         $scope.Komitenti=data;
 
+      }, function (data, status, headers, config) {
+        console.log(status);
+
+      });
+
+    }
+
+
+    $scope.states={};
+    $scope.statesFetch=function () {
+
+      gatewayService.request("/api/Komitent/1/StatesFetch", "GET").then(function (data, status, heders, config) {
+        $scope.states=data;
+        console.log("states",$scope.states)
+
+      }, function (data, status, headers, config) {
+        console.log(status);
+      });
+
+    }
+    $scope.statesFetch();
+
+    $scope.places={};
+    $scope.placesFetch=function (statename) {
+      console.log(statename)
+
+      gatewayService.request("/api/Komitent/1/PlacesFetch?StateName="+statename, "GET").then(function (data, status, heders, config) {
+        console.log(data);
+        $scope.places=data;
+
+      }, function (data, status, headers, config) {
+        console.log(status);
+      });
+
+    }
+    $scope.municipalities={};
+    $scope.municipalityFetch=function (place) {
+      for(var i=0;i<$scope.places.length;i++)
+      {
+        if($scope.places[i].Place==place)
+        {
+          $scope.Komitent.PostenskiBroj=$scope.places[i].PostalCode;
+        }
+      }
+      gatewayService.request("/api/Komitent/1/MunicipalityFetch?PlaceName="+place, "GET").then(function (data, status, heders, config) {
+       // console.log(data);
+        $scope.municipalities=data;
+        console.log("mun",data);
       }, function (data, status, headers, config) {
         console.log(status);
       });
@@ -218,11 +278,12 @@ angular.module('adminBankaFrontendApp')
     }
 
 
+
     $scope.isActive=false;
     $scope.ImeNaziv="Име";
 
     $scope.disableFields=function () {
-      if($scope.Komitent.VidKomitent.Vid=="Домашно правно" || $scope.Komitent.VidKomitent.Vid=="Странско правно")
+      if($scope.Komitent.VidKomitent=="ДП" || $scope.Komitent.VidKomitent=="СП")
       {
         $scope.isActive=true;
         $scope.ImeNaziv="Назив";
@@ -249,28 +310,31 @@ angular.module('adminBankaFrontendApp')
         //console.log("this is the item: ", item);
         $scope.Komitent = item;
 
-        $scope.Komitent.VidKomitent={Vid:item.VidKomitent};
-        if(item.VidKomitent=="ДП")
-        {
-          $scope.Komitent.VidKomitent={Vid:'Домашно правно'};
-          item.VidKomitent=='Домашно правно';
+      //  $scope.KomitentNew.VidKomitent=item.VidKomitent.Vid;
 
-        }
-        else if(item.VidKomitent=="ДФ")
-        {
-          $scope.Komitent.VidKomitent={Vid:"Домашно физичко"};
-        }
-        else if(item.VidKomitent=="СП")
-        {
-          $scope.Komitent.VidKomitent={Vid:"Странско правно"};
-
-        }
-        else {
-          $scope.Komitent.VidKomitent={Vid:"Странско Физичко"};
-          item.VidKomitent=='Странско Физичко';
-
-        }
+        // $scope.Komitent.VidKomitent={Vid:item.VidKomitent};
+        // if(item.VidKomitent=="ДП")
+        // {
+        //   $scope.Komitent.VidKomitent={Vid:'Домашно правно'};
+        //   item.VidKomitent=='Домашно правно';
+        //
+        // }
+        // else if(item.VidKomitent=="ДФ")
+        // {
+        //   $scope.Komitent.VidKomitent={Vid:"Домашно физичко"};
+        // }
+        // else if(item.VidKomitent=="СП")
+        // {
+        //   $scope.Komitent.VidKomitent={Vid:"Странско правно"};
+        //
+        // }
+        // else {
+        //   $scope.Komitent.VidKomitent={Vid:"Странско Физичко"};
+        //   item.VidKomitent=='Странско Физичко';
+        //
+        // }
       //  $scope.Komitenti[$scope.selectedRow].VidKomitent= $scope.Komitent.VidKomitent.Vid;
+        $scope.KomitentNew.VidKomitent=item.VidKomitent.Vid;
         if(item.Pol=="М")
         {
           $scope.Komitent.Pol={Pol:'М'};

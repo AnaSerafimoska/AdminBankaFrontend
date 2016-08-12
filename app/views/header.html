@@ -1,21 +1,22 @@
-<header class="main-header" ng-controller="HeaderCtrl">
+<span ng-controller="HeaderCtrl">
+<header class="main-header">
   <!-- Logo -->
-  <a href="#/" class="logo">
+  <a href="#/" class="logo" >
     <!-- mini logo for sidebar mini 50x50 pixels -->
     <!-- <span class="logo-mini"><b>Г</b>МК</span> -->
     <!-- logo for regular state and mobile devices -->
-    <span class="logo-lg" data-fittext data-fittext-max="17"><i class="fa fa-university" aria-hidden="true" style="padding-right: 3px;"></i>STBBT</span>
+    <span class="logo-lg" data-fittext data-fittext-max="17"><img src="images/logo_new.png" style=" width: 100%; margin: 0px; padding: 0px;"/></span>
   </a>
   <!-- Header Navbar: style can be found in header.less -->
-  <nav class="navbar navbar-static-top" role="navigation">
+  <nav class="navbar navbar-static-top"  role="navigation">
 
     <div><image class="img-circle" style=" width: 18px;float: right;height: 18px;" src="images/macedonian.png" ng-click="changeLang('mk')"></image></div>
     <div><image class="img-circle" style="margin-right: 5px;width: 18px;float: right;height: 18px;" src="images/english.png" ng-click="changeLang('en')"></image></div>
 
     <!-- Sidebar toggle button-->
-    <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+    <a href="#" class="sidebar-toggle" style="color: black"  data-toggle="offcanvas"  role="button">
       <span class="sr-only">Toggle navigation</span>
-      <span class="icon-bar"></span>
+      <span class="icon-bar" ></span>
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
     </a>
@@ -31,16 +32,16 @@
         <li class="dropdown user user-menu">
           <a href="" class="dropdown-toggle" data-toggle="dropdown">
             <img src="images/User_Circle.png" class="user-image" alt="User Image"/>
-            <span class="hidden-xs">aleksandar kostainovski</span>
+            <span class="hidden-xs" style="color: #222d32;">{{loggedUser.Ime}} {{loggedUser.Prezime}}</span>
           </a>
-          <ul class="dropdown-menu" style="background-color: #00a65a;">
+          <ul class="dropdown-menu">
             <!-- User image -->
 
             <li class="user-header">
               <img src="images/User_Circle.png" class="img-circle" alt="User Image"/>
               <p>
-                aleksandar kostainovski - super admin
-                <small>bt direkcija</small>
+                {{loggedUser.Ime}} {{loggedUser.Prezime}} - {{loggedUser.Pozicija}}
+                <small>{{loggedUser.Naziv}}</small>
               </p>
            </li>
             <li class="user-footer">
@@ -69,27 +70,29 @@
     <div class="user-panel">
 
       <div class="pull-left image">
-        <img src="images/User_Circle.png" class="img-circle" alt="User Image">
+        <img src="images/User_Circle.png" class="img-circle-sm" alt="User Image">
       </div>
       <div class="pull-left info">
-        <p>Alexander Pierce</p>
+        <p style="font-size: 11px">{{loggedUser.Ime}} {{loggedUser.Prezime}}</p>
         <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
       </div>
     </div>
-    <!-- search form -->
-    <form action="#" method="get" class="sidebar-form">
-      <div class="input-group">
-        <input type="text" name="q" class="form-control" placeholder="Search...">
-              <span class="input-group-btn">
-                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                </button>
-              </span>
-      </div>
-    </form>
+    <!--&lt;!&ndash; search form &ndash;&gt;-->
+    <!--<form action="#" method="get" class="sidebar-form">-->
+      <!--<div class="input-group">-->
+        <!--<input type="text" name="q" class="form-control" placeholder="Search...">-->
+              <!--<span class="input-group-btn">-->
+                <!--<button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>-->
+                <!--</button>-->
+              <!--</span>-->
+      <!--</div>-->
+    <!--</form>-->
+
     <!-- /.search form -->
     <!-- sidebar menu: : style can be found in sidebar.less -->
+    <div style="height: 3px"></div>
     <ul class="sidebar-menu">
-      <li class="header">MAIN NAVIGATION</li>
+      <li class="header"></li>
       <li class="treeview">
         <a href="/#/tip-rabota/create">
           <i class="fa fa-dashboard"></i> <span>{{'lblHeaderTip_pt' | translate}} </span> </i>
@@ -109,23 +112,35 @@
 
         </ul> -->
       </li>
-      <li class="treeview">
-        <a href="/#/form">
-          <i class="fa fa-dashboard"></i> <span>Креирај форма </span> </i>
-        </a>
+      <!--<li class="treeview">-->
+        <!--<a href="/#/form">-->
+          <!--<i class="fa fa-dashboard"></i> <span>Креирај форма </span> </i>-->
+        <!--</a>-->
 
+      <!--</li>-->
+      <li class="treeview">
+        <a href="#/komitenti">
+          <i class="fa fa-users" aria-hidden="true"></i> <span> Комитенти </span>
+        </a>
+      </li>
+      <li class="treeview">
+        <a href="#/partii">
+          <i class="fa fa-credit-card" aria-hidden="true"></i><span> Партии </span>
+        </a>
       </li>
 
        <li class="treeview">
         <a href="#/adminBaranja">
-          <i class="fa fa-dashboard"></i> <span> Внесување на барања </span>
+          <i class="fa fa-file-text-o" aria-hidden="true"></i> <span> Внесување на барања </span>
         </a>
       </li>
+
       <li class="treeview">
-        <a href="#/komitenti">
-          <i class="fa fa-dashboard"></i> <span> Внесување на комитенти </span>
+        <a href="#/odobruvanjeBaranja">
+          <i class="fa fa-file-text-o" aria-hidden="true"></i><span> Одобрување на барања </span>
         </a>
       </li>
+
       <!--<li class="treeview">
         <a href="#">
           <i class="fa fa-files-o"></i>
@@ -254,5 +269,7 @@
   </section>
   <!-- /.sidebar -->
 </aside>
+
+  </span>
 
 <script src="/scripts/LTEapp.js"></script>

@@ -195,7 +195,7 @@ angular.module('adminBankaFrontendApp')
       gatewayService.request("/api/ProductBody/1/ProductBodyDelete?ProductBodyID="+ $scope.tmpdel.ProductBodyID, "GET").then(function (data, status, heders, config)
       {
         console.log("pred",$scope.lastId);
-        $scope.lastId--;
+       // $scope.lastId--;
         console.log("pred",$scope.lastId);
       }, function (data, status, headers, config) {
         console.log(status);
@@ -724,11 +724,11 @@ angular.module('adminBankaFrontendApp')
             //  console.log("data" ,data);
 
             console.log("success");
-            $scope.pom={};
-            $scope.pom= $scope.productBody[$scope.selectedRow-1];
-            $scope.productBody[$scope.selectedRow-1]= $scope.productBody[$scope.selectedRow];
-            $scope.productBody[$scope.selectedRow]= $scope.pom;
-            $scope.pom={};
+        //    $scope.pom={};
+         //   $scope.pom= $scope.productBody[$scope.selectedRow-1];
+         //   $scope.productBody[$scope.selectedRow-1]= $scope.productBody[$scope.selectedRow];
+        //    $scope.productBody[$scope.selectedRow]= $scope.pom;
+        //    $scope.pom={};
             $scope.selectedRow=$scope.selectedRow-1;
 
 
