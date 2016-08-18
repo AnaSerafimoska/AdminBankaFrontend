@@ -1,3 +1,24 @@
+
+<script type="text/ng-template" id="templateid" ng-controller="odobruvanjeBaranjaCtrl">
+
+  <div>
+    <form name="formSmetka">
+      <div id="info">
+        <h3>Информации за најава на системот за електронско банкарство:</h3>
+        <label>Корисничко име: {{baranje.KorisnickoIme}} </label><br/>
+        <label>Лозинка: {{password}}</label>
+      </div>
+
+
+      <div class="text-right">
+        <!--<button style="margin-top: 10px;margin-left: 264px;" ng-model="btn2" class="btn btn-warning"  ng-click="closeThisDialog()" >Откажи </button>-->
+        <button style="margin-top: 10px;" class="btn btn-success" ng-model="btn1" ng-click="printDiv('info');closeThisDialog()"><i class="fa fa-print" aria-hidden="true"></i> Печати</button>
+
+      </div>
+    </form>
+  </div>
+
+</script>
 <section class="wrapper" >
 
   <ng-include src="'views/header.html'"></ng-include>
@@ -18,7 +39,7 @@
 
         <div class=" box-body" >
 
-          <span class="row">
+          <div class="row">
             <form novalidate class="css-form" name="form">
               <div class="col-md-12">
 
@@ -85,14 +106,14 @@
             </div>
             </span>
 
-          </span>
+          </div>
 
 
 
 
           <div class=" row col-md-12 pull-right box-header "  ng-show="showDir">
             <button class="btn btn-success text-right btn-sm" style="float:right; margin-right: 15px;" ng-click="odobriBaranje()" ng-disabled="!flagDisableButtons">Одобри</button>
-            <button class="btn btn-success text-right btn-sm" style="float:right; margin-right: 15px;" ng-disabled="flagDisableButtons">Печати лозинка</button>
+            <button class="btn btn-success text-right btn-sm" style="float:right; margin-right: 15px;" ng-disabled="flagDisableButtons" ng-click="randomPassword(10);popUp()">Печати лозинка</button>
             <button class="btn btn-success text-right btn-sm" style="float:right; margin-right: 15px;" ng-disabled="flagDisableButtons">Печати дог. сертификат</button>
             <button class="btn btn-success text-right btn-sm" style="float:right; margin-right: 15px;" ng-disabled="flagDisableButtons">Печати договор</button>
 

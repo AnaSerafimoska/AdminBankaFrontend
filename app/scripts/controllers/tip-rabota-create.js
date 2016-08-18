@@ -1,10 +1,10 @@
 /**
  * Created by Moki on 4/11/2016.
  */
-
+'use strict';
 angular.module('adminBankaFrontendApp')
   .controller('TipRabotaCreate', function($scope, gatewayService, $filter, toastr, $route, $rootScope) {
-      
+
   $scope.productTypes = []; ////////////////////////////da se brishe//////////////////////////////////////
 
 
@@ -34,13 +34,13 @@ var ProduktTip = 'ProductType';///////////////////////////////////da se vidi////
 
 
 
-$scope.init = function () { 
+$scope.init = function () {
       $scope.Products.OpeningDate = new Date();
 }
 
-$scope.tblNameChange = function(){ $scope.tblName = 'ProducTypes'} 
+$scope.tblNameChange = function(){ $scope.tblName = 'ProducTypes'}
 
-    
+
 //////////////////////////// ISPOLNI TABELA ///////////////////////////////////
 
 $scope.ProductTypes = function () {
@@ -62,22 +62,22 @@ $scope.submit= function (Prod) {
 
   console.log("Prod ", Prod); ////////////////////////// za brishenje //////////////////////
 
-    var fullDate1 = $filter('date')($scope.Products.ClosingDate, "yyyy-MM-dd"); 
-    var fullDate2 = $filter('date')($scope.Products.OpeningDate,"yyyy-MM-dd"); 
-    Prod.ClosingDate = fullDate1; 
-    Prod.OpeningDate = fullDate2; 
+    var fullDate1 = $filter('date')($scope.Products.ClosingDate, "yyyy-MM-dd");
+    var fullDate2 = $filter('date')($scope.Products.OpeningDate,"yyyy-MM-dd");
+    Prod.ClosingDate = fullDate1;
+    Prod.OpeningDate = fullDate2;
     //console.log("checkstatus pred if", $scope.Products.Status);
     if($scope.Products.Status == true){
-        $scope.Products.Status = '1'; 
+        $scope.Products.Status = '1';
     }
     else{
-       $scope.Products.Status = '0'; 
+       $scope.Products.Status = '0';
     }
 
-    if ($scope.form.$valid) { 
-        ProduktTip += $scope.Products.WorkingTable; 
-        $scope.Products.WorkingTable = ProduktTip; 
-         //console.log(Prod); 
+    if ($scope.form.$valid) {
+        ProduktTip += $scope.Products.WorkingTable;
+        $scope.Products.WorkingTable = ProduktTip;
+         //console.log(Prod);
     gatewayService.request("/api/ProductTypes/1/ProductTypesInsert", "POST", Prod).then(function (data, status, heders, config) {
           $route.reload();
           toastr.success($filter('translate')('lblDbSuccess_pt'));
@@ -86,32 +86,32 @@ $scope.submit= function (Prod) {
              toastr.warning($filter('translate')('lblDbError_pt'));
 
         });
-   
+
     } //if valid
 
-    //setiranje na null vrednosta na productTip input za da ne se ++dodava celo vreme na stringot 
+    //setiranje na null vrednosta na productTip input za da ne se ++dodava celo vreme na stringot
     ProduktTip = "";
-      
+
 }
 
 ////////////////////////////  SUBMIT OD EDIT //////////////////////////////////////
 $scope.zachuvaj = function(Prod){
    // console.log("closing date PRED FILTER: ",Prod.ClosingDate);
-    var fullDate1 = $filter('date')(Prod.ClosingDate, "yyyy-MM-dd"); 
-    var fullDate2 = $filter('date')(Prod.OpeningDate,"yyyy-MM-dd"); 
-    Prod.ClosingDate = fullDate1; 
-    Prod.OpeningDate = fullDate2; 
+    var fullDate1 = $filter('date')(Prod.ClosingDate, "yyyy-MM-dd");
+    var fullDate2 = $filter('date')(Prod.OpeningDate,"yyyy-MM-dd");
+    Prod.ClosingDate = fullDate1;
+    Prod.OpeningDate = fullDate2;
     //console.log("oppening date: ",Prod.OpeningDate);
    // console.log("closing date: ",Prod.ClosingDate);
     if(Prod.Status == true){
-        Prod.Status = '1'; 
+        Prod.Status = '1';
     }
     else{
-       Prod.Status = '0'; 
+       Prod.Status = '0';
     }
-    
-      ProduktTip += $scope.Products.WorkingTable; 
-      $scope.Products.WorkingTable = ProduktTip; 
+
+      ProduktTip += $scope.Products.WorkingTable;
+      $scope.Products.WorkingTable = ProduktTip;
       Prod.ID
       gatewayService.request("/api/ProductTypes/1/ProductTypesUpdate", "PUT", Prod).then(function (data, status, heders, config) {
           $route.reload();
@@ -121,8 +121,8 @@ $scope.zachuvaj = function(Prod){
             toastr.warning($filter('translate')('lblDbError_pt'));
 
         });
-   
-    
+
+
  ProduktTip = "";
 
 }
@@ -147,14 +147,14 @@ $scope.close = function(){
 $scope.checkTipInDb = function(prodWeSearchWith){
   ////api/ProductTypes/1/FetchByProductTypeId?productTypeID=11
       gatewayService.request("/api/ProductTypes/1/FetchProductTypes_ByProductTypeId?productTypeID="+prodWeSearchWith, "GET").then(function (data, status, heders, config) {
-         
+
          if($scope.isEmpty(data) != true){
-            toastr.error($filter('translate')('lblTipExist_pt')); 
-            $scope.flag = true; 
-         } 
-         else{ 
-          $scope.flag = false; 
-         } 
+            toastr.error($filter('translate')('lblTipExist_pt'));
+            $scope.flag = true;
+         }
+         else{
+          $scope.flag = false;
+         }
        // console.log("Ova e flag: " ,$scope.flag);
       }, function (data, status, headers, config) {
         //console.log("greshka: ",status);
@@ -168,9 +168,9 @@ $scope.checkTipInDbEdit = function(prodWeSearchWith){
   ////api/ProductTypes/1/FetchByProductTypeId?productTypeID=11
       console.log("vleguva vo edit ");
       gatewayService.request("/api/ProductTypes/1/FetchProductTypes_ByProductTypeId?productTypeID="+prodWeSearchWith, "GET").then(function (data, status, heders, config) {
-         
+
          if($scope.isEmpty(data) != true){
-            toastr.error($filter('translate')('lblTipExist_pt')); 
+            toastr.error($filter('translate')('lblTipExist_pt'));
             $scope.flag1 = true;
          }
          else{
@@ -260,7 +260,7 @@ $scope.reset = function(){
 }
 
 ////////////////////////////// IZMENI KOD PREVZEMEN ////////////////////////////////////////////////////
-  
+
   $scope.showEditRow = function (r) {
     if ($scope.active != r) {
       $scope.active = r;
@@ -270,7 +270,7 @@ $scope.reset = function(){
     }
     console.log("active: ",$scope.active);
   };
- 
+
 ///////////////////////////////// KRAJ IZMENI //////////////////////////////////////////////////////////
 
 
@@ -280,7 +280,7 @@ $scope.setirajDatumZatvaranje = function(item,status){
       item['ClosingDate'] = "";
     }
     else if(status == false){
-      
+
       item['ClosingDate'] = new Date();
     }
 };
