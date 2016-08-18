@@ -1,6 +1,8 @@
+
 /**
  * Created by TalevskaM on 07.07.2016.
  */
+
 angular.module('adminBankaFrontendApp')
   .controller('odobruvanjeBaranjaCtrl', function($scope, gatewayService, $filter, toastr, $route, $rootScope, ngDialog, $parse) {
     $scope.flagVisibility=false;
@@ -173,6 +175,39 @@ angular.module('adminBankaFrontendApp')
       //
       // });
     };
+
+  $scope.password="";
+   $scope.randomPassword=function(length) {
+
+      var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOP1234567890";
+      var pass = "";
+      for (var x = 0; x < length; x++) {
+        var i = Math.floor(Math.random() * chars.length);
+        pass += chars.charAt(i);
+      }
+      console.log("Password",pass);
+      $scope.password=pass;
+     // console.log("Pass",password);
+    }
+
+
+
+////////////////////////  NG DIALOG   ///////////////////
+    $scope.popUp = function() {
+      ngDialog.open({
+        template: 'templateid',
+        scope: $scope
+      });
+    }
+
+    $scope.printDiv = function(divname) {
+      console.log("Div",divname);
+      var printContents = document.getElementById(divname).innerHTML;
+      var popupWin = window.open('', '_blank', 'width=300,height=300');
+      popupWin.document.open();
+      popupWin.document.write('<html><head><link rel="stylesheet" type="text/css" href="style.css" /></head><body onload="window.print()">' + printContents + '</body></html>');
+      popupWin.document.close();
+    }
 
 
 

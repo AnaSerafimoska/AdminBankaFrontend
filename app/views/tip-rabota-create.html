@@ -1,110 +1,86 @@
 
 <section class="wrapper">
-
   <ng-include src="'views/header.html'"></ng-include>
-  <!-- Content Header (Page header) -->
 
   <div class="content-wrapper">
-
-    <section class="content-header" >
-
+    <section class="content-header">
         <h1> {{'lblHeaderTip_pt' | translate}} </h1>
-  </section>
+    </section>
 
 
-  <!-- **********************  VNES NA TIP RABOTA  ************************** -->
+
     <section class="content" >
 
-    <div class="box box-success" >
+    <div class="box box-success">
         <div class="box-header with-border">
-          <h3 class="box-title">
-            {{'lblFormName_pt1' | translate}}
-          </h3>
+          <h3 class="box-title">{{'lblFormName_pt1' | translate}}</h3>
         </div>
 
         <div class="box-body">
             <div class="row ">
-              <!--****************** prv red *********************-->
+
 
               <form novalidate class="css-form" name="form">
                   <div class="col-md-12">
+
                       <div class="form-group col-md-2">
                         <label>{{'lblTip_pt' | translate}}</label>
-                        <!--****************** proba1 *********************-->
-                        <input
-                         required class="form-control ng-pristine ng-invalid ng-invalid-required ng-touched input-sm"
-                        type="text"  class="form-control" mask="9" repeat="7" restrict="reject"   required ng-model="Products.ProductTypeID"  ng-blur="checkTip();" ng-change="checkTipInDb(Products.ProductTypeID)"  ng-class="{custom:flag==true}">
-                      <!--****************** end proba1 *********************-->
+                        <input required class="form-control ng-pristine ng-invalid ng-invalid-required ng-touched input-sm" type="text"   mask="9" repeat="7" restrict="reject"    ng-model="Products.ProductTypeID"  ng-blur="checkTip();" ng-change="checkTipInDb(Products.ProductTypeID)"  ng-class="{custom:flag==true}" />
                       </div>
+
                       <div class="form-group col-md-3" >
                         <label>{{'lblOpis_pt'| translate}}</label>
-                        <!--****************** proba3 *********************-->
-                        <textarea
-                        required class="form-control ng-pristine ng-invalid ng-invalid-required ng-touched"
-                        rows="3" ng-model="Products.Description" ng-blur="checkOpis()"></textarea>
-                        <!--****************** end proba3 *********************-->
+                        <textarea required class="form-control ng-pristine ng-invalid ng-invalid-required ng-touched" rows="3" ng-model="Products.Description" ng-blur="checkOpis()"></textarea>
                       </div>
+
                       <div class="form-group col-md-2" >
                         <label>{{'lblWorkingTbl_pt'| translate }}</label>
+                        <ui-select ng-model="Products.WorkingTable" class="pull-right" on-select="onSelectUIvalidation()" style="max-width: 165px; min-width: 165px; margin-top:-2px"  theme="select2"  ng-init="fetchTableNames()" ng-blur="checkWTable()">
 
-
-
-                         <!--****************** proba2 *********************-->
-                        <ui-select ng-model="Products.WorkingTable" class="pull-right " on-select="onSelectUIvalidation()" style="max-width: 165px; min-width: 165px; margin-top:-2px"  theme="select2"  ng-init="fetchTableNames()" ng-blur="checkWTable()">
-                          <!-- TableColumns($select.selected) -->
                           <ui-select-match placeholder=" Пребарај табела ">{{$select.selected}} </ui-select-match>
                           <ui-select-choices repeat="item in iminjaTabeliOdBaza | filter: $select.search">
                             <small>
                               <spam ng-bind-html="item  | highlight: $select.search"></spam>
-                            <!--   <spam ng-bind-html="item.ProductID  | highlight: $select.search"></spam> -->
+
                             </small>
-                            <!-- <small ng-bind-html="item.Description  | highlight: $select.search"></small> -->
+
 
                           </ui-select-choices>
                         </ui-select>
-
-
-
-                        <!-- *** tuka e inputot star od product type so site funkcionalnosti -->
-                       <!--  <input
-                         required class="form-control ng-pristine ng-invalid ng-invalid-required ng-touched input-sm"
-                         type="text" class="form-control" ng-model="Products.WorkingTable"  ng-blur="checkWTable()"> -->
-
-
-
-                          <!--****************** end proba2 *********************-->
                       </div>
 
                         <div class="form-group col-md-1" >
-                          <label >{{ 'lblStatus_pt'| translate }} </label>
+                          <label>{{ 'lblStatus_pt'| translate }}</label>
                           <div class="checkbox" style="padding-left: 0px; margin-top: 0px">
                             <label>
-                              <input type="checkbox" ng-model="Products.Status" [name="string"] [ng-true-value="expression"][ng-false-value="expression"] [ng-change="string"] > {{'lblActive_pt' | translate}}
+                              <input type="checkbox" ng-model="Products.Status"  />{{'lblActive_pt' | translate}}
                             </label>
                           </div>
                         </div>
+
                         <div class="form-group col-md-2">
                           <label>{{'lblDateOpen_pt' | translate}}</label>
                           <div class="input-group">
-                            <input type="text" class="form-control input-sm" ng-init="init()" ng-model="Products.OpeningDate" container="body" data-date-format="dd-MM-yyyy" data-date-type="longDate"  data-min-date="today" data-autoclose="1" name="date1" bs-datepicker required>
-                            <div class="input-group-addon" id="date1" >
-                              <i class="fa fa-calendar"> </i>
+                            <input type="text" class="form-control input-sm" ng-init="init()" ng-model="Products.OpeningDate" container="body" data-date-format="dd-MM-yyyy" data-date-type="longDate"  data-min-date="today" data-autoclose="1" name="date1" bs-datepicker required/>
+                            <div class="input-group-addon" id="date4" >
+                              <i class="fa fa-calendar"></i>
                             </div>
-                          </div><!-- /.input group -->
+                          </div>
                         </div>
+
                         <div class="form-group col-md-2" >
                           <label>{{'lblDateClose_pt' | translate}}</label>
                           <div class="input-group">
-                            <input type="text" class="form-control input-sm" placement="auto" ng-model="Products.ClosingDate" container="body" data-date-format="dd-MM-yyyy" data-date-type="longDate"  data-min-date="{{Products.OpeningDate}}" data-autoclose="1" name="date2" bs-datepicker id="ClosingDate" >
-                            <div class="input-group-addon" id="date2" required >
-                              <i class="fa fa-calendar"  ></i>
+                            <input type="text" class="form-control input-sm" placement="auto" ng-model="Products.ClosingDate" container="body" data-date-format="dd-MM-yyyy" data-date-type="longDate"  data-min-date="{{Products.OpeningDate}}" data-autoclose="1" name="date2" bs-datepicker id="ClosingDate"/>
+                            <div class="input-group-addon" id="date5" required >
+                              <i class="fa fa-calendar"></i>
                             </div>
-                          </div><!-- /.input group -->
+                          </div>
                         </div>
                   </div>
 
 
-                <!--********** tret red BUTTONS **********************-->
+
              <div class="form-horizontal col-md-12">
 
                  <div class="box-footer  text-right" >
@@ -114,15 +90,15 @@
 
                  </div>
              </div>
-              </form><!-- prv red KRAJ *********************-->
+              </form>
             </div>
-        </div><!-- /.box-body -->
+        </div>
 
-      </div><!-- /.box-success -->
+      </div>
     </section>
 
 
-<!-- ********************** PRIKAZ NA PODATOCI OD TABELA  ******************************************* -->
+
     <section class="content" style="margin-top: -32px;" ng-controller="HeaderCtrl">
       <div class="row">
         <div class="col-xs-12">
@@ -132,19 +108,19 @@
 
               <div class="box-tools">
                 <div class="input-group" style="width: 150px;">
-                  <input type="text" class="search" name="table_search" class="form-control input-sm pull-right" ng-model="searchBox" placeholder="{{'placeholderSearch_pt' | translate}}" style="border: 1px solid #ccc; height: 30px;">
+                  <input type="text" class="search" name="table_search" class="form-control input-sm pull-right" ng-model="searchBox" placeholder="{{'placeholderSearch_pt' | translate}}" style="border: 1px solid #ccc; height: 30px;"/>
                   <div class="input-group-btn">
                     <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
                   </div>
                 </div>
               </div>
-            </div><!-- /.box-header -->
+
+            </div>
             <div class="box-body table-responsive no-padding">
               <table class="table table-hover">
                 <tr>
-                    <th ng-click="sort('ProductTypeID')"   >
-                        {{'lblProductTupeTbl_pt' | translate }}
-                        <i ng-class="{'fa fa-sort-desc':verify == true,  'fa fa-sort-asc':verify!=true}" ></i>
+                    <th ng-click="sort('ProductTypeID')"   >{{'lblProductTupeTbl_pt' | translate }}
+                      <i ng-class="{'fa fa-sort-desc':verify == true,  'fa fa-sort-asc':verify!=true}" ></i>
                     </th>
                     <th> {{'lblOpis_pt'|translate}} </th>
                     <th> {{'lblWorkingTbl_pt'| translate }} </th>
@@ -155,91 +131,82 @@
                           <span ng-show="!x.isActive">{{x.ProductTypeID}}</span>
                            <div ng-show="x.isActive">
 
-        <!-- ************************************ PROBA ZA IZMENI BUTTON ****************************************** -->
+
                               <div class="box-body">
                                   <div class="row ">
-                                    <!--****************** prv red *********************-->
+
                                     <form novalidate class="css-form" name="formEdit">
                                         <div class="col-md-12">
                                             <div class="form-group col-md-4">
                                               <label> {{'lblProductTupeTbl_pt' | translate }}</label>
-                                              <!--****************** proba1 *********************-->
-                                              <input
-                                               required class="form-control input-sm" ng-disabled="true"
-                                              type="text"  class="form-control" mask="9" repeat="7" restrict="reject" ng-model="x.ProductTypeID" ng-blur="checkTipEdit(x.ProductTypeID);" ng-change="checkTipInDbEdit(x.ProductTypeID)" ng-class="{custom:flag==true}">
-                                            <!--****************** end proba1 *********************-->
+
+                                              <input required class="form-control input-sm" ng-disabled="true" type="text"  class="form-control" mask="9" repeat="7" restrict="reject" ng-model="x.ProductTypeID" ng-blur="checkTipEdit(x.ProductTypeID);" ng-change="checkTipInDbEdit(x.ProductTypeID)" ng-class="{custom:flag==true}"/>
+
                                             </div>
                                             <div class="form-group col-md-4" >
                                               <label>{{'lblOpis_pt'|translate}}</label>
-                                              <!--****************** proba3 *********************-->
-                                              <textarea
-                                              required class="form-control"
-                                              rows="3" ng-model="x.Description" ng-blur="checkOpisEdit(x.Description)"></textarea>
-                                              <!--****************** end proba3 *********************-->
+                                              <textarea required class="form-control" rows="3" ng-model="x.Description" ng-blur="checkOpisEdit(x.Description)"></textarea>
                                             </div>
                                             <div class="form-group col-md-4" >
                                               <label> {{'lblWorkingTbl_pt'| translate }}</label>
-                                               <!--****************** proba2 *********************-->
+
                                                <ui-select ng-model="x.WorkingTable" class="pull-right  "  style="max-width: 165px; min-width: 165px; margin-top:-2px"  theme="select2"  ng-init="fetchTableNames()" ng-blur="checkWTable()" >
-                                                  <!-- TableColumns($select.selected) -->
+
                                                   <ui-select-match placeholder=" Пребарај табела ">{{$select.selected}} </ui-select-match>
                                                   <ui-select-choices repeat="item in iminjaTabeliOdBaza | filter: $select.search">
                                                     <small>
                                                       <spam ng-bind-html="item  | highlight: $select.search"></spam>
-                                                    <!--   <spam ng-bind-html="item.ProductID  | highlight: $select.search"></spam> -->
+
                                                     </small>
-                                                    <!-- <small ng-bind-html="item.Description  | highlight: $select.search"></small> -->
+
 
                                                   </ui-select-choices>
                                                 </ui-select>
-                                                <!--****************** end proba2 *********************-->
                                             </div>
 
                                               <div class="form-group col-md-4" style="width: 82px;" >
                                                 <div style=" width: 81px;">
                                                   <label style="display: block;">{{ 'lblStatus_pt'| translate }} </label>
-                                                  <input type="checkbox" ng-model="x.Status" [name="string"] [ng-true-value="expression"][ng-false-value="expression"] [ng-change="string"] ng-click="setirajDatumZatvaranje(x, x.Status)"> {{'lblActive_pt' | translate}}
+
+                                                  <!--OVDE SMENIV-->
+                                                  <input type="checkbox" ng-model="x.Status" ng-click="setirajDatumZatvaranje(x, x.Status)"/> {{'lblActive_pt' | translate}}
+                                                  <!--OVA E STAROTO-->
+                                                  <!--<input type="checkbox" ng-model="x.Status" [name="string"] [ng-true-value="expression"][ng-false-value="expression"] [ng-change="string"] ng-click="setirajDatumZatvaranje(x, x.Status)"/> {{'lblActive_pt' | translate}}-->
 
                                                 </div>
                                               </div>
+
                                               <div class="form-group col-md-4">
                                                 <label>{{'lblDateOpen_pt' | translate}}</label>
                                                 <div class="input-group">
-                                                  <input type="text" class="form-control  input-sm" ng-model="x.OpeningDate" container="body" data-date-format="dd-MM-yyyy" data-date-type="longDate"  data-min-date="x.OpeningDate" data-autoclose="1" name="date1" bs-datepicker required>
+                                                  <input type="text" class="form-control  input-sm" ng-model="x.OpeningDate" container="body" data-date-format="dd-MM-yyyy" data-date-type="longDate"  data-min-date="x.OpeningDate" data-autoclose="1" name="date1" bs-datepicker required />
                                                   <div class="input-group-addon" id="date1" >
-                                                    <i class="fa fa-calendar"> </i>
+                                                    <i class="fa fa-calendar"></i>
                                                   </div>
-                                                </div><!-- /.input group -->
+                                                </div>
                                               </div>
+
                                               <div class="form-group col-md-4" >
                                                 <label>{{'lblDateClose_pt' | translate}}</label>
                                                 <div class="input-group">
-                                                  <input type="text" class="form-control input-sm" placement="auto" ng-model="x.ClosingDate" container="body" data-date-format="dd-MM-yyyy" data-date-type="longDate"  data-min-date="{{x.OpeningDate}}" data-autoclose="1" name="date2" bs-datepicker >
-                                                  <div class="input-group-addon" id="date1" required >
-                                                    <i class="fa fa-calendar" ></i>
+                                                  <input type="text" class="form-control input-sm" placement="auto" ng-model="x.ClosingDate" container="body" data-date-format="dd-MM-yyyy" data-date-type="longDate"  data-min-date="{{x.OpeningDate}}" data-autoclose="1" name="date2" bs-datepicker />
+                                                  <div class="input-group-addon" id="date2" required >
+                                                    <i class="fa fa-calendar"></i>
                                                   </div>
-                                                </div><!-- /.input group -->
+                                                </div>
                                               </div>
+
                                         </div>
-                                      </form><!-- prv red KRAJ *********************-->
+                                      </form>
                                    </div>
 
-                                      <!--********** tret red BUTTONS **********************-->
 
-                                   <!--
-                                   <div class="form-horizontal col-md-12">
-                                       <div class="box-footer col-md-12 ">
-                                            <button class="btn  btn-default pull-right" style="color:white; background-color: #00a65a" ng-click="submit(Products);" ng-disabled="form.$invalid || flag"> <i class="fa fa-fw fa-save"> </i> Сними </button>
-                                            <button class="btn  btn-default pull-right" style="margin-right: 12px; width: 94px;" ng-click="reset()">Откажи</button>
-                                       </div>
-                                   </div>
-                                   -->
 
-                            </div><!-- /.box-success -->
+                            </div>
                         </div>
                     </td>
 
-          <!-- ******************** END ZA IZMENI BUTTON *********************************** -->
+
 
 
                     <td> <span ng-show="!x.isActive">{{x.Description}}</span> </td>
@@ -247,20 +214,17 @@
                     <td>
                         <div class="text-right">
                             <button ng-show="!x.isActive" class="btn btn-block btn-primary btn-sm" ng-click="x.isActive=!x.isActive; izmeni(x)" ng-disabled="blokirajIzmeni">{{'lblEdit_pt' | translate}}</button>
-                            <button ng-show="x.isActive" class="btn btn-success btn-sm" ng-disabled="formEdit.$invalid || flag1" ng-click="zachuvaj(x);x.isActive=false" style="background-color:#00a65a;"><i class="fa fa-fw fa-save"> </i>{{'lblSave_pt' | translate}}</button>
+                            <button ng-show="x.isActive" class="btn btn-success btn-sm" ng-disabled="formEdit.$invalid || flag1" ng-click="zachuvaj(x);x.isActive=false" style="background-color:#00a65a;"><i class="fa fa-fw fa-save"></i>{{'lblSave_pt' | translate}}</button>
                             <button href="" ng-show="x.isActive" class="btn btn-warning btn-sm" ng-click="x.isActive=false; close()" style="margin-top: 10px;
     width: 80px;"> <i class="fa fa-ban" aria-hidden="true" ></i> {{'btnOtkazhi_pt' | translate}}</button>
                         </div>
                     </td>
               </tr>
 
-              </table> <dir-pagination-controls
-       max-size="5"
-       direction-links="true"
-       boundary-links="true" >
-    </dir-pagination-controls>
-            </div><!-- /.box-body -->
-          </div><!-- /.box -->
+              </table>
+              <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true" ></dir-pagination-controls>
+            </div>
+          </div>
         </div>
       </div>
    </section>

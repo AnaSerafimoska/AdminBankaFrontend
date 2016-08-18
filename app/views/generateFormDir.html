@@ -6,12 +6,14 @@
 
           <!--************************************* Textbox ***************************************************-->
           <div class="row "    ng-if="item.FieldType=='oTextBox' ">
-            <label class=" col-md-2 control-label " >{{item.FieldDescription}}</label>{{item.FieldName}}
+            <label class=" col-md-2 control-label " >{{item.FieldDescription}}</label>
             <div class="col-md-2 ">
               <input ng-disabled="isdisabled"  class="form-control ng-touched ng-invalid-required  input-sm "  ng-required="{{item.Mandatory=='М'}}" dynamic-model="'obj.'+'o'+item.ProductID+'.'+item.FieldName" type="{{item.FieldType}}" maxlength="{{item.FieldLength}}" value="{{item.DefaultValue}}" />
-            </div>
-          </div>
 
+            </div>
+
+          </div>
+          <br/>
           <!--************************************** Number *********************************************-->
           <div class="row "    ng-if="item.FieldType=='Number' ">
 

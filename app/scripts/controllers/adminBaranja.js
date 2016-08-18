@@ -1,3 +1,4 @@
+'use strict';
 angular.module('adminBankaFrontendApp')
   .controller('adminBaranjaCtrl', function($scope, gatewayService, $filter, toastr, $route, $rootScope, ngDialog, $parse) {
 
@@ -601,43 +602,60 @@ angular.module('adminBankaFrontendApp')
               // $scope.KorisnikPrikazInfo.Privilegii[i] = pomoshna;
               // console.log("TUKA SE POLNI SUBSTRING:", $scope.KorisnikPrikazInfo.Privilegii[i]);
 
-            if(data[i]["ProductId"]=='000003')
-            {
-              console.log("Velguva tuka!!!!!!!!")
-              console.log("Sertifikat",data[i]["Sertifikat"])
-              $scope.finalno[pomoshna]={
-                Sertifikat : data[i]["Sertifikat"]
-              }
-            }
-
-
 
 
               $scope.odobreni.push( pomoshna);
-                // $scope.finalno[pomoshna] = {
-                //   isdisabled : true
-                //
-                // }
+              var Sertifikat=data[i]["Sertifikat"];
+              console.log("Sertifikat",Sertifikat)
 
               if(data[i]["Status_S"]=='O')
               {
-                $scope.odobreni.push(data[i]);
-                $scope.sitevneseni.push(data[i]);
-                $scope.finalno[pomoshna] = {
-                  Privilegii : true,
-                  isDisabled: true
+
+                if(Sertifikat!= null || Sertifikat!="")
+                {
+                  console.log("1")
+                  $scope.finalno[pomoshna]={
+                    Sertifikat : Sertifikat,
+                    Privilegii : true,
+                    isDisabled: true
+                  }
 
                 }
+                else {
+                  console.log("2")
+                  $scope.finalno[pomoshna]={
+
+                    Privilegii : true,
+                    isDisabled: true
+                  }
+                }
+                $scope.odobreni.push(data[i]);
+                $scope.sitevneseni.push(data[i]);
+
               }
               else if(data[i]["Status_S"]=='N')
               {
-                $scope.neodobreni.push(data[i]);
-                $scope.sitevneseni.push(data[i]);
-                $scope.finalno[pomoshna] = {
-                  Privilegii : true,
-                  isDisabled: false
+
+                console.log("1")
+                  $scope.finalno[pomoshna]={
+                    Sertifikat : Sertifikat,
+                    Privilegii : true,
+                    isDisabled: false
+                  }
 
                 }
+              else {
+                console.log("1")
+                $scope.finalno[pomoshna]={
+
+                  Privilegii : true,
+                  isDisabled: false
+                }
+                $scope.neodobreni.push(data[i]);
+                $scope.sitevneseni.push(data[i]);
+
+
+
               }
 
 
@@ -850,13 +868,6 @@ $scope.setSelected = function (idSelectedVote) {
 
 
 
-////////////////////////  NG DIALOG   ///////////////////
-  $scope.popUp = function() {
-        ngDialog.open({
-            template: 'templateId',
-            scope: $scope
-        });
-  }
 
 
 
@@ -941,7 +952,7 @@ $scope.setSelected = function (idSelectedVote) {
                     obj.Status_S="N";
                     obj.DatumBaranje=$filter('date')( $scope.KorisnikPrikazInfo.DatumInsert, "yyyy-MM-dd");
                     obj.ReferentInsert=authData.Ime+" "+authData.Prezime ;
-                    obj.Email="";
+                    obj.Email=$scope.finalno['o'+obj.ProductId].Email;
                     if(obj.ProductId=='000003')
                     {
                       obj.Sertifikat=$scope.finalno['o'+obj.ProductId].Sertifikat.replace(/[\s]/g, '');
@@ -952,7 +963,7 @@ $scope.setSelected = function (idSelectedVote) {
 
                     obj.SeriskiBrojSertifikat ="";
                     obj.SertifikatOTP="";
-                    obj.TelefonskiBroj="";
+                    obj.TelefonskiBroj=$scope.finalno['o'+obj.ProductId].TelefonskiBroj;
                     obj.Zabeleska="";
                     obj.Limit="";
                     obj.StatusBaranje="Чекање за одобрување";
