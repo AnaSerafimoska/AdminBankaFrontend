@@ -13,7 +13,7 @@
  */
 
 angular.module('adminBankaFrontendApp')
-  .controller('KomitentiCtrl', function($scope, gatewayService, $filter, toastr,ngDialog,$route,$translate) {
+  .controller('KomitentiCtrl', function($scope,$rootScope, gatewayService, $filter, toastr,ngDialog,$route,$translate, $location) {
 
 
     $scope.vidKomitent = [
@@ -43,6 +43,35 @@ angular.module('adminBankaFrontendApp')
 
     $scope.KomitentNew={};
 
+
+    ////////////////////////////////// DODADENO OD MOMIR
+    //$rootScope.dataPermisii={};
+    $scope.loggedUser = {};
+    $scope.loggedUser = JSON.parse(localStorage.getItem("loginData"));
+    var logiranUser = $scope.loggedUser.username;
+
+
+
+    $scope.hasPermission = function(permision){
+      //console.log("Ova tuka e logiraniout user: ",logiranUser);
+      if($rootScope.dataPermisii != null) {
+        for (var i = 0; i < $rootScope.dataPermisii.length; i++) {
+          if (permision == $rootScope.dataPermisii[i].PermissionDescription) {
+            //console.log("dataPermisii odobruvanje baranje: ", $rootScope.dataPermisii);
+            return true;
+          }
+        }
+      }
+      else{
+        return false;
+      }
+    }
+
+    if (!$scope.hasPermission('komitenti')) {
+      //console.log("vleguva vo has premission odobruvanje baranje i menuva pateka.");
+      $location.path('/');
+    };
+    //////////////////////////////////
 
     $scope.checkVidKomitent = function () {
       if ($scope.Komitent.VidKomitent == null || $scope.Komitent.VidKomitent == "") {
@@ -85,6 +114,8 @@ angular.module('adminBankaFrontendApp')
 
       }
     }
+
+
 
     $scope.checkDrzava = function () {
       if ($scope.Komitent.Drzava == null || $scope.Komitent.Drzava == "") {

@@ -4,7 +4,7 @@
  */
 
 angular.module('adminBankaFrontendApp')
-  .controller('odobruvanjeBaranjaCtrl', function($scope, gatewayService, $filter, toastr, $route, $rootScope, ngDialog, $parse) {
+  .controller('odobruvanjeBaranjaCtrl', function($scope, gatewayService, $filter, toastr, $route, $rootScope, ngDialog, $parse,$location) {
     $scope.flagVisibility=false;
     $scope.obj={};
     $scope.showDir=false;
@@ -12,6 +12,36 @@ angular.module('adminBankaFrontendApp')
     $scope.nemapodatoci=false;
     $scope.flagDisableButtons=true;
     $scope.showButtons=false;
+
+    ////////////////////////////////// DODADENO OD MOMIR
+    //$rootScope.dataPermisii={};
+    $scope.loggedUser = {};
+    $scope.loggedUser = JSON.parse(localStorage.getItem("loginData"));
+    var logiranUser = $scope.loggedUser.username;
+
+
+
+    $scope.hasPermission = function(permision){
+        //console.log("Ova tuka e logiraniout user: ",logiranUser);
+      if($rootScope.dataPermisii != null) {
+        for (var i = 0; i < $rootScope.dataPermisii.length; i++) {
+          if (permision == $rootScope.dataPermisii[i].PermissionDescription) {
+            //console.log("dataPermisii odobruvanje baranje: ", $rootScope.dataPermisii);
+            return true;
+          }
+        }
+      }
+      else{
+        toastr.error("Овој корисник нема привилегии.");
+        return false;
+      }
+    }
+
+    if (!$scope.hasPermission('odobruvanjeBaranja')) {
+      //console.log("vleguva vo has premission odobruvanje baranje i menuva pateka.");
+      $location.path('/');
+    };
+    //////////////////////////////////
 
 
    $scope.loading = true;

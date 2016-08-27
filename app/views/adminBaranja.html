@@ -8,10 +8,10 @@
 		        	<input  type="text" class=" input-sm ng-valid ng-invalid form-control" required ng-change="getInfo(novPotpisnikPartija);setirajFlagPotpisnik()" ng-model="novPotpisnikPartija" mask-restrict="reject" mask="999999999999999" ng-blur="setFlagToPrikazhi()" ></input>
               {{info}}
 		        </div>
-
-		        <div>
-		        	<button style="margin-top: 10px;margin-left: 264px;" ng-model="btn2" class="btn btn-warning"  ng-click="closeThisDialog()" >Откажи </button>
-		        	<button style="margin-top: 10px;" class="btn btn-success" ng-model="btn1" ng-click="dodadiSmetka();closeThisDialog()"  ng-disabled="potpisnikFlag || formSmetka.$invalid" >Додади</button>
+            <br/>
+		        <div class="text-right">
+		        	<button  ng-model="btn2" class="btn btn-warning"  ng-click="closeThisDialog()" >Откажи </button>
+		        	<button  class="btn btn-success" ng-model="btn1" ng-click="dodadiSmetka();closeThisDialog();polniTabela()"  ng-disabled="potpisnikFlag || formSmetka.$invalid" >Додади</button>
 
 		        </div>
 			</form>

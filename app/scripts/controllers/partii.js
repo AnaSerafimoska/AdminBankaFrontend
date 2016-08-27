@@ -1,11 +1,33 @@
 angular.module('adminBankaFrontendApp')
-  .controller('partiiCtrl', function($scope, gatewayService, $filter, toastr, $route, $rootScope, ngDialog, $parse) {
+  .controller('partiiCtrl', function($scope, gatewayService, $filter, toastr, $route, $rootScope, ngDialog, $parse, $location) {
 
     //Za prikaz na info
     $scope.KorisnikPrikazInfo={};
     $scope.Korisnik={};
 
 
+
+    ////////////////////////////////// DODADENO OD MOMIR
+    //$rootScope.dataPermisii={};
+    $scope.loggedUser = {};
+    $scope.loggedUser = JSON.parse(localStorage.getItem("loginData"));
+    var logiranUser = $scope.loggedUser.username;
+
+    $scope.hasPermission = function(permision){
+      //console.log("Ova tuka e logiraniout user: ",logiranUser);
+      for(var i =0; i < $rootScope.dataPermisii.length; i++) {
+        if (permision == $rootScope.dataPermisii[i].PermissionDescription) {
+         // console.log("dataPermisii odobruvanje baranje: ", $rootScope.dataPermisii);
+          return true;
+        }
+      }
+    }
+
+    if (!$scope.hasPermission('partii')) {
+      //console.log("vleguva vo has premission odobruvanje baranje i menuva pateka.");
+      $location.path('/');
+    };
+    //////////////////////////////////
 
     //Flag za enable i dable na kopceto prikazi
     $scope.Flag_Prikazhi = true;

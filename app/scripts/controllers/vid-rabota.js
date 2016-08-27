@@ -7,5 +7,4 @@ angular.module('adminBankaFrontendApp')
 
 
 
-
   });
