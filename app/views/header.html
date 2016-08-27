@@ -32,7 +32,7 @@
         <li class="dropdown user user-menu">
           <a href="" class="dropdown-toggle" data-toggle="dropdown">
             <img src="images/User_Circle.png" class="user-image" alt="User Image"/>
-            <span class="hidden-xs" style="color: #222d32;">{{loggedUser.Ime}} {{loggedUser.Prezime}}</span>
+            <span class="hidden-xs" style="color: #222d32;">{{loggedUser.username}}</span>
           </a>
           <ul class="dropdown-menu">
             <!-- User image -->
@@ -40,8 +40,8 @@
             <li class="user-header">
               <img src="images/User_Circle.png" class="img-circle" alt="User Image"/>
               <p>
-                {{loggedUser.Ime}} {{loggedUser.Prezime}} - {{loggedUser.Pozicija}}
-                <small>{{loggedUser.Naziv}}</small>
+              {{loggedUser.username}}
+
               </p>
            </li>
             <li class="user-footer">
@@ -73,7 +73,7 @@
         <img src="images/User_Circle.png" class="img-circle-sm" alt="User Image">
       </div>
       <div class="pull-left info">
-        <p style="font-size: 11px">{{loggedUser.Ime}} {{loggedUser.Prezime}}</p>
+        <p style="font-size: 11px">{{loggedUser.username}}</p>
         <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
       </div>
     </div>
@@ -93,13 +93,14 @@
     <div style="height: 3px"></div>
     <ul class="sidebar-menu">
       <li class="header"></li>
-      <li class="treeview">
+
+      <li class="treeview" ng-if="hasPermission('tip-rabota')">
         <a href="/#/tip-rabota/create">
           <i class="fa fa-dashboard"></i> <span>{{'lblHeaderTip_pt' | translate}} </span> </i>
         </a>
 
       </li>
-      <li class="treeview">
+      <li class="treeview" ng-if="hasPermission('vid-rabota')">
         <a href="/#/vid-rabota/create">
           <i class="fa fa-dashboard"></i> <span>{{'meniVidoviRabota_p' | translate}}</span> </i>
         </a>
@@ -118,25 +119,25 @@
         <!--</a>-->
 
       <!--</li>-->
-      <li class="treeview">
+      <li class="treeview" ng-if="hasPermission('komitenti')">
         <a href="#/komitenti">
           <i class="fa fa-users" aria-hidden="true"></i> <span> Комитенти </span>
         </a>
       </li>
-      <li class="treeview">
+      <li class="treeview" ng-if="hasPermission('partii')">
         <a href="#/partii">
           <i class="fa fa-credit-card" aria-hidden="true"></i><span> Партии </span>
         </a>
       </li>
 
-       <li class="treeview">
+       <li class="treeview" ng-if="hasPermission('admin-baranja')">
         <a href="#/adminBaranja">
           <i class="fa fa-file-text-o" aria-hidden="true"></i> <span> Внесување на барања </span>
         </a>
       </li>
 
-      <li class="treeview">
-        <a href="#/odobruvanjeBaranja">
+      <li class="treeview" ng-if="hasPermission('odobruvanjeBaranja')">
+        <a href= "#/odobruvanjeBaranja">
           <i class="fa fa-file-text-o" aria-hidden="true"></i><span> Одобрување на барања </span>
         </a>
       </li>

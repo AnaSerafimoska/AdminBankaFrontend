@@ -1,6 +1,35 @@
 'use strict';
 angular.module('adminBankaFrontendApp')
-  .controller('adminBaranjaCtrl', function($scope, gatewayService, $filter, toastr, $route, $rootScope, ngDialog, $parse) {
+  .controller('adminBaranjaCtrl', function($scope, gatewayService, $filter, toastr, $route, $rootScope, ngDialog, $parse,$location ) {
+
+    ////////////////////////////////// DODADENO OD MOMIR
+    //$rootScope.dataPermisii={};
+    $scope.loggedUser = {};
+    $scope.loggedUser = JSON.parse(localStorage.getItem("loginData"));
+    var logiranUser = $scope.loggedUser.username;
+
+
+
+    $scope.hasPermission = function(permision){
+      //console.log("Ova tuka e logiraniout user: ",logiranUser);
+      if($rootScope.dataPermisii != null) {
+        for (var i = 0; i < $rootScope.dataPermisii.length; i++) {
+          if (permision == $rootScope.dataPermisii[i].PermissionDescription) {
+            //console.log("dataPermisii odobruvanje baranje: ", $rootScope.dataPermisii);
+            return true;
+          }
+        }
+      }
+      else{
+        return false;
+      }
+    }
+
+    if (!$scope.hasPermission('admin-baranja')) {
+      //console.log("vleguva vo has premission odobruvanje baranje i menuva pateka.");
+      $location.path('/');
+    };
+    //////////////////////////////////
 
     //Za prikaz na info
     $scope.KorisnikPrikazInfo={};
@@ -32,6 +61,8 @@ angular.module('adminBankaFrontendApp')
       "title": "Пребарај",
       "checked": false
     };
+
+
 
     //Prebaruvanje na komitentot
     $scope.changeValue=function (val) {
@@ -336,7 +367,7 @@ angular.module('adminBankaFrontendApp')
               $scope.ePartija.Banka="";
               $scope.ePartija.OrgDel="";
               $scope.ePartija.Partija=data[0].Partija;
-              $scope.ePartija.EdinstvenBroj=$scope.korisnik.embg;
+              $scope.ePartija.EdinstvenBroj=$scope.KorisnikPrikazInfo.EdinstvenBroj
               $scope.ePartija.ProductTypeID="";
               $scope.ePartija.ProductID="";
               $scope.ePartija.DatumInsert=new Date();
@@ -351,7 +382,7 @@ angular.module('adminBankaFrontendApp')
               $scope.ePartija.VidRabota=data[0].ProductTypeID.substring(0,2);
               $scope.ePartija.ReferentInsert="";
 
-                gatewayService.request("/api/Baranja/1/FetchUserePartii?EdinstvenBroj="+$scope.korisnik.embg, "GET").then(function (data, status, heders, config) {
+                gatewayService.request("/api/Baranja/1/FetchUserePartii?EdinstvenBroj="+$scope.KorisnikPrikazInfo.EdinstvenBroj, "GET").then(function (data, status, heders, config) {
                  if(data.length>0)
                  {
                    $scope.ePartija.DaliPrvoNajavuvanje=false;
@@ -595,7 +626,7 @@ angular.module('adminBankaFrontendApp')
 
           for(var i = 0 ; i < data.length; i++){
 
-            if(data[i]["EdinstvenBroj"] == +$scope.KorisnikPrikazInfo.EdinstvenBroj  && data[i]["Partija"] == item.Partija && data[i]["Privilegii"] == "1"){
+            if(data[i]["EdinstvenBroj"] == $scope.KorisnikPrikazInfo.EdinstvenBroj  && data[i]["Partija"] == item.Partija && data[i]["Privilegii"] == "1"){
               var pomoshna="";
               pomoshna = "o"+data[i]["ProductId"];
 
@@ -1021,7 +1052,13 @@ $scope.setSelected = function (idSelectedVote) {
     }
 
 
-
+    ////////////////////////  NG DIALOG   ///////////////////
+    $scope.popUp = function() {
+      ngDialog.open({
+        template: 'templateId',
+        scope: $scope
+      });
+    }
 
 
 

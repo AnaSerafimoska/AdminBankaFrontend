@@ -3,11 +3,36 @@
  */
 'use strict';
 angular.module('adminBankaFrontendApp')
-  .controller('TipRabotaCreate', function($scope, gatewayService, $filter, toastr, $route, $rootScope) {
+  .controller('TipRabotaCreate', function($scope, gatewayService, $filter, toastr, $route, $rootScope, $location) {
 
   $scope.productTypes = []; ////////////////////////////da se brishe//////////////////////////////////////
 
+    ////////////////////////////////// DODADENO OD MOMIR
+    //$rootScope.dataPermisii={};
+    $scope.loggedUser = {};
+    $scope.loggedUser = JSON.parse(localStorage.getItem("loginData"));
+    var logiranUser = $scope.loggedUser.username;
 
+    $scope.hasPermission = function(permision){
+      //console.log("Ova tuka e logiraniout user: ",logiranUser);
+      if($rootScope.dataPermisii != null) {
+        for (var i = 0; i < $rootScope.dataPermisii.length; i++) {
+          if (permision == $rootScope.dataPermisii[i].PermissionDescription) {
+            //console.log("dataPermisii odobruvanje baranje: ", $rootScope.dataPermisii);
+            return true;
+          }
+        }
+      }
+      else{
+        return false;
+      }
+    }
+
+    if (!$scope.hasPermission('tip-rabota')) {
+      //console.log("vleguva vo has premission odobruvanje baranje i menuva pateka.");
+      $location.path('/');
+    };
+    //////////////////////////////////
 
 ////////////////////////// SETIRANJE PREDEF VREDNOSTI /////////////
 $scope.flag = false;
