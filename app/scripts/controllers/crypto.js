@@ -8,9 +8,37 @@
  * Controller of the adminBankaFrontendApp
  */
 angular.module('adminBankaFrontendApp')
-  .controller('CryptoCtrl', function ($scope) {
+  .controller('CryptoCtrl', function ($scope, $rootScope, $location) {
 
 	$scope.cryptText={};
+
+
+/*
+
+//ZA MENU PRIVILEGII
+
+    $scope.hasPermission = function(permision){
+      //console.log("Ova tuka e logiraniout user: ",logiranUser);
+      if($rootScope.dataPermisii != null) {
+        for (var i = 0; i < $rootScope.dataPermisii.length; i++) {
+          if (permision == $rootScope.dataPermisii[i].PermissionDescription) {
+            //console.log("dataPermisii odobruvanje baranje: ", $rootScope.dataPermisii);
+            return true;
+          }
+        }
+      }
+      else{
+        return false;
+      }
+    }
+
+    if (!$scope.hasPermission('crypto')) {
+      //console.log("vleguva vo has premission odobruvanje baranje i menuva pateka.");
+      $location.path('/');
+    };
+*/
+
+
 
   	$scope.ecryptText = function(){
   		console.log($scope.cryptText.textForEncrypt);
