@@ -1,0 +1,62 @@
+
+
+<section class="wrapper" style="height:500px">
+
+	<ng-include src="'views/header.html'"></ng-include>
+	<!-- Content Header (Page header) -->
+
+	<div class="content-wrapper">
+		<section class="content-header">
+			<h1> {{'lblHeaderTip_crypto' | translate}} </h1>
+		</section>
+
+
+
+		<section class="content" >
+			<div class="box box-success">
+				<div class="box-header with-border">
+					<h3 class="box-title">{{'lblFormName_crypto' | translate}}</h3>
+				</div>
+				<div class="box-body">
+					<div class="col-md-10"  >
+						<label>{{'lblVidRabota_crypto' | translate}}</label>
+						<div class="row">
+
+							<div class="col-lg-8">
+								<input ng-blur="checkVid()" type="text"  class=" form-control ng-pristine ng-invalid ng-invalid-required ng-touched input-sm"   restrict="reject"  id="txtForCrypt"  ng-model="cryptText.textForEncrypt" data-placement="bottom" data-type="success" data-container="body" data-trigger="focus" bs-tooltip="tooltip" required>
+							</div>
+
+							<div class="col-lg-2">
+								<button  class="btn btn-success btn-sm"  style="background-color: #00a65a; " ng-click="ecryptText()"><i class="fa fa-eye-slash "> </i> {{'btnSnimi_crypto' | translate}} </button>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="box box-success">
+				<div class="box-header with-border">
+					<h3 class="box-title">{{'lblFormName_cryptoOutput' | translate}}</h3>
+				</div>
+				<div class="box-body">
+					<div class="col-md-10">
+						<div class="row">
+							<div class="col-lg-8">
+								<div class="callout">
+									<p id="pTextForCopy">{{cryptText.encriptedText}}</p>
+								</div>
+							</div>
+							<div class="col-lg-2">
+								<button  class="btn btn-success btn-sm"  style="background-color: #00a65a; " ngclipboard data-clipboard-target="#pTextForCopy"><i class="fa fa-clipboard"> </i> {{'btnCopyEncripted_crypto' | translate}} </button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+		</section>
+	</div>
+</section>

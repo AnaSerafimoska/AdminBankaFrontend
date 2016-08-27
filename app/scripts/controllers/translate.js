@@ -59,8 +59,14 @@ angular.module('angularTranslateApp', ['pascalprecht.translate'])
       'lblIzvornaLista_p':'Изворна листа API',
 
       'lblDbSuccessEdit_pt':'Записот е успешно изменет.',
-      'placeholderSearch_pt': 'Пребарувај ...'
+      'placeholderSearch_pt': 'Пребарувај ...',
 
+      'lblHeaderTip_crypto' : 'Криптирање на содржина',
+      'lblFormName_crypto' : 'Криптирање',
+      'lblVidRabota_crypto' : 'Внесете текст за криптирање',
+      'btnSnimi_crypto' : 'Криптирај',
+      'lblFormName_cryptoOutput' : 'Криптиран Текст',
+      'btnCopyEncripted_crypto': 'Копирај'
 
 
     });
