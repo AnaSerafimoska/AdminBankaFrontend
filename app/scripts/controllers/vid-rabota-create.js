@@ -18,7 +18,12 @@ angular.module('adminBankaFrontendApp')
     //$rootScope.dataPermisii={};
     $scope.loggedUser = {};
     $scope.loggedUser = JSON.parse(localStorage.getItem("loginData"));
-    var logiranUser = $scope.loggedUser.username;
+    if (! $scope.loggedUser) {
+      $location.path('/login');
+    }
+    else{
+      var logiranUser = $scope.loggedUser.username;
+    }
 
 
 
@@ -373,6 +378,8 @@ angular.module('adminBankaFrontendApp')
             $scope.item.selected={ProductTypeID:item.ProductTypeID,ProductID: item.ProductID,Description:item.Description};
             console.log("sel",$scope.item.selected);
             toastr.success('Записот е успешно уреден!', '');
+            $route.reload();
+
           }, function (data, status, headers, config) {
             console.log(status);
           });

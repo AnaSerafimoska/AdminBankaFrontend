@@ -6,7 +6,16 @@ angular.module('adminBankaFrontendApp')
     //$rootScope.dataPermisii={};
     $scope.loggedUser = {};
     $scope.loggedUser = JSON.parse(localStorage.getItem("loginData"));
-    var logiranUser = $scope.loggedUser.username;
+    if (! $scope.loggedUser) {
+      $location.path('/login');
+    }
+    else{
+      var logiranUser = $scope.loggedUser.username;
+    }
+
+
+
+
 
 
 
@@ -380,7 +389,7 @@ angular.module('adminBankaFrontendApp')
               $scope.ePartija.KorisnickoIme=$scope.korisnik.korisnichkoIme;
               $scope.ePartija.Lozinka="xxx";
               $scope.ePartija.VidRabota=data[0].ProductTypeID.substring(0,2);
-              $scope.ePartija.ReferentInsert="";
+              $scope.ePartija.ReferentInsert=logiranUser;
 
                 gatewayService.request("/api/Baranja/1/FetchUserePartii?EdinstvenBroj="+$scope.KorisnikPrikazInfo.EdinstvenBroj, "GET").then(function (data, status, heders, config) {
                  if(data.length>0)
@@ -635,8 +644,10 @@ angular.module('adminBankaFrontendApp')
 
 
 
-              $scope.odobreni.push( pomoshna);
+              //$scope.odobreni.push( pomoshna);
               var Sertifikat=data[i]["Sertifikat"];
+              var TelefonskiBroj=data[i]["TelefonskiBroj"];
+              var Email=data[i]["Email"];
               console.log("Sertifikat",Sertifikat)
 
               if(data[i]["Status_S"]=='O')
@@ -648,7 +659,10 @@ angular.module('adminBankaFrontendApp')
                   $scope.finalno[pomoshna]={
                     Sertifikat : Sertifikat,
                     Privilegii : true,
-                    isDisabled: true
+                    isDisabled: true,
+                    TelefonskiBroj : TelefonskiBroj,
+                    Email : Email
+
                   }
 
                 }
@@ -671,19 +685,23 @@ angular.module('adminBankaFrontendApp')
                   $scope.finalno[pomoshna]={
                     Sertifikat : Sertifikat,
                     Privilegii : true,
-                    isDisabled: false
+                    isDisabled: false,
+                    TelefonskiBroj : TelefonskiBroj,
+                    Email : Email
                   }
-
-                }
-              else {
-                console.log("1")
-                $scope.finalno[pomoshna]={
-
-                  Privilegii : true,
-                  isDisabled: false
-                }
                 $scope.neodobreni.push(data[i]);
                 $scope.sitevneseni.push(data[i]);
+
+              //   }
+              // else {
+              //   console.log("1")
+              //   $scope.finalno[pomoshna]={
+              //
+              //     Privilegii : true,
+              //     isDisabled: false
+              //   }
+              //   $scope.neodobreni.push(data[i]);
+              //   $scope.sitevneseni.push(data[i]);
 
 
 
@@ -905,136 +923,141 @@ $scope.setSelected = function (idSelectedVote) {
 
   ///////////////  SNIMANJE NA BARANJE ////////////////////////////////////
   $scope.snimiBaranje = function(){
+    if($scope.KorisnikPrikazInfo.korisnichkoIme==null || $scope.KorisnikPrikazInfo.korisnichkoIme=="")
+    {
+      toastr.error("Внесете корисничко име!");
 
-        //  console.log("Odobreni", $scope.odobreni);
-         // console.log("Neodobreni", $scope.neodobreni);
-          console.log("finalno", $scope.finalno);
-          console.log("Site vneseni",$scope.sitevneseni);
-          var authData = JSON.parse(localStorage.getItem("loginData"));
-          console.log(authData);
+    }
+    else {
 
-
-          var noviBaranja=[];
-
-
-            for(var keyName in $scope.finalno){
-              var key=keyName ;
-              var value=angular.fromJson( $scope.finalno[keyName ]);
+      //  console.log("Odobreni", $scope.odobreni);
+      console.log("Neodobreni", $scope.neodobreni);
+      console.log("finalno", $scope.finalno);
+      //  console.log("Site vneseni",$scope.sitevneseni);
+      var authData = JSON.parse(localStorage.getItem("loginData"));
+      console.log(authData);
 
 
-              console.log("val",value);
-              for(var i=0;i<$scope.neodobreni.length;i++)
-              {
-                if(key.substring(1,7)== $scope.neodobreni[i].ProductId)
-                {
-                 // console.log("idneod" , $scope.neodobreni[i].Privilegii);
-                 // console.log("idval" , value.Privilegii);
-                  if((value.Privilegii == true && $scope.neodobreni[i].Privilegii == '0')|| (value.Privilegii == false && $scope.neodobreni[i].Privilegii == '1'))
-                  {
-                    var obj={};
-                    obj=$scope.neodobreni[i];
-                    if(value.Privilegii==true)
-                    {
-                      obj.Privilegii='1';
-                    }
-                    else if(value.Privilegii==false)
-                    {
-                      obj.Privilegii='0';
-                    }
-                    console.log("obj",obj);
-                    gatewayService.request("/api/Baranja/1/ProductTypeBaranjaUpdate", "POST", obj).then(function (data, status, heders, config) {
+      var noviBaranja = [];
 
 
-                    }, function (data, status, headers, config) {
-                      console.log(status);
-
-                    });
-                  }
+      for (var keyName in $scope.finalno) {
+        var key = keyName;
+        var value = angular.fromJson($scope.finalno[keyName]);
 
 
-
-                }
+        console.log("val", value);
+        for (var i = 0; i < $scope.neodobreni.length; i++) {
+          if (key.substring(1, 7) == $scope.neodobreni[i].ProductId) {
+            console.log("idneod", $scope.neodobreni[i].Privilegii);
+            console.log("idval", value.Privilegii);
+            if ((value.Privilegii == true && $scope.neodobreni[i].Privilegii == '0') || (value.Privilegii == false && $scope.neodobreni[i].Privilegii == '1')) {
+              console.log("Vleguva tuka");
+              var objNe = {};
+              objNe = $scope.neodobreni[i];
+              console.log("onbj", objNe)
+              if (value.Privilegii == true) {
+                objNe.Privilegii = '1';
               }
-              var old=false;
-
-              for(var i=0;i<$scope.sitevneseni.length;i++)
-              {
-                if(key.substring(1,7) == $scope.sitevneseni[i].ProductId) {
-                  var old=true;
-
-                  break;
-
-                }
-
-
+              else if (value.Privilegii == false) {
+                objNe.Privilegii = '0';
               }
-
-              if(old==false) {
-
-                    var obj={};
-                    obj.BrojBaranje="";
-                    obj.KorisnickoIme=$scope.KorisnikPrikazInfo.korisnichkoIme;
-                    obj.DatumInsert=$filter('date')( $scope.KorisnikPrikazInfo.DatumInsert, "yyyy-MM-dd");
-                    obj.EdinstvenBroj= $scope.KorisnikPrikazInfo.EdinstvenBroj;
-                    obj.ProductId=key.substring(1,7);
-                    obj.ProductTypeId=$scope.selectiranTip;
-                    obj.OrgDel=authData.OrgDel;
-                    obj.Partija=  $scope.KorisnikPrikazInfo.Partija;
-                    obj.Status_S="N";
-                    obj.DatumBaranje=$filter('date')( $scope.KorisnikPrikazInfo.DatumInsert, "yyyy-MM-dd");
-                    obj.ReferentInsert=authData.Ime+" "+authData.Prezime ;
-                    obj.Email=$scope.finalno['o'+obj.ProductId].Email;
-                    if(obj.ProductId=='000003')
-                    {
-                      obj.Sertifikat=$scope.finalno['o'+obj.ProductId].Sertifikat.replace(/[\s]/g, '');
-                    }
-                    else {
-                      obj.SeriskiBrojSertifikat="";
-                    }
-
-                    obj.SeriskiBrojSertifikat ="";
-                    obj.SertifikatOTP="";
-                    obj.TelefonskiBroj=$scope.finalno['o'+obj.ProductId].TelefonskiBroj;
-                    obj.Zabeleska="";
-                    obj.Limit="";
-                    obj.StatusBaranje="Чекање за одобрување";
-                    obj.Privilegii="1";
-                    obj.SeriskiBrojSertifikat="";
-                    obj.ReferentOdobril="";
-                    obj.DatumOdobruvanje="";
-                    obj.BrojDogovor="";
-                    obj.OrgDelUkinuvanje="";
-                    obj.ReferentUkinal="";
-                    obj.DatumUkinuvanje="";
-                    obj.BrojBaranjeZaUkinuvanje=""
-
-                //     console.log("Novi",noviBaranja);
-               //   console.log(key.substring(1,7));
-                //  console.log(JSON.stringify(value));
+              console.log("obj", objNe);
+              gatewayService.request("/api/Baranja/1/ProductTypeBaranjaUpdate", "POST", objNe).then(function (data, status, heders, config) {
 
 
-                noviBaranja.push(obj);
-              }
+              }, function (data, status, headers, config) {
+                console.log(status);
 
-
-
-             }
-            console.log("Novi",noviBaranja);
-
-            $scope.zaVnesuvanje = {
-              Baranja: noviBaranja,
-              OrgDel: authData.OrgDel
+              });
             }
 
-            console.log('obj',$scope.zaVnesuvanje);
-            gatewayService.request("/api/Baranja/1/vnesiBaranja", "POST",$scope.zaVnesuvanje).then(function (data, status, heders, config) {
-              toastr.success("Барањата се успешно внесени!")
-              $route.reload();
 
-            }, function (data, status, headers, config) {
-              console.log(status);
+          }
+        }
+        var old = false;
 
-            });
+        for (var i = 0; i < $scope.sitevneseni.length; i++) {
+          if (key.substring(1, 7) == $scope.sitevneseni[i].ProductId) {
+            var old = true;
+
+            break;
+
+          }
+
+
+        }
+
+        if (old == false) {
+
+          var obj = {};
+          obj.BrojBaranje = "";
+          obj.KorisnickoIme = $scope.KorisnikPrikazInfo.korisnichkoIme;
+          obj.DatumInsert = $filter('date')($scope.KorisnikPrikazInfo.DatumInsert, "yyyy-MM-dd");
+          obj.EdinstvenBroj = $scope.KorisnikPrikazInfo.EdinstvenBroj;
+          obj.ProductId = key.substring(1, 7);
+          obj.ProductTypeId = $scope.selectiranTip;
+          obj.OrgDel = '000001';
+          obj.Partija = $scope.KorisnikPrikazInfo.Partija;
+          obj.Status_S = "N";
+          obj.DatumBaranje = $filter('date')($scope.KorisnikPrikazInfo.DatumInsert, "yyyy-MM-dd");
+          obj.ReferentInsert = authData.Ime + " " + authData.Prezime;
+          obj.Email = $scope.finalno['o' + obj.ProductId].Email;
+          if (obj.ProductId == '000003') {
+            obj.Sertifikat = $scope.finalno['o' + obj.ProductId].Sertifikat.replace(/[\s]/g, '');
+          }
+          else {
+            obj.SeriskiBrojSertifikat = "";
+          }
+
+          obj.SeriskiBrojSertifikat = "";
+          obj.SertifikatOTP = "";
+          obj.TelefonskiBroj = $scope.finalno['o' + obj.ProductId].TelefonskiBroj;
+          obj.Zabeleska = "";
+          obj.Limit = "";
+          obj.StatusBaranje = "Чекање за одобрување";
+          obj.Privilegii = "1";
+          obj.SeriskiBrojSertifikat = "";
+          obj.ReferentOdobril = "";
+          obj.DatumOdobruvanje = "";
+          obj.BrojDogovor = "";
+          obj.OrgDelUkinuvanje = "";
+          obj.ReferentUkinal = "";
+          obj.DatumUkinuvanje = "";
+          obj.BrojBaranjeZaUkinuvanje = ""
+
+          //     console.log("Novi",noviBaranja);
+          //   console.log(key.substring(1,7));
+          //  console.log(JSON.stringify(value));
+
+
+          noviBaranja.push(obj);
+        }
+
+
+      }
+      console.log("Novi", noviBaranja);
+      if (noviBaranja.length == 0) {
+        $route.reload();
+
+      }
+      else {
+        $scope.zaVnesuvanje = {
+          Baranja: noviBaranja,
+          OrgDel: '000001'
+        }
+
+        console.log('obj', $scope.zaVnesuvanje);
+        gatewayService.request("/api/Baranja/1/vnesiBaranja", "POST", $scope.zaVnesuvanje).then(function (data, status, heders, config) {
+          toastr.success("Барањата се успешно внесени!")
+          $route.reload();
+
+        }, function (data, status, headers, config) {
+          console.log(status);
+
+        });
+      }
+    }
   }
 
   $scope.test = function () {
