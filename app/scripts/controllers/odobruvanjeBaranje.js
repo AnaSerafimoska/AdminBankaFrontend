@@ -14,10 +14,21 @@ angular.module('adminBankaFrontendApp')
     $scope.showButtons=false;
 
     ////////////////////////////////// DODADENO OD MOMIR
+    $scope.openWord = function(){
+      window.open("dokumenti/revidiran.doc","_blank");
+    }
+
     //$rootScope.dataPermisii={};
     $scope.loggedUser = {};
     $scope.loggedUser = JSON.parse(localStorage.getItem("loginData"));
-    var logiranUser = $scope.loggedUser.username;
+    if (! $scope.loggedUser) {
+      $location.path('/login');
+    }
+    else{
+      var logiranUser = $scope.loggedUser.username;
+    }
+
+
 
 
 

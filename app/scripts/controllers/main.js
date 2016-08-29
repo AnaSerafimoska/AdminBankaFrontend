@@ -29,6 +29,22 @@ angular.module('adminBankaFrontendApp')
     }
 
 
+    $scope.loggedUser = {};
+    $scope.loggedUser = JSON.parse(localStorage.getItem("loginData"));
+    if (! $scope.loggedUser) {
+      $location.path('/login');
+    }
+    else{
+      var logiranUser = $scope.loggedUser.username;
+    }
+
+
+
+
+
+
+
+
 
 
 
