@@ -25,8 +25,8 @@ angular
     'pascalprecht.translate',
     'angularTranslateApp',
     'LocalStorageModule',
-    'checklist-model'
-
+    'checklist-model',
+    'ngclipboard'
   ])
 
   .config(function ($routeProvider) {
@@ -81,6 +81,10 @@ angular
       .when('/partii', {
         templateUrl: 'views/partii.html',
         controller: 'partiiCtrl'
+      })
+      .when('/crypto', {
+        templateUrl: 'views/crypto.html',
+        controller: 'CryptoCtrl'
       })
       .otherwise({
         redirectTo: '/login'

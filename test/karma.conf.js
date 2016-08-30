@@ -1,5 +1,5 @@
 // Karma configuration
-// Generated on 2016-04-14
+// Generated on 2016-08-21
 
 module.exports = function(config) {
   'use strict';
@@ -22,7 +22,7 @@ module.exports = function(config) {
       // bower:js
       'bower_components/jquery/dist/jquery.js',
       'bower_components/angular/angular.js',
-      'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap.js',
+      'bower_components/bootstrap/dist/js/bootstrap.js',
       'bower_components/angular-animate/angular-animate.js',
       'bower_components/angular-cookies/angular-cookies.js',
       'bower_components/angular-resource/angular-resource.js',
@@ -39,6 +39,8 @@ module.exports = function(config) {
       'bower_components/angular-translate/angular-translate.js',
       'bower_components/angular-local-storage/dist/angular-local-storage.js',
       'bower_components/checklist-model/checklist-model.js',
+      'bower_components/clipboard/dist/clipboard.js',
+      'bower_components/ngclipboard/dist/ngclipboard.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'app/scripts/**/*.js',
