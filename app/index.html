@@ -1,12 +1,12 @@
 <!doctype html>
 <html>
   <head>
-  <style>
+<!--   <style>
   .selected {
       background-color:#337ab7;
       color:white;
   }
-  </style>
+  </style> -->
     <meta charset="utf-8">
     <title></title>
     <meta name="description" content="">
@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="bower_components/ui-select/dist/select.css" />
     <link rel="stylesheet" href="bower_components/ng-dialog/css/ngDialog.css" />
     <link rel="stylesheet" href="bower_components/ng-dialog/css/ngDialog-theme-default.css" />
+    <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
@@ -74,8 +75,31 @@
     <script src="bower_components/checklist-model/checklist-model.js"></script>
     <script src="bower_components/clipboard/dist/clipboard.js"></script>
     <script src="bower_components/ngclipboard/dist/ngclipboard.js"></script>
+    <script src="bower_components/angular-loading-bar/build/loading-bar.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
+
+  <script src="bower_components/docxgen/docxtemplater-latest.js"></script>
+  <script src="bower_components/docxgen/FileSaver.js"></script>
+  <script src="bower_components/docxgen/jszip-utils.js"></script>
+  <script src="scripts/plugins/aes.js"></script>
+  <script src="scripts/plugins/node-forge/js/forge.js"></script>
+  <script src="scripts/plugins/node-forge/js/util.js"></script>
+  <script src="scripts/plugins/node-forge/js/asn1.js"></script>
+  <script src="scripts/plugins/node-forge/js/oids.js"></script>
+  <script src="scripts/plugins/node-forge/js/hmac.js"></script>
+  <script src="scripts/plugins/node-forge/js/sha1.js"></script>
+  <script src="scripts/plugins/node-forge/js/pkcs7asn1.js"></script>
+  <script src="scripts/plugins/node-forge/js/cipher.js"></script>
+  <script src="scripts/plugins/node-forge/js/cipherModes.js"></script>
+  <script src="scripts/plugins/node-forge/js/debug.js"></script>
+  <script src="scripts/plugins/node-forge/js/des.js"></script>
+  <script src="scripts/plugins/node-forge/js/form.js"></script>
+  <script src="scripts/plugins/node-forge/js/http.js"></script>
+  <script src="scripts/plugins/node-forge/js/jsbn.js"></script>
+
+
+
 
   <!-- build:js({.tmp,app}) scripts/scripts.js -->
   <script src="scripts/app.js"></script>
@@ -95,7 +119,6 @@
   <script src="scripts/controllers/odobruvanjeBaranje.js"></script>
   <script src="scripts/controllers/partii.js"></script>
   <script src="scripts/controllers/crypto.js"></script>
-
   <script src="scripts/services/gateway.js"></script>
   <script src="scripts/services/authentication.js"></script>
   <script src="scripts/services/utility.js"></script>
@@ -103,12 +126,13 @@
   <script src="scripts/directives/dirSearchTipVid.js"></script>
   <script src="scripts/directives/dropdown.js"></script>
   <script src="scripts/directives/dirdinamycform.js"></script>
-  <script src="scripts/directives/searchkomitent.js"></script>
-
-  
-  <script src="scripts/plugins/aes.js"></script>
-  <!-- <script src="scripts/plugins/Crypto.js"></script> -->
+  <script src="scripts/directives/searchkomitent.js"></script>  
+  <script src="scripts/controllers/otp.js"></script>
+  <script src="scripts/controllers/otpuser.js"></script>
+  <script src="scripts/controllers/otpuuid.js"></script>
+  <script src="scripts/controllers/resetpassword.js"></script>
   <!-- endbuild -->
+
 
 
   <div ng-controller="langCtrl"></div>

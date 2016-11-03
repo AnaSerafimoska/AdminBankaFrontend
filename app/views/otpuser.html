@@ -1,0 +1,121 @@
+<section class="wrapper" >
+
+  <ng-include src="'views/header.html'"></ng-include>
+  <!-- Content Header (Page header) -->
+
+  <div class="content-wrapper">
+  	      <section class="content-header">
+        <h1>
+        Менаџирање на ОТП корисници
+        <small> за корисник </small>
+        </h1>
+      </section>
+      <!-- Main content -->
+      <section class="content">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="box box-success">
+            <div class="box-header">
+              <h3 class="box-title">Активен Уред</h3>
+              <div class="box-tools">
+                
+                <button class="btn btn-sm btn-danger" ng-click="removeUser(Device.idField)">Избриши корисник</button>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body table-responsive no-padding">
+              <table class="table table-hover">
+                <tr>
+                  <th class="text-center">ID</th>
+                  <th class="text-center">Корисничко Име</th>
+                  <th class="text-center">Модел</th>
+                  <th class="text-center">UUID</th>
+                  <th class="text-center">Број на грешки</th>
+                  <th class="text-center">OS - APP</th>
+                  <th class="text-center">Статус</th>
+                  <th class="text-center">Почеток</th>
+                  <th class="text-center">Активација</th>
+                </tr>
+                <tr class="text-center">
+					<td>{{Device.idField}}</td>
+                  <td>{{Device.usernameField}}</td>
+                  <td>{{Device.modelField}}</td>
+                  <td>
+                    <button class="btn btn-xs btn-primary" data-trigger="hover" data-type="success" data-title="кликнете тука за да пребарате по овој UUID" bs-tooltip ng-click="viewByUUID( Device.uUIDField )">
+                    {{Device.uUIDField}}
+                    </button>
+                  </td>
+                  <td>{{Device.numberOfFaultsField}}</td>
+                  <td>{{Device.oSVersionField}}/{{Device.appVersionField}}</td>
+                  <td><span class="label label-success">{{Device.statusField}}</span></td>
+                  <td>{{Device.initDateField | date}}</td>
+                  <td>{{Device.activateDateField | date}}</td>
+                </tr>
+              </table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          </div><div class="col-md-12">
+            <div class="box box-success">
+            <div class="box-header">
+              <h3 class="box-title">Историја за корисникот {{userName}}</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body table-responsive no-padding">
+              <table class="table table-hover">
+                <tr>
+                  <th class="text-center">ID</th>
+                  <th class="text-center">Причина</th>
+                  <th class="text-center">Системско време</th>
+                  <th class="text-center">ID на уред</th>
+                  <th class="text-center">Корисничко Име</th>
+                  <th class="text-center">Модел</th>
+                  <th class="text-center">UUID</th>
+                  <th class="text-center">Број на грешки</th>
+                  <th class="text-center">OS - APP</th>
+                  <th class="text-center">Статус</th>
+                  <th class="text-center">Почеток</th>
+                  <th class="text-center">Активација</th>
+                </tr>
+                <tr class="text-center" dir-paginate=" log in DeviceLog | orderBy:sortKey:reverse | filter : searchBox | itemsPerPage:7 ">
+                  <td>{{log.historyIDField}}</td>
+                  <td>{{log.reasonField}}</td>
+                  <td>{{log.sYSDateTimeField | date}}</td>
+                  <td>{{log.deviceIDField}}</td>
+                  <td>{{log.usernameField}}</td>
+                  <td>{{log.modelField}}</td>
+                  <td>
+                    <button class="btn btn-xs btn-primary" data-trigger="hover" data-type="success" data-title="кликнете тука за да пребарате по овој UUID" bs-tooltip ng-click="viewByUUID(log.uUIDField)">
+                    {{log.uUIDField}}
+                    </button>
+                  </td>
+                  <td>{{log.numberOfFaultsField}}</td>
+                  <td>{{log.oSVersionField}} - {{log.appVersionField}}</td>
+                  <td><span class="label label-success">{{log.statusField}}</span></td>
+                  <td>{{log.initDateField | date}}</td>
+                  <td>{{log.activateDateField | date}}</td>
+                </tr>
+              </table>
+
+              <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true" ></dir-pagination-controls>
+            </div>
+
+            <!-- /.box-body -->
+          </div>
+          </div>
+          </section><!-- /.content -->
+  </div>
+  <ng-include src="'views/footer.html'"></ng-include>
+</section>
+
+<script type="text/ng-template" id="templateId">
+  <i class="fa fa-question-circle fa-3x fa-pull-left fa-border"  aria-hidden="true"></i>
+  <h4>Дали сте сигурни дека сакате да го избришете корисникот {{userName}}?</h4>
+  <div class=" text-right">
+    <button  class="btn btn-sm btn-warning "  ng-click="closeThisDialog()">Не</button>
+    <button  class="btn btn-sm btn-success "  ng-click="deleteUser(); closeThisDialog()">Да</button>
+
+
+  </div>
+
+</script>

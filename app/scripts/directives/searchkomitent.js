@@ -20,6 +20,7 @@ angular.module('adminBankaFrontendApp')
         $scope.valueForSearch="Единствен број"
         $scope.flagS="0";
         $scope.Komitenti={};
+        $scope.Komitent={};
         $scope.SearchValue="";
         $scope.korisnik=[];
         $scope.KorisnikPrikazInfo={};
@@ -61,8 +62,20 @@ angular.module('adminBankaFrontendApp')
               if (data.length < 1) {
                 toastr.warning("Не постојат податоци.");
               }
-              $scope.Komitenti = data;
-              console.log(data);
+              if(data.length == 1)
+              {
+                   $scope.Komitenti = data;
+                   // $scope.Komitent = $scope.Komitenti[0];
+                   $scope.fetchKomitent(data[0]);
+
+              }
+              else
+              {
+                   $scope.Komitenti = data;
+              }
+             
+
+            
 
             }, function (data, status, headers, config) {
               console.log(status);
@@ -85,6 +98,12 @@ angular.module('adminBankaFrontendApp')
           $scope.korisnik.BrLicnaKarta = $scope.Korisnik.BrLicnaKarta;
           $scope.KorisnikPrikazInfo.Adresa = $scope.Korisnik.Adresa;
           $rootScope.EdinstvenBrojKomitent=    $scope.korisnik.embg;
+          $rootScope.KomitentInfoDog={};
+          $rootScope.KomitentInfoDog=$scope.Korisnik;
+          $rootScope.KomitentInfoDog.Adresa= $scope.KorisnikPrikazInfo.Adresa;
+          $rootScope.KomitentInfoDog.EdinstvenBroj=  $scope.korisnik.embg;
+        //  console.log(" $rootScope.KomitentInfoDog", $rootScope.KomitentInfoDog);
+
         }
 
 

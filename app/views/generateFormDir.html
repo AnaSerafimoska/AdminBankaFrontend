@@ -8,7 +8,17 @@
           <div class="row "    ng-if="item.FieldType=='oTextBox' ">
             <label class=" col-md-2 control-label " >{{item.FieldDescription}}</label>
             <div class="col-md-2 ">
-              <input ng-disabled="isdisabled"  class="form-control ng-touched ng-invalid-required  input-sm "  ng-required="{{item.Mandatory=='М'}}" dynamic-model="'obj.'+'o'+item.ProductID+'.'+item.FieldName" type="{{item.FieldType}}" maxlength="{{item.FieldLength}}" value="{{item.DefaultValue}}" />
+              <input ng-disabled="checkIsDisabled(this, disableall)"  class="form-control ng-touched ng-invalid-required  input-sm "  ng-required="{{item.Mandatory=='М'}}" dynamic-model="'obj.'+'o'+item.ProductID+'.'+item.FieldName" type="{{item.FieldType}}" maxlength="{{item.FieldLength}}" value="{{item.DefaultValue}}" />
+
+            </div>
+
+          </div>
+          <br/>
+           <!--************************************* Textbox ***************************************************-->
+          <div class="row "    ng-if="item.FieldType=='oFile' "  ng-show="checkIsDisabled(this, !disableall)" >
+            <label class=" col-md-2 control-label " >{{item.FieldDescription}}</label>
+            <div class="col-md-2 ">
+              <input ng-disabled="checkIsDisabled(this, disableall)" style="margin-left: 0px;padding-left: 0px"  class="ng-touched ng-invalid-required  input-sm "  ng-required="{{item.Mandatory=='М'}}" onchange="angular.element(this).scope().readFile(this)" dynamic-model="'obj.'+'o'+item.ProductID+'.'+item.FieldName" type="file"   />
 
             </div>
 

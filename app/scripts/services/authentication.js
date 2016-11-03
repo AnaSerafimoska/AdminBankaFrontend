@@ -22,7 +22,7 @@ angular.module('adminBankaFrontendApp').factory('authService', function ($cookie
 		}
 
 		$http
-			.post('http://localhost:1176/token', smth,config ).success(function (data, status, headers, config){
+			.post('http://10.55.55.28/token', smth,config ).success(function (data, status, headers, config){
 				//instance.usr.token = data.access_token;
 				createTokenSession(data, user.username);
 				deferred.resolve(data);

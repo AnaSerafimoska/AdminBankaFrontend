@@ -22,8 +22,7 @@
 
         <div class="col-md-6 form-group">
           <select class="form-control ng-touched ng-invalid ng-valid ng-pristine ng-empty" ng-change="fetchKomitent(Komitent)"  ng-model="Komitent" ng-disabled="">
-            <option></option>
-            <option ng-repeat="komitent in Komitenti" value="{{komitent}}" >{{komitent.EdinstvenBroj}}-{{komitent.ImeNaziv}} {{komitent.Prezime}} {{komitent.Mesto}}</option>
+            <option ng-repeat="komitent in Komitenti" ng-selected="{{Komitenti.length == 1}}" value="{{komitent}}" >{{komitent.EdinstvenBroj}}-{{komitent.ImeNaziv}} {{komitent.Prezime}} {{komitent.Mesto}}</option>
           </select>
 
         </div>
