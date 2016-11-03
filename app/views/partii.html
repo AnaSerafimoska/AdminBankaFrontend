@@ -9,7 +9,7 @@
       <h1 >Партии</h1>
     </div>
 
-    <div class="content" >
+    <div class="content col-md-6" >
 
       <div class=" box box-success  ">
         <div class="box-header with-border">
@@ -20,7 +20,7 @@
 
           <div class="row">
             <form novalidate class="css-form" name="form">
-              <div class="col-md-12 "  >
+            <!--   <div class="col-md-12 "  >
                           <div class="row ">
                             <div class="col-lg-6">
                               <div class="input-group">
@@ -52,27 +52,38 @@
 
                             </div>
                           </div>
-                </div>
+                </div> -->
 
 
               <!--<div class=" row col-md-12 box-header pull-right ">-->
                 <!--<button class="btn btn-default text-right pull-right btn-sm" style="color:white; background-color: #3c8dbc; float:right; margin-right: 15px;" ng-click=" setVisibility()" ng-disabled="Flag_Prikazhi">  Прикажи </button>-->
               <!--</div>-->
-              <div class="col-md-12">
-                <div class="row" ng-show="flagVisibilityInput">
-                  <div class=" col-md-3 form-group pull-right">
+             
+                   <div class=" col-md-6 form-group">
+                        <label >Партија:</label>
+                        <input ng-model="epartii.Partija" ng-blur="ePartiiFetchMinimalenBrojPotpisnici(epartii.Partija)"  type="text" class="form-control ng-invalid-required"  mask="9" repeat="15" restrict="reject" required>
+                   </div>
+
+                    
+           
+                  <div class=" col-md-6 form-group">
                     <label >Минимален број потписници:</label>
                     <input placeholder="" ng-model="epartii.MinBrojPotpisnici" min="1" ng-init="MinBrojPotpisnici=1"   type="number" class="form-control ng-invalid-required input-sm" reguired>
                   </div>
 
 
-                </div>
+          
 
                 </div>
-              <div class=" row col-md-12 box-header pull-right " ng-show="flagVisibilityInput">
-                <button class="btn btn-success text-right btn-sm" style="float:right; margin-right: 15px;" ng-click="snimi()" ng-disabled="">  Сними </button>
-              </div>
 
+                
+                <div class="row">
+                    <div class="col-md-12 box-header text-right" >
+                          <button class="btn btn-success btn-sm" ng-click="snimi()" ng-disabled="form.$invalid">  Сними </button>
+                    </div>
+
+                </div>
+            
 
 
             </form>
@@ -80,7 +91,7 @@
 
 
 
-
+            </div>
           </div>
 
         </div>
@@ -88,5 +99,6 @@
     </div>
 
   </div>
+  <ng-include src="'views/footer.html'"></ng-include>
 </section>
 

@@ -201,7 +201,7 @@ angular.module('adminBankaFrontendApp')
       for (var a = 0; a < $scope.productbody.length; ++a) {
         if($scope.productbody[a].FieldType == "Dropdown"){
 
-          arr.push($http.get("http://localhost:58075"+$scope.productbody[a].FillApi));
+          arr.push($http.get("http://10.55.55.28"+$scope.productbody[a].FillApi));
         } else {
           arr.push(null);
         }

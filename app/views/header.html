@@ -5,13 +5,13 @@
     <!-- mini logo for sidebar mini 50x50 pixels -->
     <!-- <span class="logo-mini"><b>Г</b>МК</span> -->
     <!-- logo for regular state and mobile devices -->
-    <span class="logo-lg" data-fittext data-fittext-max="17"><img src="images/logo_new.png" style=" width: 100%; margin: 0px; padding: 0px;"/></span>
+    <span class="logo-lg" data-fittext data-fittext-max="17"><img src="images/logo_new.png" style=" max-width: 100%; max-height:100%;"/></span>
   </a>
   <!-- Header Navbar: style can be found in header.less -->
   <nav class="navbar navbar-static-top"  role="navigation">
 
-    <div><image class="img-circle" style=" width: 18px;float: right;height: 18px;" src="images/macedonian.png" ng-click="changeLang('mk')"></image></div>
-    <div><image class="img-circle" style="margin-right: 5px;width: 18px;float: right;height: 18px;" src="images/english.png" ng-click="changeLang('en')"></image></div>
+    <div><image class="img-circle" style=" width: 18px;float: right;height: 18px;" src="images/macedonian.png" ng-click="changeLanguage('mk')"></image></div>
+    <div><image class="img-circle" style="margin-right: 5px;width: 18px;float: right;height: 18px;" src="images/english.png" ng-click="changeLanguage('en')"></image></div>
 
     <!-- Sidebar toggle button-->
     <a href="#" class="sidebar-toggle" style="color: black"  data-toggle="offcanvas"  role="button">
@@ -32,7 +32,7 @@
         <li class="dropdown user user-menu">
           <a href="" class="dropdown-toggle" data-toggle="dropdown">
             <img src="images/User_Circle.png" class="user-image" alt="User Image"/>
-            <span class="hidden-xs" style="color: #222d32;">{{loggedUser.username}}</span>
+            <span class="hidden-xs">{{loggedUser.username}}</span>
           </a>
           <ul class="dropdown-menu">
             <!-- User image -->
@@ -73,8 +73,8 @@
         <img src="images/User_Circle.png" class="img-circle-sm" alt="User Image">
       </div>
       <div class="pull-left info">
-        <p style="font-size: 11px">{{loggedUser.username}}</p>
-        <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+       <!--  <p style="font-size: 11px">{{loggedUser.username}}</p> -->
+        <a href="#"><i class="fa fa-circle text-success"></i> {{loggedUser.username}}</a>
       </div>
     </div>
     <!--&lt;!&ndash; search form &ndash;&gt;-->
@@ -94,57 +94,54 @@
     <ul class="sidebar-menu">
       <li class="header"></li>
 
-      <li class="treeview" ng-if="hasPermission('tip-rabota')">
+      <li class="treeview"  ng-if="hasPermission('tip-rabota')"  ng-class="{ active: isActive('/tip-rabota/create')}">
         <a href="/#/tip-rabota/create">
           <i class="fa fa-dashboard"></i> <span>{{'lblHeaderTip_pt' | translate}} </span> </i>
         </a>
 
       </li>
-      <li class="treeview" ng-if="hasPermission('vid-rabota')">
+      <li class="treeview" ng-if="hasPermission('vid-rabota')"  ng-class="{ active: isActive('/vid-rabota/create')}">
         <a href="/#/vid-rabota/create">
           <i class="fa fa-dashboard"></i> <span>{{'meniVidoviRabota_p' | translate}}</span> </i>
         </a>
-        <!--
-        <i class="fa fa-angle-left pull-right">
-        <ul class="treeview-menu">
-          <li><a href="/#/vid-rabota"><i class="fa fa-circle-o"></i> Преглед</a></li>
-          <li><a href="/#/products"><i class="fa fa-circle-o"></i>Продукти </a></li>
-          <li><a href="/#/vid-rabota/create"><i class="fa fa-circle-o"></i> Внеси вид работа</a></li>
-
-        </ul> -->
       </li>
-      <!--<li class="treeview">-->
-        <!--<a href="/#/form">-->
-          <!--<i class="fa fa-dashboard"></i> <span>Креирај форма </span> </i>-->
-        <!--</a>-->
-
-      <!--</li>-->
-      <li class="treeview" ng-if="hasPermission('komitenti')">
+     
+      <li class="treeview" ng-if="hasPermission('komitenti')" ng-class="{ active: isActive('/komitenti')}">
         <a href="#/komitenti">
           <i class="fa fa-users" aria-hidden="true"></i> <span> Комитенти </span>
         </a>
       </li>
-      <li class="treeview" ng-if="hasPermission('partii')">
+      <li class="treeview" ng-if="hasPermission('partii')" ng-class="{ active: isActive('/partii')}">
         <a href="#/partii">
           <i class="fa fa-credit-card" aria-hidden="true"></i><span> Партии </span>
         </a>
       </li>
 
-       <li class="treeview" ng-if="hasPermission('admin-baranja')">
+       <li class="treeview" ng-if="hasPermission('adminBaranja')" ng-class="{ active: isActive('/adminBaranja')}">
         <a href="#/adminBaranja">
           <i class="fa fa-file-text-o" aria-hidden="true"></i> <span> Внесување на барања </span>
         </a>
       </li>
 
-      <li class="treeview" ng-if="hasPermission('odobruvanjeBaranja')">
+      <li class="treeview" ng-if="hasPermission('odobruvanjeBaranja')" ng-class="{ active: isActive('/odobruvanjeBaranja')}">
         <a href= "#/odobruvanjeBaranja">
           <i class="fa fa-file-text-o" aria-hidden="true"></i><span> Одобрување на барања </span>
+        </a>
+      </li>
+        <li class="treeview" ng-if="hasPermission('otp')" ng-class="{ active: isActive('/otp')}">
+        <a href= "#/otp">
+          <i class="fa fa-users" aria-hidden="true"></i><span> ОТП корисници </span>
+        </a>
+      </li>
+         <li class="treeview" ng-if="hasPermission('resetPassword')" ng-class="{ active: isActive('/resetPassword')}">
+        <a href= "#/resetPassword">
+          <i class="fa fa-users" aria-hidden="true"></i><span> Ресетирај лозинка </span>
         </a>
       </li>
 
       <li class="treeview">
         <a href="#/crypto">
-          <i class="fa fa-file-text-o" aria-hidden="true"></i><span> Криптиранје текст </span>
+          <i class="fa fa-file-text-o" aria-hidden="true"></i><span> Криптирање текст </span>
         </a>
       </li>
 

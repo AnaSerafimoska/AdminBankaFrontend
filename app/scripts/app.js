@@ -9,96 +9,122 @@
  * Main module of the application.
  */
 angular
-  .module('adminBankaFrontendApp', [
-    'ngAnimate',
-    'ngCookies',
-    'ngResource',
-    'ngRoute',
-    'ngSanitize',
-    'ngTouch',
-    'mgcrea.ngStrap',
-    'ngMask',
-    'toastr',
-    'angularUtils.directives.dirPagination',
-    'ui.select',
-    'ngDialog',
-    'pascalprecht.translate',
-    'angularTranslateApp',
-    'LocalStorageModule',
-    'checklist-model',
-    'ngclipboard'
-  ])
+    .module('adminBankaFrontendApp', [
+        'ngAnimate',
+        'ngCookies',
+        'ngResource',
+        'ngRoute',
+        'ngSanitize',
+        'ngTouch',
+        'mgcrea.ngStrap',
+        'ngMask',
+        'toastr',
+        'angularUtils.directives.dirPagination',
+        'ui.select',
+        'ngDialog',
+        'pascalprecht.translate',
+        'angularTranslateApp',
+        'LocalStorageModule',
+        'checklist-model',
+        'ngclipboard',
+        'angular-loading-bar'
 
-  .config(function ($routeProvider) {
-    $routeProvider
-      .when('/main', {
-        templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
-      })
-      .when('/about', {
-        templateUrl: 'views/about.html',
-        controller: 'AboutCtrl'
-      })
-      .when('/vid-rabota/create', {
-        templateUrl: 'views/vid-rabota-create.html',
-        controller: 'VidRabotaCreateCtrl'
-      })
-      .when('/tip-rabota/create', {
-        templateUrl: 'views/tip-rabota-create.html',
-        controller: 'TipRabotaCreate'
-      })
-      .when('/vid-rabota', {
-        templateUrl: 'views/vid-rabota.html',
-        controller: 'VidRabotaCtrl'
-      })
-      .when('/login', {
-        templateUrl: 'views/login.html',
-        controller: 'LoginCtrl',
-      })
+    ])
 
-      .when('/form', {
-        templateUrl: 'views/generateForm.html',
-        controller: 'GenerateFormCtrl',
-      })
-      .when('/forma', {
-        templateUrl: 'views/create-form.html',
-        controller:'formaCtrl',
-      })
-      .when('/adminBaranja', {
-        templateUrl: 'views/adminBaranja.html',
+.config(function($routeProvider) {
+        $routeProvider
+            .when('/main', {
+                templateUrl: 'views/main.html',
+                controller: 'MainCtrl'
+            })
+            .when('/about', {
+                templateUrl: 'views/about.html',
+                controller: 'AboutCtrl'
+            })
+            .when('/vid-rabota/create', {
+                templateUrl: 'views/vid-rabota-create.html',
+                controller: 'VidRabotaCreateCtrl'
+            })
+            .when('/tip-rabota/create', {
+                templateUrl: 'views/tip-rabota-create.html',
+                controller: 'TipRabotaCreate'
+            })
+            .when('/vid-rabota', {
+                templateUrl: 'views/vid-rabota.html',
+                controller: 'VidRabotaCtrl'
+            })
+            .when('/login', {
+                templateUrl: 'views/login.html',
+                controller: 'LoginCtrl',
+            })
 
-      })
-      .when('/odobruvanjeBaranja', {
-        templateUrl: 'views/odobruvanjeBaranje.html',
-        controller: 'odobruvanjeBaranjaCtrl'
+        .when('/form', {
+                templateUrl: 'views/generateForm.html',
+                controller: 'GenerateFormCtrl',
+            })
+            .when('/forma', {
+                templateUrl: 'views/create-form.html',
+                controller: 'formaCtrl',
+            })
+            .when('/adminBaranja', {
+                templateUrl: 'views/adminBaranja.html',
 
-      })
-      .when('/komitenti', {
-        templateUrl: 'views/vnesuvanjeKomitenti.html',
-        controller: 'KomitentiCtrl'
+            })
+            .when('/odobruvanjeBaranja', {
+                templateUrl: 'views/odobruvanjeBaranje.html',
+                controller: 'odobruvanjeBaranjaCtrl'
 
-      })
-      .when('/partii', {
-        templateUrl: 'views/partii.html',
-        controller: 'partiiCtrl'
-      })
-      .when('/crypto', {
-        templateUrl: 'views/crypto.html',
-        controller: 'CryptoCtrl'
-      })
-      .otherwise({
-        redirectTo: '/login'
-      });
-  })
+            })
+            .when('/komitenti', {
+                templateUrl: 'views/vnesuvanjeKomitenti.html',
+                controller: 'KomitentiCtrl'
 
-  .config(function(toastrConfig) {
-    angular.extend(toastrConfig, {
-      closeButton: true,
-      autoDismiss: true,
-      timeOut: 2000,
-      positionClass: 'toast-bottom-right'
+            })
+            .when('/partii', {
+                templateUrl: 'views/partii.html',
+                controller: 'partiiCtrl'
+            })
+            .when('/crypto', {
+                templateUrl: 'views/crypto.html',
+                controller: 'CryptoCtrl'
+            })
+            .when('/otp', {
+                templateUrl: 'views/otp.html',
+                controller: 'OtpCtrl',
+                controllerAs: 'otp'
+            })
+            .when('/otp/user/:userName', {
+                templateUrl: 'views/otpuser.html',
+                controller: 'OtpuserCtrl',
+                controllerAs: 'otpUser'
+            })
+            .when('/otp/uuid/:uuid', {
+                templateUrl: 'views/otpuuid.html',
+                controller: 'OtpuuidCtrl',
+                controllerAs: 'otpuuid'
+            })
+            .when('/resetPassword', {
+                templateUrl: 'views/resetpassword.html',
+                controller: 'ResetpasswordCtrl',
+                controllerAs: 'resetPassword'
+            })
+            .otherwise({
+                redirectTo: '/login'
+            });
     })
+    .config(['cfpLoadingBarProvider',
+        function(cfpLoadingBarProvider) {
+            cfpLoadingBarProvider.includeBar = true;
+            cfpLoadingBarProvider.includeSpinner = false;
+            cfpLoadingBarProvider.latencyThreshold = 100;
+        }
+    ])
 
+.config(function(toastrConfig) {
+    angular.extend(toastrConfig, {
+        closeButton: true,
+        autoDismiss: true,
+        timeOut: 2000,
+        positionClass: 'toast-bottom-right'
+    })
 });
-
-

@@ -8,35 +8,25 @@
  * Controller of the eBankingAdminApp
  */
 angular.module('adminBankaFrontendApp')
-  .controller('MainCtrl', function ($scope,  gatewayService,localStorageService, $location, authService, $filter, toastr,ngDialog,$route,$translate) {
+    .controller('MainCtrl', function($scope, $rootScope, gatewayService, localStorageService, $location, authService, $filter, toastr, ngDialog, $route, $translate) {
 
 
 
-    if(localStorage.getItem("loginData")){
+        $scope.loggedUser = {};
 
-      var authData = JSON.parse(localStorage.getItem("loginData"));
-      console.log(authData);
-    }
+        if (localStorage.getItem("loginUser")) {
 
-    if(authData)
-    {
+            var authData = JSON.parse(localStorage.getItem("loginUser"));
+            //console.log(authData);
+        }
 
-    }
-    else
-    {
-      $location.path('/login');
-      localStorage.clear();
-    }
-
-
-    $scope.loggedUser = {};
-    $scope.loggedUser = JSON.parse(localStorage.getItem("loginData"));
-    if (! $scope.loggedUser) {
-      $location.path('/login');
-    }
-    else{
-      var logiranUser = $scope.loggedUser.username;
-    }
+        if (authData) {
+            $scope.loggedUser = JSON.parse(localStorage.getItem("loginUser"));
+            var logiranUser = $scope.loggedUser.username;
+        } else {
+            localStorage.clear();
+            $location.path('/login');
+        }
 
 
 
@@ -45,10 +35,4 @@ angular.module('adminBankaFrontendApp')
 
 
 
-
-
-
-
-
-
-  });
+    });

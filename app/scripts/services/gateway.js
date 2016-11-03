@@ -1,22 +1,23 @@
 'use strict';
 
 
-angular.module('adminBankaFrontendApp').factory('gatewayService', function ($http, $q,  $cookies/*, session*/) {
+angular.module('adminBankaFrontendApp').factory('gatewayService', function($http, $q, $cookies /*, session*/ ) {
 
     var instance = {};
     //var user = session.token();
 
-    instance.request = function (url, operationType, obj) {
+    instance.request = function(url, operationType, obj) {
 
         var deferred = $q.defer();
-        setTimeout(function () {
+        setTimeout(function() {
             var serviceUrl;
             //var token = user.token;
 
             if (typeof url !== "undefined") {
-             //   serviceUrl = "http://10.55.55.28" + url;
-                  serviceUrl = "http://localhost:58075" + url;
-               // serviceUrl = "http://localhost:9090" + url;
+                //  serviceUrl = "http://adminbanka.ebanking.local" + url;
+                serviceUrl = "http://localhost:58075" + url;
+                //serviceUrl = "http://localhost:9090" + url;
+                // serviceUrl = "http://10.55.55.215:1234" + url;
             }
 
             $http({
@@ -30,9 +31,9 @@ angular.module('adminBankaFrontendApp').factory('gatewayService', function ($htt
                     //"Authorization": "Bearer " + token
                     // "key": keyEncode(key)
                 }
-            }).success(function (data, status, headers, config) {
+            }).success(function(data, status, headers, config) {
                 deferred.resolve(data);
-            }).error(function (data, status, headers, config) {
+            }).error(function(data, status, headers, config) {
                 deferred.reject(status);
             });
         }, 0);
@@ -42,29 +43,29 @@ angular.module('adminBankaFrontendApp').factory('gatewayService', function ($htt
 
 
 
-/*    function keyEncode(key) {
+    /*    function keyEncode(key) {
 
 
 
-        var txtUserName = user.userName;
-        var keyCombo = txtUserName + "++" + key;
-        var key = CryptoJS.enc.Utf8.parse('SRkTcJz5kt6Lft2r');
-        var iv = CryptoJS.enc.Utf8.parse('5Zq4JLGR7TMCs4eP');
+            var txtUserName = user.userName;
+            var keyCombo = txtUserName + "++" + key;
+            var key = CryptoJS.enc.Utf8.parse('SRkTcJz5kt6Lft2r');
+            var iv = CryptoJS.enc.Utf8.parse('5Zq4JLGR7TMCs4eP');
 
-        var encryptedlogin = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(keyCombo), key,
-       {
-           keySize: 128 / 8,
-           iv: iv,
-           mode: CryptoJS.mode.CBC,
-           padding: CryptoJS.pad.Pkcs7
-       });
+            var encryptedlogin = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(keyCombo), key,
+           {
+               keySize: 128 / 8,
+               iv: iv,
+               mode: CryptoJS.mode.CBC,
+               padding: CryptoJS.pad.Pkcs7
+           });
 
-        var encodedString = encryptedlogin.ciphertext.toString(CryptoJS.enc.Base64)
-        encodedString = "fe" + encodedString;
-        encodedString = encodeURIComponent(encodedString)
-        return encodedString;
-    }
-*/
+            var encodedString = encryptedlogin.ciphertext.toString(CryptoJS.enc.Base64)
+            encodedString = "fe" + encodedString;
+            encodedString = encodeURIComponent(encodedString)
+            return encodedString;
+        }
+    */
 
     return instance;
 });

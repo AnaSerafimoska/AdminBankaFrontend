@@ -21,9 +21,7 @@
           <h3 class="box-title">
             {{'headerSnimiZapis_p' | translate}}
           </h3>
-
         </div>
-
 
         <div class="box-body">
           <div class="row">
@@ -37,7 +35,7 @@
                 <div class="form-group col-md-3">
                   <label>Вид на комитент</label>
                   {{Komitent.VidKomitent}}
-                  <ui-select ng-blur="checkVidKomitent()" ng-model="Komitent.VidKomitent" class="pull-right" style="min-width: 260px; height: 30px"  theme="select2"  on-select="disableFields()" required>
+                  <ui-select ng-blur="checkVidKomitent()" ng-model="Komitent.VidKomitent"  theme="bootstrap"  on-select="disableFields()" required>
                     <ui-select-match > {{$select.selected.desc}}</ui-select-match>
                     <ui-select-choices repeat="item.id as item in vidKomitent | filter: $select.search">
                       <small>
@@ -49,7 +47,7 @@
 
                 <div class="form-group col-md-3">
                   <label>Единствен број</label>
-                  <input  ng-blur="checkEdinstvenBroj()" type="text"  class=" form-control ng-pristine  ng-invalid-required ng-touched input-sm"     ng-model="Komitent.EdinstvenBroj" required>
+                  <input  ng-blur="checkEdinstvenBroj()" type="text"  class=" form-control ng-pristine  ng-invalid-required ng-touched input-sm"   mask="9" repeat="13" restrict="reject" ng-change="checkEdinstvenBrojInDb(Komitent.EdinstvenBroj)" ng-model="Komitent.EdinstvenBroj" required>
                 </div><!-- /.form-group -->
 
 
@@ -76,7 +74,7 @@
 
                 <div class="form-group col-md-1">
                   <label>Пол</label>
-                  <ui-select ng-disabled="isActive" ng-model="Komitent.Pol" class="pull-right" style="width: 70px; height: 30px"  theme="select2"  on-select="">
+                  <ui-select ng-disabled="isActive" ng-model="Komitent.Pol" theme="bootstrap"  on-select="">
                     <ui-select-match >{{$select.selected.Pol}}</ui-select-match>
                     <ui-select-choices repeat="item in vidPol | filter: $select.search">
                       <small>
@@ -99,7 +97,6 @@
                     </div>
 
 
-
                   <div class="form-group col-md-3">
                     <label>Место на раѓање</label>
                     <input ng-disabled="isActive" ng-blur="checkVid()" type="text"  class=" form-control ng-pristine  ng-invalid-required ng-touched input-sm" ng-model="Komitent.MestoRaganje" >
@@ -113,19 +110,19 @@
                 </div>
               <div class="row">
                 <div class="form-group col-md-3">
-                  <label>Држава</label>
-                  <input type="text" class=" form-control ng-pristine  ng-invalid-required ng-touched input-sm" ng-blur="placesFetch(Komitent.Drzava.Name)"  ng-model="Komitent.Drzava" bs-options=" state.Name  for state in states" bs-typeahead required>
+                  <label>Држава</label>{{Komitent.Drzava}}
+                  <input type="text" class=" form-control ng-pristine  ng-invalid-required ng-touched input-sm" ng-blur="placesFetch(Komitent.Drzava)"  ng-model="Komitent.Drzava" bs-options="state for state in states" bs-typeahead required>
                 </div><!-- /.form-group -->
 
 
                   <div class="form-group col-md-3">
-                    <label>Место на живеење</label>
-                    <input type="text" class=" form-control ng-pristine  ng-invalid-required ng-touched input-sm" ng-blur="municipalityFetch(Komitent.Mesto.Place)"  ng-model="Komitent.Mesto"  bs-options="place.Place for place in places"  bs-typeahead required>
+                    <label>Место на живеење</label>{{Komitent.Mesto}}
+                    <input type="text" class=" form-control ng-pristine  ng-invalid-required ng-touched input-sm" ng-blur="municipalityFetch(Komitent.Mesto);postalCodefetch(Komitent.Mesto)"  ng-model="Komitent.Mesto"  bs-options="place for place in places"  bs-typeahead required>
                   </div><!-- /.form-group -->
 
                 <div class="form-group col-md-3">
-                  <label>Општина</label>
-                  <input type="text" class=" form-control ng-pristine  ng-invalid-required ng-touched input-sm"ng-model="Komitent.Opstina"  bs-options="municipality for municipality in municipalities"  bs-typeahead>
+                  <label>Општина</label>{{Komitent.Opstina}}
+                  <input type="text" class=" form-control ng-pristine  ng-invalid-required ng-touched input-sm"ng-model="Komitent.Opstina"  bs-options="municipality for municipality in municipalities"  bs-typeahead required>
 
                   <!--<input ng-blur="checkOpstina()" type="text"  class=" form-control ng-pristine  ng-invalid-required ng-touched input-sm"     ng-model="Komitent.Opstina"  required>-->
                 </div><!-- /.form-group -->
@@ -146,7 +143,7 @@
 
                   <div class="form-group col-md-3">
                     <label>Мобилен</label>
-                    <input ng-blur="checkVid()" type="text"  class=" form-control ng-pristine  ng-invalid-required ng-touched input-sm" ng-model="Komitent.Mobilen"  >
+                    <input ng-blur="checkVid()" type="text" mask="9" repeat="9" restrict="reject"  class=" form-control ng-pristine  ng-invalid-required ng-touched input-sm" ng-model="Komitent.Mobilen"  >
                   </div><!-- /.form-group -->
 
                   <div class="form-group col-md-3">
@@ -189,7 +186,7 @@
                 <div class="row">
                     <div class="form-group col-md-3">
                       <label>Корисничко име</label>
-                      <input ng-blur="checkVid()" type="text"  class=" form-control ng-pristine  ng-invalid-required ng-touched input-sm" ng-model="Komitent.KorisnickoIme" >
+                      <input ng-blur="checkVid()" type="text" ng-change="checkKorisnickoImeInDb(Komitent.KorisnickoIme)"  class=" form-control ng-pristine  ng-invalid-required ng-touched input-sm" ng-model="Komitent.KorisnickoIme" >
                     </div><!-- /.form-group -->
                   <div class="form-group col-md-1">
                     <label>Статус</label>
@@ -299,6 +296,7 @@
   </div>
 
   </div>
+  <ng-include src="'views/footer.html'"></ng-include>
 </section>
 
 

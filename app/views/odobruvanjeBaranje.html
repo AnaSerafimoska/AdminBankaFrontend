@@ -3,10 +3,25 @@
 
   <div>
     <form name="formSmetka">
-      <div id="info">
-        <h3>Информации за најава на системот за електронско банкарство:</h3>
-        <label>Корисничко име: {{baranje.KorisnickoIme}} </label><br/>
-        <label>Лозинка: {{password}}</label>
+      <div id="info" style="padding: 20px;">
+       <!--<h3>Информации за најава на системот за електронско банкарство:</h3>-->
+        <!--<label>Корисничко име: {{baranje.KorisnickoIme}} </label><br/>-->
+        <!--<label>Лозинка: {{password}}</label>-->
+        <p>Почитуван/Почитувана {{baranje.KorisnickoIme}}</p>
+        <br/>
+        <p>
+        Со задоволство Ве информираме дека успешно сте регистрирани како корисник на сервисот Е-Банкарство на Стопанска Банка А.Д. Битола. За пристап на сервисот Ве молиме да ја посетите интернет страната на Банката линк, користејќи ги Вашите податоци:
+        </p>
+        <br/>
+          <p>Корисничко име: EBANKING\{{baranje.KorisnickoIme}}<br/>
+          Лозинка: {{password}}</p>
+          <br/>
+          <p>
+          Со почит,<br/>
+          Стопанска Банка А.Д. Битола
+
+        </p>
+
       </div>
 
 
@@ -19,6 +34,31 @@
   </div>
 
 </script>
+
+
+
+<script type="text/ng-template" id="zabeleska" ng-controller="odobruvanjeBaranjaCtrl">
+
+    <div>
+      <form name="formSmetka">
+            <label>Причина за одбивање:</label>
+            <div>
+              <input  type="text" class="input-sm form-control" ng-model="zabeleska" ></input>
+            </div>
+            <br/>
+            <div class="text-right">
+              <button  class="btn btn-warning"  ng-click="closeThisDialog()" >Откажи </button>
+              <button  class="btn btn-success" ng-click="odbivanje(zabeleska); closeThisDialog()">Одбиј</button>
+
+            </div>
+      </form>
+      </div>
+
+  </script>
+
+
+
+
 <section class="wrapper" >
 
   <ng-include src="'views/header.html'"></ng-include>
@@ -46,23 +86,12 @@
                   <search-Komitent ></search-Komitent>
 
 
-                <!--<div class="form-group col-md-2">-->
-
-                      <!--<label >Единствен број:</label>-->
-                  <!--</div>-->
-
-                  <!--<div class="form-group col-md-2">-->
-                    <!--<input  type="text" class=" input-sm ng-valid ng-invalid form-control" mask="9" repeat="13" restrict="reject" required  ng-model="obj.EdinstvenBroj"  ng-blur="checkEMBG()" />-->
-                  <!--</div>-->
-                <!--</div>-->
-
-
 
               </div>
 
               <div class=" row col-md-12 box-header pull-right ">
                 <!-- <button class="btn btn-default text-right pull-right btn-sm" style="color: white;background-color: #00a65a; float:right; width: 75px;" ng-click="" ng-disabled="">  Сними </button> -->
-                <button class="tn btn-default text-right pull-right btn-sm" style="color:white; background-color: #3c8dbc; float:right; margin-right: 15px;" ng-click="prikaziBaranja(EdinstvenBroj); openWord() "  ng-disabled="form.$invalid">  Прикажи </button>
+                <button class="tn btn-default text-right pull-right btn-sm" style="color:white; background-color: #3c8dbc; float:right; margin-right: 15px;" ng-click="prikaziBaranja(EdinstvenBroj)"  ng-disabled="form.$invalid">  Прикажи </button>
               </div>
 
             </form>
@@ -85,7 +114,7 @@
                   <td >{{y["BrojBaranje"]}} </td>
                   <td >{{y["Partija"]}} </td>
                   <td >{{y["KorisnickoIme"]}} </td>
-                  <td >{{y["DatumInsert"]}} </td>
+                  <td >{{y["DatumInsert"] | date}} </td>
                   <td >{{y["StatusBaranje"]}} </td>
                 </tr>
 
@@ -97,29 +126,36 @@
               <img id="mySpinner"  src="/images/loading.gif" style="width: 100px;height: 100px; margin-top: -17px;margin-left: 41%;" ng-show="loading"/>
             </div>
 
-            <span ng-show="showDir">
+          <div ng-if="prikazNaFormaDinamichka">
 
-            <div ng-repeat="item in products"  style="margin-left:18px">
+                <div ng-repeat="item in products"  ng-show="prikazNaFormaDinamichka" style="margin-left:18px">
 
-              <dir-Dinamyc-Form  ng-model="finalno"  value='item.ProductID' type="item.ProductTypeID" desc="item.Description" disableall="true" ></dir-Dinamyc-Form>
-              <br/>
+                  <dir-Dinamyc-Form  ng-model="finalno"  value='item.ProductID' type="item.ProductTypeID" desc="item.Description" disableall="true" ></dir-Dinamyc-Form>
+                  <br/>
+                </div>
             </div>
-            </span>
 
           </div>
 
 
 
 
-          <div class=" row col-md-12 pull-right box-header "  ng-show="showDir">
-            <button class="btn btn-success text-right btn-sm" style="float:right; margin-right: 15px;" ng-click="odobriBaranje()" ng-disabled="!flagDisableButtons">Одобри</button>
-            <button class="btn btn-success text-right btn-sm" style="float:right; margin-right: 15px;" ng-disabled="flagDisableButtons" ng-click="randomPassword(10);popUp()">Печати лозинка</button>
-            <button class="btn btn-success text-right btn-sm" style="float:right; margin-right: 15px;" ng-disabled="flagDisableButtons">Печати дог. сертификат</button>
-            <button class="btn btn-success text-right btn-sm" style="float:right; margin-right: 15px;" ng-disabled="flagDisableButtons">Печати договор</button>
+          <div class="col-md-12 text-right"  ng-show="prikazNaFormaDinamichka">
 
-          </div>
-          <div class=" row col-md-12 pull-right box-header "  ng-show="showButtons">
-            <button class="btn btn-success text-right btn-sm" style="float:right; margin-right: 15px;" ng-click="ukiniBaranje()" ng-disabled="">Укини</button>
+           <button class="btn btn-success btn-sm" style="margin-right: 5px;" ng-disabled="flagDisableButtons" ng-click="printDivDogovor()">Печати договор</button>
+
+            <button class="btn btn-success btn-sm" style="margin-right: 5px;" ng-disabled="flagDisableLozinka" ng-click="popUp()">Печати лозинка</button>
+
+            <button class="btn btn-warning btn-sm" style="margin-right: 5px;" ng-click="prikazhi()" ng-disabled="!flagDisableButtons">Одбиј</button>
+
+            <button class="btn btn-success btn-sm" ng-click="odobriBaranje()" ng-disabled="!flagDisableButtons">Одобри</button>
+
+
+         </div>
+
+
+          <div class="col-md-12 text-right"  ng-show="showButtons">
+            <button class="btn btn-success btn-sm" style="margin-right: 5px;" ng-click="ukiniBaranje()" ng-disabled="">Укини</button>
           </div>
 
 
@@ -128,5 +164,6 @@
       </div>
     </div>
   </div>
+  <ng-include src="'views/footer.html'"></ng-include>
 </section>
 
