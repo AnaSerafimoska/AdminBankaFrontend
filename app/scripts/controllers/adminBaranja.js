@@ -51,6 +51,8 @@ angular.module('adminBankaFrontendApp')
         };
 
 
+        //true za denarski
+        $scope.tipDodadismetka = true;
         //Za prikaz na info
         $scope.KorisnikPrikazInfo = {};
         $scope.Korisnik = {};
@@ -58,6 +60,9 @@ angular.module('adminBankaFrontendApp')
         //Flag za enable i dable na kopceto prikazi
         $scope.Flag_Prikazhi = true;
         $scope.products = {};
+
+        //da nema dodadi smetka kaj ukinuvanje
+        $scope.hideDodadiSmetka = true;
 
         //Prebaruvanje na komitentot
         $scope.valueForSearch = "Единствен број"
@@ -171,7 +176,25 @@ angular.module('adminBankaFrontendApp')
 
         //FETCH NA SELEKTIRANIOT TIP NA RABOTA
         $scope.zemiSelektiranTipNaProdukt = function(item) {
+            console.log("item", item.substring(5, 7))
+            if (item.substring(3, 5) == '03' || item.substring(3, 5) == '04' || item.substring(3, 5) == '05') {
+                //za devizni smetki
+                $scope.tipDodadismetka = false;
+            } else {
+                $scope.tipDodadismetka = true;
+
+            }
+
+            if (item.substring(5, 7) == '02') {
+                //za devizni smetki
+                $scope.hideDodadiSmetka = false;
+            } else {
+                $scope.hideDodadiSmetka = true;
+
+            }
             $scope.selektiranTip = "";
+            $scope.showDir = false;
+
             $scope.selektiranTip = item;
             $scope.KorisnikPrikazInfo.ProductTypeId = item;
             $scope.KorisnikPrikazInfo.PTID = $scope.KorisnikPrikazInfo.ProductTypeId.substring(3, 5);
@@ -286,6 +309,7 @@ angular.module('adminBankaFrontendApp')
 
         //Fetch na site vidovi rabota
         $scope.productsFetch = function(selektiranTip) {
+            console.log("selectiran tip", selektiranTip);
             gatewayService.request("/api/Products/1/ProductsFetchByProductType?ProductTypeID=" + selektiranTip, "GET").then(function(data, status, heders, config) {
                 $scope.products = data;
                 console.log("data", data);
@@ -324,7 +348,10 @@ angular.module('adminBankaFrontendApp')
         $scope.info = "";
         $scope.getInfo = function(partija) {
 
-            if (partija.length == 15) {
+
+            $scope.ePartija = {};
+
+            if (partija.length == 13 || partija.length == 15) {
 
                 //$scope.info="Naziv";
                 gatewayService.request("/api/Baranja/1/ProveriDaliPostoiPartijaBIS?Partija=" + partija, "GET").then(function(data, status, heders, config) {
@@ -347,7 +374,6 @@ angular.module('adminBankaFrontendApp')
                             $scope.info = data[0].NazivPartija;
                             $scope.potpisnikFlag = false;
 
-                            $scope.ePartija = {};
                             $scope.ePartija.Banka = "";
                             $scope.ePartija.OrgDel = "";
                             $scope.ePartija.Partija = data[0].Partija;
@@ -361,7 +387,7 @@ angular.module('adminBankaFrontendApp')
                             $scope.ePartija.DatumIstekuvanje = "2050-12-31";
                             $scope.ePartija.SifraServis = "";
                             $scope.ePartija.SifraStatus = "V";
-                            $scope.ePartija.KorisnickoIme = $scope.korisnik.korisnichkoIme;
+                            $scope.ePartija.KorisnickoIme = $scope.KorisnikPrikazInfo.korisnichkoIme;
                             $scope.ePartija.Lozinka = "xxx";
                             $scope.ePartija.VidRabota = data[0].ProductTypeID.substring(0, 2);
                             $scope.ePartija.ReferentInsert = logiranUser;
@@ -436,6 +462,8 @@ angular.module('adminBankaFrontendApp')
             //     });
             gatewayService.request("/api/Baranja/1/ePartiiInsert", "POST", $scope.ePartija).then(function(data, status, heders, config) {
                 toastr.success("Сметката е успешно внесена");
+
+                $route.reload();
 
             }, function(data, status, headers, config) {
                 console.log(status);
@@ -519,6 +547,7 @@ angular.module('adminBankaFrontendApp')
 
                         for (var i = 0; i < data.length; i++) {
                             $scope.sitevneseni.push(data[i]);
+                            console.log(data[i]);
 
                             if (data[i]["EdinstvenBroj"] == $scope.KorisnikPrikazInfo.EdinstvenBroj && data[i]["Partija"] == item.Partija) {
                                 var pomoshna = "";
@@ -528,7 +557,7 @@ angular.module('adminBankaFrontendApp')
                                 // console.log("TUKA SE POLNI SUBSTRING:", $scope.KorisnikPrikazInfo.Privilegii[i]);
                                 //$scope.odobreni.push( pomoshna);
 
-                                var Sertifikat = data[i]["Sertifikat"];
+                                var Sertifikat = data[i]["CertificateInfo"];
                                 var TelefonskiBroj = data[i]["TelefonskiBroj"];
                                 var Email = data[i]["Email"];
                                 console.log("Sertifikat", Sertifikat)
@@ -538,7 +567,7 @@ angular.module('adminBankaFrontendApp')
                                         if (Sertifikat != null || Sertifikat != "") {
                                             console.log("1")
                                             $scope.finalno[pomoshna] = {
-                                                SeriskiBrojSertifikat: Sertifikat,
+                                                CertificateInfo: Sertifikat,
                                                 Privilegii: true,
                                                 isDisabled: true,
                                                 TelefonskiBroj: TelefonskiBroj,
@@ -577,7 +606,7 @@ angular.module('adminBankaFrontendApp')
 
                                     if (data[i]["Privilegii"] == "1") {
                                         $scope.finalno[pomoshna] = {
-                                            SeriskiBrojSertifikat: Sertifikat,
+                                            CertificateInfo: Sertifikat,
                                             Privilegii: true,
                                             isDisabled: false,
                                             TelefonskiBroj: TelefonskiBroj,
@@ -635,20 +664,7 @@ angular.module('adminBankaFrontendApp')
                                 var pomoshna = "";
                                 pomoshna = "o" + data[i]["ProductId"];
 
-
-                                if (data[i]["Status_S"] == 'O') {
-                                    if (data[i]["Privilegii"] == "1") {
-                                        $scope.finalno[pomoshna] = {
-
-                                            Privilegii: true,
-                                            isDisabled: true
-                                        }
-                                    }
-
-                                    $scope.odobreni.push(data[i]);
-                                    //    $scope.sitevneseni.push(data[i]);
-
-                                } else if (data[i]["Status_S"] == 'N') {
+                                if (data[i]["Status_S"] == 'N') {
                                     if (data[i]["Privilegii"] == "1") {
 
 
@@ -891,11 +907,17 @@ angular.module('adminBankaFrontendApp')
                     obj.ReferentInsert = authData.username;
                     obj.Email = $scope.finalno['o' + obj.ProductId].Email;
                     if (obj.ProductId == '000003') {
-                        // obj.Sertifikat = $scope.finalno['o' + obj.ProductId].Sertifikat.replace(/[\s]/g, '');
-                        obj.Sertifikat = cert.SerialNumber;
-                        obj.NotAfter = cert.NotAfter;
-                        obj.NotBefore = cert.NotBefore;
-                        obj.X509Certifikate = cert.X509Certifikate;
+                        console.log("cert", cert)
+                            // obj.Sertifikat = $scope.finalno['o' + obj.ProductId].Sertifikat.replace(/[\s]/g, '');
+                        if (cert != undefined) {
+                            obj.Sertifikat = cert.Thumbprint;
+                            obj.NotAfter = cert.NotAfter;
+                            obj.NotBefore = cert.NotBefore;
+                            obj.X509Certifikate = cert.X509Certifikate;
+                            obj.CertificateInfo = 'Issued to: ' + cert.SubjectCN + ";   Issued by: " + cert.IssuerCN + "\nValid from " + $filter('date')(cert.NotBefore, "yyyy-MM-dd HH:mm:ss") + ' to ' + $filter('date')(cert.NotAfter, "yyyy-MM-dd HH:mm:ss");
+
+                        }
+
                     } else {
                         obj.SeriskiBrojSertifikat = "";
                     }
@@ -975,6 +997,20 @@ angular.module('adminBankaFrontendApp')
                 template: 'templateId',
                 scope: $scope
             });
+        }
+
+        $scope.checkKorisnickoImeInDb = function(KorisnickoIme) {
+            gatewayService.request("/api/Komitent/1/CheckKorisnickoImeInDb?KorisnickoIme=" + KorisnickoIme, "GET").then(function(data, status, heders, config) {
+                console.log("data", data);
+                if (data.length > 0) {
+                    toastr.error("Веќе постои корисник со корисничко име " + KorisnickoIme + "!");
+                }
+
+
+            }, function(data, status, headers, config) {
+                console.log(status);
+            });
+
         }
 
 

@@ -26,7 +26,7 @@ angular.module('adminBankaFrontendApp')
     if (localStorage.getItem("Permisii")) {
 
         var dataPermisii = JSON.parse(localStorage.getItem("Permisii"));
-        console.log("header", dataPermisii)
+        // console.log("header", dataPermisii)
         $scope.hasPermission = function(permision) {
 
             if (dataPermisii != null) {

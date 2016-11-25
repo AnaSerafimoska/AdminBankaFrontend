@@ -108,6 +108,11 @@ angular
                 controller: 'ResetpasswordCtrl',
                 controllerAs: 'resetPassword'
             })
+            .when('/naloziIntegritet', {
+                templateUrl: 'views/naloziintegritet.html',
+                controller: 'NaloziintegritetCtrl'
+
+            })
             .otherwise({
                 redirectTo: '/login'
             });

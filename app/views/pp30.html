@@ -1,0 +1,267 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" >
+<div style="display:inline-block;">
+<table style="BORDER-RIGHT: purple 1pt solid; PADDING-RIGHT: 0px; BORDER-TOP: purple 1pt solid; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; BORDER-LEFT: purple 1pt solid; WIDTH: 570px; PADDING-TOP: 0px; BORDER-BOTTOM: purple 1pt solid; HEIGHT: 311px;"
+    cellspacing="0" cellpadding="0" width="570" align="center" border="0" >
+    <tr bgcolor="#fff2ff">
+        <td width="5" height="100%">&nbsp;</td>
+        <td width="250" valign="top">
+            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+                <tr height="16">
+                    <td align="left" valign="top" colspan="2">
+                        <img src="../images/logo_new.png" width="200">
+                    </td>
+                </tr>
+
+                <tr height="32">
+                    <td align="right" valign="top" colspan="2" style="color:darkred;font-family: sans-serif;"><b>НАЛОГОДАВАЧ</b></td>
+                </tr>
+
+                <tr height="16">
+                    <td align="left" valign="top" colspan="2" style="color:red;font-family: sans-serif;font-size:x-small;">
+                        <b>Назив и седиште на налогодавачот</b>
+                    </td>
+                </tr>
+
+                <tr height="16">
+                    <td align="left" valign="top" colspan="2"> 
+                        <input type="text" height="16" style="font-size:x-small;color:black;border-color: black;border-width: 1px;width:250px;height:16px;" readonly="true" value="{{result_nalozi.NazivTeret}}">
+                    </td>
+                </tr>
+
+                <tr height="16">
+                    <td align="left" valign="top" colspan="2"> 
+                        <input type="text" height="16" style="font-size:x-small;color:black;border-color: black;border-width: 1px;width:250px;height:16px;border-top:none" readonly="true" value="{{result_nalozi.AdresaTeret}}">
+                    </td>
+                </tr>
+
+                <tr height="16">
+                    <td align="left" valign="top" colspan="2" style="color:red;font-family: sans-serif;font-size:x-small;padding-top:5px;">
+                        <b>Трансакциска сметка на налогодавач</b>
+                    </td>
+                </tr>
+
+                <tr height="16">
+                    <td align="left" valign="top" colspan="2"> 
+                        <input type="text" height="16" style="font-size:x-small;color:black;border-color: black;border-width: 1px;width:250px;height:16px" readonly="true" value="{{result_nalozi.BankaTeret}}{{result_nalozi.ZiroTeret}}{{result_nalozi.KontrolenBrojTeret}}">
+                    </td>
+                </tr>
+
+                <tr height="16">
+                    <td align="left" valign="top" colspan="2" style="color:red;font-family: sans-serif;font-size:x-small;padding-top:5px;">
+                        <b>Банка на налогодавач</b>
+                    </td>
+                </tr>
+
+                <tr height="16">
+                    <td align="left" valign="top" colspan="2"> 
+                        <input type="text" height="16" style="font-size:x-small;color:black;border-color: black;border-width: 1px;width:250px;height:16px" readonly="true" value="{{result_nalozi.ImeBankaTeret}}">
+                    </td>
+                </tr>
+
+                <tr height="16">
+                    <td align="left" valign="top" colspan="2"> 
+                        &nbsp;
+                    </td>
+                </tr>
+
+                <tr height="16">
+                    <td align="left" valign="top" colspan="2"> 
+                        &nbsp;
+                    </td>
+                </tr>
+
+                <tr height="16">
+                    <td align="left" valign="top" colspan="2" style="color:red;font-family: sans-serif;font-size:x-small;padding-top:5px;">
+                        <b>Повикување на број (Задолжување)</b>
+                    </td>
+                </tr>
+
+                <tr height="16">
+                    <td align="left" valign="top" colspan="2"> 
+                        <input type="text" height="16" style="font-size:x-small;color:black;border-color: black;border-width: 1px;width:250px;height:16px" readonly="true" value="{{result_nalozi.PovikuvanjeBrojTeret}}">
+                    </td>
+                </tr>
+
+                <tr height="16">
+                    <td align="left" valign="top" colspan="2" style="color:red;font-family: sans-serif;font-size:x-small;padding-top:5px;">
+                        <b>Цел на дознака</b>
+                    </td>
+                </tr>
+
+                <tr height="16">
+                    <td align="left" valign="top" colspan="2"> 
+                        <input type="text" height="16" style="font-size:x-small;color:black;border-color: black;border-width: 1px;width:250px;height:26px" readonly="true" value="{{result_nalozi.CelDoznaka1}}  {{result_nalozi.CelDoznaka2}}">
+                    </td>
+                </tr>
+
+            </table>
+        </td>
+        <td width="20" height="100%">
+            <table cellpadding="0" cellspacing="0" border="0" height="100%">
+                <tr>
+                    <td width="49%">&nbsp;</td>
+                    <td width="1" bgcolor="white">&nbsp;</td>
+                    <td width="50%">&nbsp;</td>
+                </tr>
+            </table>
+        </td>
+        <td width="250" valign="top" align="center">
+            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+            <tr height="16">
+                    <td align="left" valign="top" style="color:red;font-family: sans-serif;font-size:x-small;padding-top:5px;">
+                        <b>Датум на валута</b>
+                    </td>
+                    <td align="right" valign="top" style="color:red;font-family: sans-serif;font-size:x-small;padding-top:5px;">
+                        <b>Налог за пренос</b>
+                    </td>
+            </tr>
+
+            <tr height="16">
+                    <td align="left" valign="top" colspan="2"> 
+                        <input type="text" height="16" style="font-size:x-small;color:black;border-color: black;border-width: 1px;width:120px;height:15px" readonly="true" value="{{result_nalozi.DatumValuta | date : yyyy-MM-dd}}">
+                    </td>
+            </tr>
+
+            <tr height="32">
+                <td align="right" valign="top" colspan="2" style="color:darkred;font-family: sans-serif;"><b>ПРИМАЧ</b></td>
+            </tr>
+
+            <tr height="16">
+                    <td align="left" valign="top" colspan="2" style="color:red;font-family: sans-serif;font-size:x-small;">
+                        <b>Назив и седиште на примачот</b>
+                    </td>
+                </tr>
+
+                <tr height="16">
+                    <td align="left" valign="top" colspan="2"> 
+                        <input type="text" height="16" style="font-size:x-small;color:black;border-color: black;border-width: 1px;width:250px;height:16px" readonly="true" value="{{result_nalozi.NazivKorist}}">
+                    </td>
+                </tr>
+                <tr height="16">
+                    <td align="left" valign="top" colspan="2"> 
+                        <input type="text" height="16" style="font-size:x-small;color:black;border-color: black;border-width: 1px;width:250px;height:16px;border-top:none" readonly="true" value="{{result_nalozi.AdresaKorist}}">
+                    </td>
+                </tr>
+                <tr height="16">
+                    <td align="left" valign="top" colspan="2" style="color:red;font-family: sans-serif;font-size:x-small;padding-top:5px;">
+                        <b>Трансакциска сметка на примачот</b>
+                    </td>
+                </tr>
+
+                <tr height="16">
+                    <td align="left" valign="top" colspan="2"> 
+                        <input type="text" height="16" style="font-size:x-small;color:black;border-color: black;border-width: 1px;width:250px;height:16px" readonly="true" value="{{result_nalozi.BankaKorist}}{{result_nalozi.ZiroKorist}}{{result_nalozi.KontrolenBrojKorist}}">
+                    </td>
+                </tr>
+
+                <tr height="16">
+                    <td align="left" valign="top" colspan="2" style="color:red;font-family: sans-serif;font-size:x-small;padding-top:5px;">
+                        <b>Банка на примачот</b>
+                    </td>
+                </tr>
+
+                <tr height="16">
+                    <td align="left" valign="top" colspan="2"> 
+                        <input type="text" height="16" style="font-size:x-small;color:black;border-color: black;border-width: 1px;width:250px;height:16px" readonly="true" value="{{result_nalozi.ImeBankaKorist}}">
+                    </td>
+                </tr>
+            
+                <tr height="16">
+                    <td align="left" valign="top" colspan="3">
+                        <table cellpadding="0" cellspacing="0" border="0" width="240">
+                            <tr>
+                                <td align="left" width="45" style="color:red;font-family: sans-serif;font-size:x-small;padding-top:5px;">Износ:</td>
+                            </tr>
+                            <tr>
+                                <td align="left" width="45" style="color:red;font-family: sans-serif;font-size:x-small;padding-top:5px;">МКД</td>
+                                <td>
+                                <input type="text" height="16" style="font-size:x-small;color:black;border-color: black;border-width: 1px;width:218px;height:14px" readonly="true" value="{{result_nalozi.Iznos}}">
+                                </td>
+                            </tr>
+                            
+                        </table>
+                    </td>
+                </tr>
+
+                <tr height="16">
+                    <td align="left" valign="top" colspan="2" style="color:red;font-family: sans-serif;font-size:x-small;padding-top:10px;">
+                        <b>Повикување на број(Одобрување)</b>
+                    </td>
+                </tr>
+
+                <tr height="16">
+                    <td align="left" valign="top" colspan="2"> 
+                        <input type="text" height="16" style="font-size:x-small;color:black;border-color: black;border-width: 1px;width:250px;height:16px" readonly="true" value="{{result_nalozi.PovikuvanjeBrojKorist}}">
+                    </td>
+                </tr>
+                
+
+                <tr height="32">
+                    <td colspan="3" align="left" valign="bottom">
+                        <table cellpadding="0" cellspacing="0" border="0" width="250">
+                            <tr>
+                                <td align="left" width="45" style="color:red;font-family: sans-serif;font-size:x-small;padding-top:5px;"><b>Шифра</b></td>
+                                <td align="right" width="45" style="color:red;font-family: sans-serif;font-size:x-small;padding-top:5px;"><b>Начин</b></td>
+                            </tr>
+
+                            <tr>
+                                <td align="left" valign="top"> 
+                                    <input type="text" height="16" style="font-size:x-small;color:black;border-color: black;border-width: 1px;width:80px;height:16px" readonly="true" value="{{result_nalozi.SifraPlakanje}}">
+                                </td>
+                                <td align="right" valign="top"> 
+                                    <input type="text" height="16" style="font-size:x-small;color:black;border-color: black;border-width: 1px;width:80px;height:16px" readonly="true" value="{{result_nalozi.NacinPlakanje}}">
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td align="left" width="45" style="color:red;font-family: sans-serif;font-size:x-small;padding-top:5px;"><b>Датум на поднесување</b></td>
+                            </tr>
+
+                            <tr>
+                                <td align="left" valign="top"> 
+                                    <input type="text" height="16" style="font-size:x-small;color:black;border-color: black;border-width: 1px;width:80px;height:16px" readonly="true" value="{{result_nalozi.DatumNalog | date : yyyy-MM-dd}}">
+                                </td>
+                                <td align="right" valign="bottom" width="45" style="color:red;font-family: sans-serif;font-size:x-small;padding-top:5px;"><b>Образец ПП30</b></td>
+                            </tr>
+
+                            <tr>
+
+                            </tr>
+
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+        <td width="5" height="100%">&nbsp;</td>
+    </tr>
+</table>
+
+<table border="1" style="margin-top:5px;">
+    <tr>
+        <td style="padding-top:5px;padding-bottom: 5px;">Број на налог</td>
+        <td style="padding-left:8px;padding-right:8px;">{{result_nalozi.BrojNalog}}</td>
+    </tr>
+    <tr>
+        <td style="padding-top:5px;padding-bottom: 5px;">Потписници</td>
+        <td style="padding-left:8px;padding-right:8px;">{{result_nalozi.Potpisnici}}</td>
+    </tr>
+    <tr>
+        <td style="padding-top:5px;padding-bottom: 5px;">Датум на потпишување</td>
+        <td style="padding-left:8px;padding-right:8px;">{{result_nalozi.DatumVremePotpisuvanje}}</td>
+    </tr>
+</table>
+
+</div>
+<div style="display:inline-block;vertical-align: top;word-wrap: break-word;width:210px;">
+    <ul ng-repeat="(key, value) in result_razliki_integ" ng-if="$index > 0 && value!=null" style="padding-left:20px;">
+        <li style="font-weight: 600">{{switchKey(key)}}:</li>
+        <br/>
+        <li style="list-style: none;color:red;">{{value}}</li>
+    </ul>
+    <ul>
+        <li ng-show="result_razliki_integ == null" style="color:green;">Валиден</li>
+    </ul>
+</div>
