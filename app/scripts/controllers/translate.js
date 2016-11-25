@@ -4,7 +4,7 @@ angular.module('angularTranslateApp', ['pascalprecht.translate'])
 
     ////////////////////////////////  Prevod za forma Vid rabota //////////////////////////////////////
     $translateProvider.translations('mk', {
-      'lblTipRabota_p': 'Тип на производ',
+      'lblTipRabota_p': 'Тип на продукт',
       'lblVidRabota_p': 'Вид на работа',
       'lblOpis_p': 'Опис',
       'lblStatus_p': 'Статус',
@@ -32,8 +32,8 @@ angular.module('angularTranslateApp', ['pascalprecht.translate'])
       'zadolzitelno_p': 'З',
       'opcionalno_p': 'О',
       'zacuvanZapis_p' : 'Записот е успешно снимен!',
-      'lblHeaderTip_pt': 'Тип на производ',
-      'lblTip_pt': 'Тип на производ',
+      'lblHeaderTip_pt': 'Тип на продукт',
+      'lblTip_pt': 'Тип на продукт',
       'lblOpis_pt': 'Опис',
       'lblWorkingTbl_pt': 'Работна табела',
       'lblStatus_pt': 'Статус',
@@ -44,14 +44,14 @@ angular.module('angularTranslateApp', ['pascalprecht.translate'])
       'lblFormName_pt2': 'Преглед на записи',
       'btnOtkazhi_pt': 'Откажи',
       'btnSnimi_pt': 'Сними',
-      'lblProductTupeTbl_pt': 'Тип на производ',
+      'lblProductTupeTbl_pt': 'Тип на продукт',
       'lblAction_pt':'Акција',
       'lblEdit_pt':'Измени',
       'lblSave_pt':'Зачувај',
-      'lblTipExist_pt':'Типот на производ постои.',
+      'lblTipExist_pt':'Типот на продукт постои.',
       'lblWTableError_pt':'Работна табела е задолжително поле.',
       'lblOpisError_pt':'Опис е задолжително поле.',
-      'lblTipError_pt':'Тип на производ е задолжително поле.',
+      'lblTipError_pt':'Тип на продукт е задолжително поле.',
       'lblDbError_pt': 'Грешка при запишување во база.',
       'lblDbSuccess_pt':'Записот е успешно снимен.',
 
@@ -66,9 +66,21 @@ angular.module('angularTranslateApp', ['pascalprecht.translate'])
       'lblVidRabota_crypto' : 'Внесете текст за криптирање',
       'btnSnimi_crypto' : 'Криптирај',
       'lblFormName_cryptoOutput' : 'Криптиран Текст',
-      'btnCopyEncripted_crypto': 'Копирај'
+      'btnCopyEncripted_crypto': 'Копирај',
 
+      'lblFilter_Partija' : 'Партија',
+      'lblFilter_DateFrom' : 'Датум Од',
+      'lblFilter_DateTo' : 'Датум До',
 
+      'lblFormName_filter' : 'Пребарувај налози',
+      'lblTable_DatumValuta' : 'Датум на валута',
+      'lblTable_ReferentenBr' : 'Референтен Број',
+      'lblTable_SmetkaNalogPrimac' : 'Сметка Налогопримач',
+      'lblTable_Iznos' : 'Износ',
+      'lblTable_Nacin' : 'Начин',
+      'lblTable_Potpisnici' : 'Потписници',
+
+      'lblHeaderTip_PregledNalozi' : 'Налози интегритет'
     });
 
     $translateProvider.translations('en', {
@@ -129,7 +141,7 @@ angular.module('angularTranslateApp', ['pascalprecht.translate'])
     });
 
 
-      $translateProvider.preferredLanguage(localStorage.getItem('lang'));
+      $translateProvider.preferredLanguage(localStorage.getItem('key'));
 
 
 

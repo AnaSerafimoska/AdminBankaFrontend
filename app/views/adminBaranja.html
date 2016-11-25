@@ -5,7 +5,9 @@
 			<form name="formSmetka">
         		<label>Сметка:</label>
 	        	<div>
-		        	<input  type="text" class=" input-sm ng-valid ng-invalid form-control" required ng-change="getInfo(novPotpisnikPartija);setirajFlagPotpisnik()" ng-model="novPotpisnikPartija" mask-restrict="reject" mask="999999999999999" ng-blur="setFlagToPrikazhi()" ></input>
+		        	<input  type="text" ng-show="tipDodadismetka" class=" input-sm ng-valid ng-invalid form-control" required ng-change="getInfo(novPotpisnikPartija);setirajFlagPotpisnik()" ng-model="novPotpisnikPartija"  mask="9" repeat="15" restrict="reject"   ng-blur="setFlagToPrikazhi()" ></input>
+              <input  type="text" ng-show="!tipDodadismetka" class=" input-sm ng-valid ng-invalid form-control" required ng-change="getInfo(novPotpisnikPartija);setirajFlagPotpisnik()" ng-model="novPotpisnikPartija"  mask="9" repeat="13" restrict="reject"   maxlength="15" ng-blur="setFlagToPrikazhi()" ></input>
+              <br/>
               {{info}}
 		        </div>
             <br/>
@@ -136,7 +138,7 @@
 
             <div class="col-md-3 form-group">
             <label >Корисничко име:</label>
-            <input type="text" class=" input-sm form-control ng-invalid-required" ng-disabled="flagDisableKorsnickoIme" ng-model="KorisnikPrikazInfo.korisnichkoIme"  style ="border: 1px solid rgba(128, 128, 128, 0.22); " required/>
+            <input type="text" class=" input-sm form-control ng-invalid-required" ng-blur="checkKorisnickoImeInDb(KorisnikPrikazInfo.korisnichkoIme)"  ng-disabled="flagDisableKorsnickoIme" ng-model="KorisnikPrikazInfo.korisnichkoIme"  style ="border: 1px solid rgba(128, 128, 128, 0.22); " required/>
 
             </div>
           </div>
@@ -182,7 +184,7 @@
 		        	</div>
         			<div class="col-md-12 text-right" ng-show="flagVisibilityTabs">
                 
-                <button class="btn btn-default btn-sm" style="color:white; background-color: #3c8dbc;" ng-click="popUp()" >  Додади сметка </button>
+                <button ng-show="hideDodadiSmetka" class="btn btn-default btn-sm" style="color:white; background-color: #3c8dbc;" ng-click="popUp()" >  Додади сметка </button>
     					</div>
 
         

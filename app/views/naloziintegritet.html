@@ -1,0 +1,133 @@
+<section class="wrapper" >
+
+	<ng-include src="'views/header.html'"></ng-include>
+	<!-- Content Header (Page header) -->
+
+	<div class="content-wrapper">
+		<section class="content-header">
+			<h1> {{'lblHeaderTip_PregledNalozi' | translate}} </h1>
+		</section>
+
+
+
+		<section class="content" >
+		
+			<div class="box box-success">
+				<div class="box-header with-border">
+					<h3 class="box-title">{{'lblFormName_filter' | translate}}</h3>
+				</div>
+
+				<div class="box-body">
+					<div class="row">
+
+            <form novalidate name="form">
+					<div class="col-md-12">
+						
+	                    <div class="form-group col-md-3">
+                          <label>{{ 'lblFilter_Partija'| translate }}</label>
+                        
+                         <input class="form-control input-sm" type="text" ng-model="Nalozi.Partija" id="txtPartija" mask="9" repeat="15" restrict="reject">
+                        
+                        </div>
+
+                        <div class="form-group col-md-3">
+                       
+                          <label>{{'lblFilter_DateFrom' | translate}}</label>
+                          <div class="input-group">
+                            <input type="text" class="form-control input-sm" ng-init="init()" ng-model="Nalozi.OpeningDate" container="body" data-date-format="dd-MM-yyyy" data-date-type="date" data-autoclose="1" name="date1" bs-datepicker required/>
+                            <div class="input-group-addon" id="date4" >
+                              <i class="fa fa-calendar"></i>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group col-md-3" > 
+                          <label>{{'lblFilter_DateTo' | translate}}</label>
+                          <div class="input-group">
+                            <input type="text" class="form-control input-sm" ng-init="init()" placement="auto" ng-model="Nalozi.ClosingDate" container="body" data-date-format="dd-MM-yyyy" data-date-type="date"   data-min-date="{{Nalozi.OpeningDate}}" data-autoclose="1" name="date2" bs-datepicker id="ClosingDate"/>
+                            <div class="input-group-addon" id="date5" required >
+                              <i class="fa fa-calendar"></i>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                        		<label>&nbsp;</label>
+                        		<div class="input-group">
+                        		<button  id="btnFiltriraj" ng-disabled="form.$invalid" ng-click="FetchNalozi()">Пребарувај</button>
+                        		</div>
+                        	
+						</div>
+
+						<div class="col-md-12">
+
+	                        <div class="form-group col-md-1">
+	                        <input type="radio" ng-checked="true" ng-model="Nalozi.Radio" name="filter" value="0" >Сите 
+	                        </div>
+	                         <div class="form-group col-md-2">
+	                         <input type="radio" ng-model="Nalozi.Radio" name="filter" value="1">Нарушен Интегритет
+                        </div>
+                       
+						
+						
+						</div>
+                      </div>  
+                      </form>
+					</div>
+				</div>
+			</div>
+
+
+		
+				<div class="box box-success">
+				<div class="box-header with-border">
+					<h3 class="box-title">Преглед налози</h3>
+				</div>
+				<div class="box-body">
+					<div class="col-md-12">
+						<div class="row">
+							<table class="table table-hover">
+				                <tr>
+				                  <th>{{'lblTable_DatumValuta' | translate}}</th>
+				                  <th>{{'lblTable_ReferentenBr' | translate}}</th>
+				                  <th>{{'lblTable_SmetkaNalogPrimac' | translate}}</th>
+				                  <th>{{'lblTable_Iznos' | translate}}</th>
+				                  <th>{{'lblTable_Nacin' | translate}}</th>
+				                <!--  <th>{{'lblTable_Potpisnici' | translate}}</th> -->
+				                </tr>
+ 							<tbody>
+
+ 								
+              					<tr ng-repeat="y in result.NalogDetali" ng-class="{'tbl-integritet':y.Integritet == 1}" ng-if="!checkFilter()" ng-click="nalogpopup(y.TipNalog, y.BrojNalog)">
+ 									
+ 									<td>{{y.DatumValuta | date }}</td>
+ 									<td>{{y.BrojNalog}}</td>
+ 									<td>{{y.BankaTeret + y.ZiroTeret + y.KontrolenBrojTeret}}</td>
+ 									<td>{{y['Iznos']}}</td>
+ 									<td>{{y['NacinPlakanje']}}</td>
+ 								<!--	<td>{{y['']}}</td> -->
+				                </tr>
+
+				                <tr ng-repeat="y in result.NalogDetali" ng-class="{'tbl-integritet':y.Integritet == 1}" ng-if="y.Integritet == 1" ng-show="checkFilter()" ng-click="nalogpopup(y.TipNalog, y.BrojNalog)">
+ 									
+ 									<td>{{y.DatumValuta | date }}</td>
+ 									<td>{{y.BrojNalog}}</td>
+ 									<td>{{y.BankaTeret + y.ZiroTeret + y.KontrolenBrojTeret}}</td>
+ 									<td>{{y['Iznos']}}</td>
+ 									<td>{{y['NacinPlakanje']}}</td>
+ 								<!--	<td>{{y['']}}</td> -->
+				                </tr>
+
+
+				            </tbody>
+
+				            </table>						
+						</div>
+					</div>
+				</div>
+			</div>
+			</section>
+
+	</div>
+	 <ng-include src="'views/footer.html'"></ng-include>
+</section>

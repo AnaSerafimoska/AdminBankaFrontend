@@ -44,6 +44,7 @@ angular.module('adminBankaFrontendApp')
         };
 
         $scope.KomitentNew = {};
+        $scope.flagdisabled = false;
 
 
 
@@ -134,7 +135,7 @@ angular.module('adminBankaFrontendApp')
         }
 
         $scope.insertKomitent = function() {
-            console.log("Kom", $scope.Komitent);
+            //    console.log("Kom", $scope.Komitent);
             var item = {};
             item.Type = "I";
             item.EdinstvenBroj = $scope.Komitent.EdinstvenBroj;
@@ -149,7 +150,7 @@ angular.module('adminBankaFrontendApp')
             } else {
                 item.VidKomitent = "СФ";
             }
-            console.log("Pol", $scope.Komitent.Pol);
+            //     console.log("Pol", $scope.Komitent.Pol);
             if ($scope.Komitent.Posl != null) {
                 console.log("vleguva tuka");
                 item.Pol = $scope.Komitent.Pol.Pol;
@@ -180,11 +181,16 @@ angular.module('adminBankaFrontendApp')
             item.KorisnickoIme = $scope.Komitent.KorisnickoIme;
             item.Lozinka = $scope.Komitent.Lozinka;
             item.Opis = $scope.Komitent.Opis;
-            item.Status = $scope.Komitent.Status;
+            if ($scope.Komitent.Status == true) {
+                item.Status = "1";
+            } else {
+                item.Status = "0";
+            }
             item.DatumPromena = $scope.Komitent.DatumPromena;
             item.DatumInsert = new Date();
             item.ReferentInsert = "001";
-            console.log("item", item);
+
+            //  console.log("item", item);
 
             gatewayService.request("/api/Komitent/1/KomitentFetchByEdinstvenBroj?EdinstvenBroj=" + item.EdinstvenBroj, "GET").then(function(data, status, heders, config) {
                 if (data.length > 0) {
@@ -264,7 +270,7 @@ angular.module('adminBankaFrontendApp')
 
             gatewayService.request("/api/Komitent/1/StatesFetch", "GET").then(function(data, status, heders, config) {
                 $scope.states = data;
-                console.log(data)
+                // console.log(data)
 
             }, function(data, status, headers, config) {
                 console.log(status);
@@ -322,7 +328,21 @@ angular.module('adminBankaFrontendApp')
             gatewayService.request("/api/Komitent/1/CheckEdinstvenBrojInDb?EdinstvenBroj=" + embg, "GET").then(function(data, status, heders, config) {
 
                 if (data.length > 0) {
+                    $scope.flagdisabled = true;
                     toastr.error("Веќе постои корисник со единствен број " + embg + "!");
+                } else {
+                    gatewayService.request("/api/Komitent/1/FetchKomitentCore?Type=0&Value=" + embg, "GET").then(function(data, status, heders, config) {
+
+                        if (data.length > 0) {
+                            $scope.flagdisabled = true;
+                            toastr.error("Веќе постои корисник со единствен број " + embg + "!");
+                        }
+
+
+                    }, function(data, status, headers, config) {
+                        console.log(status);
+                    });
+
                 }
 
 
@@ -351,6 +371,12 @@ angular.module('adminBankaFrontendApp')
         $scope.isActive = false;
         $scope.ImeNaziv = "Име";
 
+        $scope.cancel = function() {
+
+            $route.reload();
+        }
+
+
         $scope.disableFields = function() {
             if ($scope.Komitent.VidKomitent == "ДП" || $scope.Komitent.VidKomitent == "СП") {
                 $scope.isActive = true;
@@ -370,10 +396,16 @@ angular.module('adminBankaFrontendApp')
         };
 
         $scope.previewForEdit = function(item) {
-            //console.log("selectedRow",$scope.selectedRow);
+            //    console.log("selectedRow", $scope.selectedRow);
+
             if ($scope.selectedRow != null) {
                 //console.log("this is the item: ", item);
                 $scope.Komitent = item;
+                if (item.Status == 0) {
+                    $scope.Komitent.Status = false;
+                } else {
+                    $scope.Komitent.Status = true;
+                }
 
                 //  $scope.KomitentNew.VidKomitent=item.VidKomitent.Vid;
 

@@ -133,8 +133,10 @@ angular.module('adminBankaFrontendApp')
                 $scope.finalno = {};
                 $scope.baranjaZaOdobruvanje = [];
                 $scope.ePartii = [];
+                var today = new Date();
                 if ($scope.baranje.ProductTypeId.substring(5, 7) == '02') {
                     console.log("UKINUVANJEEEE");
+
                     for (var i = 0; i < $scope.neodobreniBaranja.length; i++) {
                         if ($scope.neodobreniBaranja[i].BrojBaranje == $scope.baranje.BrojBaranje && $scope.neodobreniBaranja[i].Privilegii == "1") {
                             console.log("tuka sme", $scope.neodobreniBaranja[i])
@@ -147,7 +149,7 @@ angular.module('adminBankaFrontendApp')
                                 Privilegii: true,
                                 isDisabled: false
                             }
-                            $scope.neodobreniBaranja[i].DatumOdobruvanje = new Date();
+                            $scope.neodobreniBaranja[i].DatumOdobruvanje = $filter('date')(today, "yyyy-MM-dd");
                             $scope.neodobreniBaranja[i].OrgDelOdobruvanje = "";
                             $scope.neodobreniBaranja[i].Status_S = "O";
                             $scope.neodobreniBaranja[i].StatusBaranje = "Одобрено";
@@ -161,7 +163,8 @@ angular.module('adminBankaFrontendApp')
                                 console.log("odobreni", $scope.odobreni);
                                 for (var j = 0; j < $scope.odobreni.length; j++) {
                                     console.log("OdobrenoBaranje", $scope.odobreni[j]);
-                                    $scope.odobreni[j].DatumUkinuvanje = new Date();
+
+                                    $scope.odobreni[j].DatumUkinuvanje = $filter('date')(today, "yyyy-MM-dd");
                                     $scope.odobreni[j].OrgDelUkinuvanje = "";
                                     $scope.odobreni[j].Status_S = "U";
                                     $scope.odobreni[j].StatusBaranje = "Укинато";
@@ -187,7 +190,7 @@ angular.module('adminBankaFrontendApp')
                                     $scope.ePartija.DaliPrvoNajavuvanje = false;
                                     $scope.ePartija.SeriskiBrojToken = $scope.odobreni[j].SeriskiBrojSertifikat;
                                     $scope.ePartija.SifraStatus = "U";
-                                    $scope.ePartija.DatumOtvaranje = new Date();
+                                    $scope.ePartija.DatumOtvaranje = $filter('date')(today, "yyyy-MM-dd");;
                                     $scope.ePartija.Emaili = "";
                                     $scope.ePartija.SifraInicijativaUkinuvanje = "";
                                     $scope.ePartija.DatumUkinuvanje = "2050-12-31 00:00:00";
@@ -240,11 +243,17 @@ angular.module('adminBankaFrontendApp')
                             console.log("pom", pomoshna);
                             //$scope.korisnik.Privilegii[i] = pomoshna;
                             // console.log("TUKA SE POLNI SUBSTRING:", $scope.korisnik.Privilegii[i]);
+
+                            console.log("certinfo", $scope.neodobreniBaranja[i].CertificateInfo)
                             $scope.finalno[pomoshna] = {
                                 Privilegii: true,
-                                isDisabled: false
+                                isDisabled: false,
+                                CertificateInfo: $scope.neodobreniBaranja[i].CertificateInfo,
+                                Email: $scope.neodobreniBaranja[i].Email,
+                                TelefonskiBroj: $scope.neodobreniBaranja[i].TelefonskiBroj
+
                             }
-                            $scope.neodobreniBaranja[i].DatumOdobruvanje = new Date();
+                            $scope.neodobreniBaranja[i].DatumOdobruvanje = $filter('date')(today, "yyyy-MM-dd");
                             $scope.neodobreniBaranja[i].OrgDelOdobruvanje = "";
                             $scope.neodobreniBaranja[i].Status_S = "O";
                             $scope.neodobreniBaranja[i].StatusBaranje = "Одобрено";
@@ -265,15 +274,16 @@ angular.module('adminBankaFrontendApp')
                             $scope.ePartija.LozinkaDatumIstekuvanje = "2050-12-31 00:00:00";
                             $scope.ePartija.DatumIstekuvanje = "2050-12-31 00:00:00";
                             $scope.ePartija.DaliPrvoNajavuvanje = false;
-                            $scope.ePartija.SeriskiBrojToken = $scope.neodobreniBaranja[i].SeriskiBrojSertifikat;
+                            $scope.ePartija.SeriskiBrojToken = $scope.neodobreniBaranja[i].Sertifikat;
                             $scope.ePartija.SifraStatus = "O";
-                            $scope.ePartija.DatumOtvaranje = new Date();
+                            $scope.ePartija.DatumOtvaranje = $filter('date')(today, "yyyy-MM-dd");
                             $scope.ePartija.Emaili = "";
                             $scope.ePartija.SifraInicijativaUkinuvanje = "";
                             $scope.ePartija.DatumUkinuvanje = "2050-12-31 00:00:00";
                             $scope.ePartija.ZabeleskaUkinuvanje = "";
                             $scope.ePartija.DopolnitelniInformacii = "";
                             $scope.ePartija.ReferentInsert = logiranUser;
+
                             $scope.ePartija.SifraPrivilegija = "";
                             $scope.ePartija.SifraFormat = "";
                             $scope.ePartija.MinimalenBrojPotpisi = 1;
@@ -290,6 +300,7 @@ angular.module('adminBankaFrontendApp')
                             $scope.ePartija.CertDatumValidenDo = $scope.neodobreniBaranja[i].NotBefore;
                             $scope.ePartija.CertStatus = "";
                             $scope.ePartija.TelBroj = $scope.neodobreniBaranja[i].TelefonskiBroj;
+                            $scope.ePartija.X509Certifikate = $scope.neodobreniBaranja[i].X509Certifikate;
                             $scope.ePartija.ProductTypeID = $scope.neodobreniBaranja[i].ProductTypeId;
                             $scope.ePartija.ProductID = $scope.neodobreniBaranja[i].ProductId;
                             $scope.ePartija.BrojBaranje = $scope.neodobreniBaranja[i].BrojBaranje;
@@ -380,7 +391,7 @@ angular.module('adminBankaFrontendApp')
                     // $scope.obj.push($scope.baranjaZaOdobruvanje);
                     // $scope.obj.push("1000");
 
-                    console.log("Obj", $scope.baranjaZaOdobruvanje)
+                    console.log("Obj", $scope.object)
 
                     gatewayService.request("/api/OdobruvanjeBaranja/1/odobriBaranja", "POST", $scope.object).then(function(data, status, heders, config) {
                         $scope.flagDisableButtons = false;
@@ -396,8 +407,25 @@ angular.module('adminBankaFrontendApp')
                     $scope.flagDisableLozinka = false;
                     $scope.flagDisableButtons = false;
 
-                    gatewayService.request("/api/OdobruvanjeBaranja/1/CreateADUser", "GET").then(function(data, status, heders, config) {
+                    gatewayService.request("/api/OdobruvanjeBaranja/1/CreateADUser?userName=" + $scope.baranje.KorisnickoIme + "&userPassword" + $scope.password, "GET").then(function(data, status, heders, config) {
+                        $scope.object = {
+                            Baranja: $scope.baranjaZaOdobruvanje,
+                            OrgDel: '000001',
+                            ePartii: $scope.ePartii
+                        }
 
+                        // $scope.obj.push($scope.baranjaZaOdobruvanje);
+                        // $scope.obj.push("1000");
+
+                        console.log("Obj", $scope.object)
+
+                        gatewayService.request("/api/OdobruvanjeBaranja/1/odobriBaranja", "POST", $scope.object).then(function(data, status, heders, config) {
+                            $scope.flagDisableButtons = false;
+
+                        }, function(data, status, headers, config) {
+                            console.log(status);
+
+                        });
 
                     }, function(data, status, headers, config) {
                         console.log(status);

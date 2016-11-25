@@ -31,6 +31,7 @@ angular.module('adminBankaFrontendApp')
 
                 } else {
                     $scope.infoData = data['0'];
+                    console.log("info", $scope.infoData);
 
                     if (embg != "") {
 
@@ -71,7 +72,8 @@ angular.module('adminBankaFrontendApp')
         $scope.resetiraj = function() {
             $scope.randomPassword(10);
 
-            gatewayService.request("/api/ResetirajLozinka/1/ResetUserPassword?userName=" + $scope.Korisnik.KorisnickoIme + "&userPassword=" + $scope.password, "GET").then(function(data, status, heders, config) {
+            gatewayService.request("/api/ResetirajLozinka/1/ResetADUserPassword?userName=" + $scope.Korisnik.KorisnickoIme + "&userPassword=" + $scope.password + "&Edinstvenbroj=" + $scope.Korisnik.EdinstvenBroj + "&Email=" + $scope.infoData.Email, "GET").then(function(data, status, heders, config) {
+                toastr.success("Лозинката е успешно променета!")
 
 
             }, function(data, status, headers, config) {
