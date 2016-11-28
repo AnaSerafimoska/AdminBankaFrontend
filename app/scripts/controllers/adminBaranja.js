@@ -881,7 +881,7 @@ angular.module('adminBankaFrontendApp')
                 var old = false;
 
                 for (var i = 0; i < $scope.sitevneseni.length; i++) {
-                    if (key.substring(1, 7) == $scope.sitevneseni[i].ProductId) {
+                    if (key.substring(1, 6) == $scope.sitevneseni[i].ProductId) {
                         var old = true;
 
                         break;

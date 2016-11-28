@@ -158,7 +158,7 @@ angular.module('adminBankaFrontendApp')
 
                             $scope.baranjaZaOdobruvanje.push($scope.neodobreniBaranja[i]);
                             $scope.odobreni = {};
-                            gatewayService.request("/api/OdobruvanjeBaranja/1/FetchAllOdobreniBaranja?EdinstvenBroj=" + $scope.neodobreniBaranja[i].EdinstvenBroj, "GET").then(function(data, status, heders, config) {
+                            gatewayService.request("/api/OdobruvanjeBaranja/1/FetchAllOdobreniBaranja?EdinstvenBroj=" + $scope.neodobreniBaranja[i].EdinstvenBroj + "&Partija=" + $scope.baranje.Partija, "GET").then(function(data, status, heders, config) {
                                 $scope.odobreni = data;
                                 console.log("odobreni", $scope.odobreni);
                                 for (var j = 0; j < $scope.odobreni.length; j++) {
