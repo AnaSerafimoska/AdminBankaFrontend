@@ -17,6 +17,7 @@ angular.module('adminBankaFrontendApp')
         };
 
         $scope.loggedUser = JSON.parse(localStorage.getItem("loginUser"));
+        // $scope.loginU = lscache.get('loginU');
         if (!$scope.loggedUser) {
             $location.path('/login');
         } else {
@@ -287,6 +288,7 @@ angular.module('adminBankaFrontendApp')
                 for (var i = 0; i < data.length; i++) {
                     $scope.temp.push(data[i]);
                 }
+                console.log("temp", $scope.temp);
 
 
             }, function(data, status, headers, config) {
@@ -301,6 +303,7 @@ angular.module('adminBankaFrontendApp')
 
         $scope.polniFinal = function() {
             $scope.final = $scope.temp;
+            console.log($scope.final, "final tabela");
         }
 
 
@@ -348,7 +351,7 @@ angular.module('adminBankaFrontendApp')
         $scope.info = "";
         $scope.getInfo = function(partija) {
 
-
+            $scope.info = "";
             $scope.ePartija = {};
 
             if (partija.length == 13 || partija.length == 15) {
@@ -838,6 +841,7 @@ angular.module('adminBankaFrontendApp')
 
         $scope.vnesiBaranja = function() {
             console.log('509', $rootScope.x509)
+            var cert = {};
             var cert = $rootScope.x509;
             console.log("Neodobreni", $scope.neodobreni);
             console.log("finalno", $scope.finalno);
@@ -906,7 +910,7 @@ angular.module('adminBankaFrontendApp')
                     obj.DatumBaranje = $filter('date')($scope.KorisnikPrikazInfo.DatumInsert, "yyyy-MM-dd HH:mm:ss.sss");
                     obj.ReferentInsert = authData.username;
                     obj.Email = $scope.finalno['o' + obj.ProductId].Email;
-                    if (obj.ProductId == '000003') {
+                    if (obj.ProductId == '000003' || obj.ProductId == '000002' || obj.ProductId == '000004') {
                         console.log("cert", cert)
                             // obj.Sertifikat = $scope.finalno['o' + obj.ProductId].Sertifikat.replace(/[\s]/g, '');
                         if (cert != undefined) {

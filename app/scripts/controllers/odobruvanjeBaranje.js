@@ -300,7 +300,7 @@ angular.module('adminBankaFrontendApp')
                             $scope.ePartija.CertDatumValidenDo = $scope.neodobreniBaranja[i].NotBefore;
                             $scope.ePartija.CertStatus = "";
                             $scope.ePartija.TelBroj = $scope.neodobreniBaranja[i].TelefonskiBroj;
-                            $scope.ePartija.X509Certifikate = $scope.neodobreniBaranja[i].X509Certifikate;
+                            $scope.ePartija.X509Certificate = $scope.neodobreniBaranja[i].X509Certifikate;
                             $scope.ePartija.ProductTypeID = $scope.neodobreniBaranja[i].ProductTypeId;
                             $scope.ePartija.ProductID = $scope.neodobreniBaranja[i].ProductId;
                             $scope.ePartija.BrojBaranje = $scope.neodobreniBaranja[i].BrojBaranje;
