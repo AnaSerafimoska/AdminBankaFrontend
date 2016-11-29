@@ -885,7 +885,7 @@ angular.module('adminBankaFrontendApp')
                 var old = false;
 
                 for (var i = 0; i < $scope.sitevneseni.length; i++) {
-                    if (key.substring(1, 7) == $scope.sitevneseni[i].ProductId) {
+                    if (key.substring(1, 6) == $scope.sitevneseni[i].ProductId) {
                         var old = true;
 
                         break;
@@ -957,6 +957,7 @@ angular.module('adminBankaFrontendApp')
             console.log("Novi", noviBaranja);
             if (noviBaranja.length == 0) {
                 $route.reload();
+                toastr.info("Нема нови барања!")
 
             } else {
                 $scope.zaVnesuvanje = {
@@ -965,14 +966,51 @@ angular.module('adminBankaFrontendApp')
                 }
 
                 console.log('obj', $scope.zaVnesuvanje);
-                gatewayService.request("/api/Baranja/1/vnesiBaranja", "POST", $scope.zaVnesuvanje).then(function(data, status, heders, config) {
-                    toastr.success("Барањата се успешно внесени!")
-                    $route.reload();
 
-                }, function(data, status, headers, config) {
-                    console.log(status);
+                if (noviBaranja.length == 1) {
+                    if (noviBaranja['0'].ProductTypeId.substring(5, 7) == '02') {
+                        gatewayService.request("/api/OdobruvanjeBaranja/1/FetchAllOdobreniBaranja?EdinstvenBroj=" + noviBaranja['0'].EdinstvenBroj + "&Partija=" + noviBaranja['0'].Partija, "GET").then(function(data, status, heders, config) {
+                            if (data.length > 0) {
+                                gatewayService.request("/api/Baranja/1/vnesiBaranja", "POST", $scope.zaVnesuvanje).then(function(data, status, heders, config) {
+                                    toastr.success("Барањата се успешно внесени!")
+                                    $route.reload();
 
-                });
+                                }, function(data, status, headers, config) {
+                                    console.log(status);
+
+                                });
+
+                            } else {
+                                toastr.error("Нема привилегии кои треба да се укинат!");
+
+                            }
+                        }, function(data, status, headers, config) {
+                            console.log(status);
+
+                        });
+                    } else {
+                        gatewayService.request("/api/Baranja/1/vnesiBaranja", "POST", $scope.zaVnesuvanje).then(function(data, status, heders, config) {
+                            toastr.success("Барањата се успешно внесени!")
+                            $route.reload();
+
+                        }, function(data, status, headers, config) {
+                            console.log(status);
+
+                        });
+                    }
+                } else {
+                    gatewayService.request("/api/Baranja/1/vnesiBaranja", "POST", $scope.zaVnesuvanje).then(function(data, status, heders, config) {
+                        toastr.success("Барањата се успешно внесени!")
+                        $route.reload();
+
+                    }, function(data, status, headers, config) {
+                        console.log(status);
+
+                    });
+                }
+
+
+
             }
 
         }
