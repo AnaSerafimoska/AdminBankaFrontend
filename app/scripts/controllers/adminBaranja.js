@@ -464,10 +464,11 @@ angular.module('adminBankaFrontendApp')
             //       console.log(status);
             //     });
             gatewayService.request("/api/Baranja/1/ePartiiInsert", "POST", $scope.ePartija).then(function(data, status, heders, config) {
+
+
                 toastr.success("Сметката е успешно внесена");
                 polniTabela();
 
-                //$route.reload();
 
             }, function(data, status, headers, config) {
                 console.log(status);
