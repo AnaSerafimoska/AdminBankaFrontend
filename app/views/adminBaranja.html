@@ -57,10 +57,15 @@
                     </div>
                     <input placeholder="Пребарај..." ng-model="SearchValue" ng-show="searchEmbg"   type="text" class="form-control ng-invalid-required" mask="9" repeat="13" restrict="reject" required>
                     <input placeholder="Пребарај..." ng-model="SearchValue" ng-show="!searchEmbg"   type="text" class="form-control ng-invalid-required" required >
-                    <div class="input-group-addon " id="date" >
+                    <div class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="searchRecord(SearchValue)" >Пребарај                    <i class="fa fa-search" data-title="Пребарај" ng-click="searchRecord(SearchValue)" data-placement="bottom"  data-trigger="focus"   ></i>
+</button>
+                </div>
+            <!--         <div class="input-group-addon " id="date" >
+
 
                     <i class="fa fa-search" data-title="Пребарај" ng-click="searchRecord(SearchValue)" data-placement="bottom"  data-trigger="focus"   ></i>
-                    </div>
+                    </div> -->
                   </div>
 
                 </div>

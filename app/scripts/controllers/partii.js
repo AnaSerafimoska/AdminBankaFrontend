@@ -84,6 +84,8 @@ angular.module('adminBankaFrontendApp')
         $scope.ePartiiFetchMinimalenBrojPotpisnici = function(Partija) {
 
             gatewayService.request("/api/Partii/1/ePartiiFetchMinimalenBrojPotpisnici?Partija=" + Partija, "GET").then(function(data, status, heders, config) {
+                console.log("data", data);
+
                 if (data.length > 0) {
                     $scope.epartii.MinBrojPotpisnici = parseInt(data, 10);;
                 } else {

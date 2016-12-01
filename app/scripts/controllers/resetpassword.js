@@ -64,7 +64,7 @@ angular.module('adminBankaFrontendApp')
                 pass += chars.charAt(i);
             }
             console.log("Password", pass);
-            $scope.password = pass;
+            $scope.password = 'N' + pass;
             // console.log("Pass",password);
         }
 

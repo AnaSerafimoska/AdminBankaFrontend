@@ -300,7 +300,7 @@ angular.module('adminBankaFrontendApp')
                             $scope.ePartija.CertDatumValidenDo = $scope.neodobreniBaranja[i].NotBefore;
                             $scope.ePartija.CertStatus = "";
                             $scope.ePartija.TelBroj = $scope.neodobreniBaranja[i].TelefonskiBroj;
-                            $scope.ePartija.X509Certifikate = $scope.neodobreniBaranja[i].X509Certifikate;
+                            $scope.ePartija.X509Certificate = $scope.neodobreniBaranja[i].X509Certifikate;
                             $scope.ePartija.ProductTypeID = $scope.neodobreniBaranja[i].ProductTypeId;
                             $scope.ePartija.ProductID = $scope.neodobreniBaranja[i].ProductId;
                             $scope.ePartija.BrojBaranje = $scope.neodobreniBaranja[i].BrojBaranje;
@@ -407,7 +407,7 @@ angular.module('adminBankaFrontendApp')
                     $scope.flagDisableLozinka = false;
                     $scope.flagDisableButtons = false;
 
-                    gatewayService.request("/api/OdobruvanjeBaranja/1/CreateADUser?userName=" + $scope.baranje.KorisnickoIme + "&userPassword" + $scope.password, "GET").then(function(data, status, heders, config) {
+                    gatewayService.request("/api/OdobruvanjeBaranja/1/CreateADUser?userName=" + $scope.baranje.KorisnickoIme + "&userPassword=" + $scope.password, "GET").then(function(data, status, heders, config) {
                         $scope.object = {
                             Baranja: $scope.baranjaZaOdobruvanje,
                             OrgDel: '000001',

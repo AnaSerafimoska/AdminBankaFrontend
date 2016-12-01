@@ -51,11 +51,17 @@ angular.module('adminBankaFrontendApp')
 
 
                                         localStorage.setItem("Permisii", JSON.stringify(data));
+                                        //  lscache.set('loginU', JSON.stringify($scope.loginData), 2);
                                         console.log("permisii", data);
+                                        if (data.length > 0) {
+                                            $location.path(data['0'].PermissionName);
+                                        } else {
+                                            toastr.error("Немате привилегии за да пристапите до некоја форма од апликацијата!");
+                                        }
 
-                                        toastr.success("Успешна најава!");
+                                        //  toastr.success("Успешна најава!");
 
-                                        $location.path("/adminBaranja");
+                                        // $location.path("/adminBaranja");
 
                                     }, function(data, status, headers, config) {
 
