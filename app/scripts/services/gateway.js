@@ -14,8 +14,8 @@ angular.module('adminBankaFrontendApp').factory('gatewayService', function($http
             //var token = user.token;
 
             if (typeof url !== "undefined") {
-                //serviceUrl = "https://adminbanka.stbbt.mk" + url;
-                serviceUrl = "http://localhost:22546" + url;
+                serviceUrl = "https://adminbanka.stbbt.mk" + url;
+                // serviceUrl = "http://localhost:22546" + url;
                 // serviceUrl = "http://localhost:1234" + url;
                 // serviceUrl = "http://10.55.55.215:1234" + url;
             }
