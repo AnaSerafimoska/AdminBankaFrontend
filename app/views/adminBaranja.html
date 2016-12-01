@@ -57,10 +57,15 @@
                     </div>
                     <input placeholder="Пребарај..." ng-model="SearchValue" ng-show="searchEmbg"   type="text" class="form-control ng-invalid-required" mask="9" repeat="13" restrict="reject" required>
                     <input placeholder="Пребарај..." ng-model="SearchValue" ng-show="!searchEmbg"   type="text" class="form-control ng-invalid-required" required >
-                    <div class="input-group-addon " id="date" >
+                    <div class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="searchRecord(SearchValue)" >Пребарај                    <i class="fa fa-search" data-title="Пребарај" ng-click="searchRecord(SearchValue)" data-placement="bottom"  data-trigger="focus"   ></i>
+</button>
+                </div>
+            <!--         <div class="input-group-addon " id="date" >
+
 
                     <i class="fa fa-search" data-title="Пребарај" ng-click="searchRecord(SearchValue)" data-placement="bottom"  data-trigger="focus"   ></i>
-                    </div>
+                    </div> -->
                   </div>
 
                 </div>
@@ -145,7 +150,7 @@
         </div>
 				<!--  ************** TABELA ZA PRIKAZ NA PODATOCI PO SMETKA - FORMA ZA VNES NA  EMBG**********-->
 		        		<div class="col-md-12 box-header " ng-show="flagVisibilityTabs">
-		        			<table id="example2" class="table table-bordered table-hover dataTable" setNullSelectionAllowed="false" role="grid" aria-describedby="example2_info">
+		        			<table ng-table="tableRef" id="example2" class="table table-bordered table-hover dataTable" setNullSelectionAllowed="false" role="grid" aria-describedby="example2_info">
 		        			<tr style="background-color: #00A65A; color: white;">
 		        				<th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">Тип на продукт</th>
 
