@@ -21,6 +21,9 @@ angular.module('adminBankaFrontendApp')
             $location.path('/login');
         } else {
             var logiranUser = $scope.loggedUser.username;
+
+            // console.log("vreme " + (now - timestamp));
+
         }
 
 
@@ -47,7 +50,11 @@ angular.module('adminBankaFrontendApp')
 
         if (!$scope.hasPermission('adminBaranja')) {
             console.log("adm baranja1");
-            $location.path('/');
+            // $location.path('/');
+            // console.log("Permisii " + dataPermisii['0'].PermissionName);
+
+
+            $location.path(dataPermisii['0'].PermissionName);
         };
 
 

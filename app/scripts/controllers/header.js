@@ -10,6 +10,15 @@ angular.module('adminBankaFrontendApp')
         $location.path('/login');
     } else {
         var logiranUser = $scope.loggedUser.username;
+        var now = new Date().getTime();
+        var timestamp = localStorage.getItem("TimeS");
+
+        if (now - timestamp > 900000) {
+            localStorage.clear();
+            console.log("CLEAR!!");
+            toastr.error("Истечена сесија. Најавете се повторно!");
+            $location.path('/login');
+        }
     }
 
     var startLang = "mk";

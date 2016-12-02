@@ -361,7 +361,7 @@ angular.module('adminBankaFrontendApp')
         $scope.password = "";
         $scope.randomPassword = function(length) {
 
-            var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOP1234567890";
+            var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOP1234567890!@#$%?";
             var pass = "";
             for (var x = 0; x < length; x++) {
                 var i = Math.floor(Math.random() * chars.length);
@@ -407,7 +407,7 @@ angular.module('adminBankaFrontendApp')
                     $scope.flagDisableLozinka = false;
                     $scope.flagDisableButtons = false;
 
-                    gatewayService.request("/api/OdobruvanjeBaranja/1/CreateADUser?userName=" + $scope.baranje.KorisnickoIme + "&userPassword" + $scope.password, "GET").then(function(data, status, heders, config) {
+                    gatewayService.request("/api/OdobruvanjeBaranja/1/CreateADUser?userName=" + $scope.baranje.KorisnickoIme + "&userPassword=" + $scope.password, "GET").then(function(data, status, heders, config) {
                         $scope.object = {
                             Baranja: $scope.baranjaZaOdobruvanje,
                             OrgDel: '000001',
