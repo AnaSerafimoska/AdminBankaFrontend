@@ -44,11 +44,12 @@ angular.module('adminBankaFrontendApp')
 
                                 localStorage.setItem("loginUser", JSON.stringify($scope.loginData));
 
+                                localStorage.setItem("TimeS", new Date().getTime());
+
 
 
                                 gatewayService.request("/api/Login/1/FetchUserRolePermission?UserName=" + $scope.loginData.username, "GET")
                                     .then(function(data, status, heders, config) {
-
 
                                         localStorage.setItem("Permisii", JSON.stringify(data));
                                         //  lscache.set('loginU', JSON.stringify($scope.loginData), 2);
