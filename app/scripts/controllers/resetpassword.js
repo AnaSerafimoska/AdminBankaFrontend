@@ -57,20 +57,44 @@ angular.module('adminBankaFrontendApp')
 
         $scope.randomPassword = function(length) {
 
-            var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOP1234567890";
+            var chars = "ABCDEFGHIJKLMNOP";
             var pass = "";
-            for (var x = 0; x < length; x++) {
+            for (var x = 0; x < 5; x++) {
+                var i = Math.floor(Math.random() * chars.length);
+                pass += chars.charAt(i);
+            }
+
+            chars = "abcdefghijklmnopqrstuvwxyz";
+
+            //   var pass = "";
+            for (var x = 0; x < 5; x++) {
+                var i = Math.floor(Math.random() * chars.length);
+                pass += chars.charAt(i);
+            }
+
+            chars = "1234567890";
+            //  var pass = "";
+            for (var x = 0; x < 3; x++) {
+                var i = Math.floor(Math.random() * chars.length);
+                pass += chars.charAt(i);
+            }
+
+
+            chars = "!@$";
+            //var pass = "";
+            for (var x = 0; x < 1; x++) {
                 var i = Math.floor(Math.random() * chars.length);
                 pass += chars.charAt(i);
             }
             console.log("Password", pass);
-            $scope.password = 'N' + pass;
+            $scope.password = pass;
+
             // console.log("Pass",password);
         }
 
 
         $scope.resetiraj = function() {
-            $scope.randomPassword(10);
+            $scope.randomPassword(15);
 
             gatewayService.request("/api/ResetirajLozinka/1/ResetADUserPassword?userName=" + $scope.Korisnik.KorisnickoIme + "&userPassword=" + $scope.password + "&Edinstvenbroj=" + $scope.Korisnik.EdinstvenBroj + "&Email=" + $scope.infoData.Email, "GET").then(function(data, status, heders, config) {
                 toastr.success("Лозинката е успешно променета!")

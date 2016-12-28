@@ -1,0 +1,87 @@
+{
+  "_args": [
+    [
+      "cyrillic-to-latin",
+      "F:\\MARIJA T\\PROEKTI Razvoj\\AdminBankaFrontend"
+    ]
+  ],
+  "_from": "cyrillic-to-latin@latest",
+  "_id": "cyrillic-to-latin@2.0.0",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/cyrillic-to-latin",
+  "_nodeVersion": "0.10.33",
+  "_npmUser": {
+    "email": "slobodan@cloudhorizon.com",
+    "name": "slobodan"
+  },
+  "_npmVersion": "2.3.0",
+  "_phantomChildren": {},
+  "_requested": {
+    "name": "cyrillic-to-latin",
+    "raw": "cyrillic-to-latin",
+    "rawSpec": "",
+    "scope": null,
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/cyrillic-to-latin/-/cyrillic-to-latin-2.0.0.tgz",
+  "_shasum": "3cd99ce1e0c8feca34a07604f5b0702973ee5ee9",
+  "_shrinkwrap": null,
+  "_spec": "cyrillic-to-latin",
+  "_where": "F:\\MARIJA T\\PROEKTI Razvoj\\AdminBankaFrontend",
+  "author": {
+    "name": "Slobodan Stojanovic"
+  },
+  "bugs": {
+    "url": "https://github.com/stojanovic/cyrillic-to-latin/issues"
+  },
+  "dependencies": {},
+  "description": "Convert cyrillic characters to latin.",
+  "devDependencies": {
+    "browserify": "^10.2.4",
+    "coverify": "^1.3.3",
+    "tap-spec": "^4.0.0",
+    "tape": "^4.0.0"
+  },
+  "directories": {},
+  "dist": {
+    "shasum": "3cd99ce1e0c8feca34a07604f5b0702973ee5ee9",
+    "tarball": "https://registry.npmjs.org/cyrillic-to-latin/-/cyrillic-to-latin-2.0.0.tgz"
+  },
+  "gitHead": "e22de6e9e1ffc794cdfa6f8af965e45368ffb30c",
+  "homepage": "https://github.com/stojanovic/cyrillic-to-latin",
+  "keywords": [
+    "cyrillic",
+    "latin",
+    "convert",
+    "converter"
+  ],
+  "license": "MIT",
+  "main": "cyrillicToLatin.js",
+  "maintainers": [
+    {
+      "email": "slobodan@cloudhorizon.com",
+      "name": "slobodan"
+    },
+    {
+      "email": "marko_kazic@live.com",
+      "name": "marxo"
+    }
+  ],
+  "name": "cyrillic-to-latin",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stojanovic/cyrillic-to-latin.git"
+  },
+  "scripts": {
+    "test": "browserify -t coverify test/*.js | node | coverify -c | tap-spec",
+    "uglify": "uglifyjs cyrillicToLatin.js -o cyrillicToLatin.min.js"
+  },
+  "version": "2.0.0"
+}

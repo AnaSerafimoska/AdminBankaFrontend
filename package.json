@@ -41,6 +41,7 @@
     "test": "karma start test\\karma.conf.js"
   },
   "dependencies": {
+    "cyrillic-to-latin": "^2.0.0",
     "node-forge": "^0.6.42"
   }
 }

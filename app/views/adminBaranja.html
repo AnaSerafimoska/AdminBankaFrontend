@@ -5,8 +5,8 @@
 			<form name="formSmetka">
         		<label>Сметка:</label>
 	        	<div>
-		        	<input  type="text" ng-show="tipDodadismetka" class=" input-sm ng-valid ng-invalid form-control" required ng-change="getInfo(novPotpisnikPartija);setirajFlagPotpisnik()" ng-model="novPotpisnikPartija"  mask="9" repeat="15" restrict="reject"   ng-blur="setFlagToPrikazhi()" ></input>
-              <input  type="text" ng-show="!tipDodadismetka" class=" input-sm ng-valid ng-invalid form-control" required ng-change="getInfo(novPotpisnikPartija);setirajFlagPotpisnik()" ng-model="novPotpisnikPartija"  mask="9" repeat="13" restrict="reject"   maxlength="15" ng-blur="setFlagToPrikazhi()" ></input>
+		        	<input  type="text" ng-if="tipDodadismetka" class=" input-sm ng-valid ng-invalid form-control" required ng-change="getInfo(novPotpisnikPartija);setirajFlagPotpisnik()" ng-model="novPotpisnikPartija"  mask="9" repeat="15" restrict="reject"   ng-blur="setFlagToPrikazhi()" ></input>
+              <input  type="text" ng-if="!tipDodadismetka" class=" input-sm ng-valid ng-invalid form-control" required ng-change="getInfo(novPotpisnikPartija);setirajFlagPotpisnik()" ng-model="novPotpisnikPartija"  mask="9" repeat="13" restrict="reject"   maxlength="15" ng-blur="setFlagToPrikazhi()" ></input>
               <br/>
               {{info}}
 		        </div>
@@ -144,7 +144,11 @@
             <div class="col-md-3 form-group">
             <label >Корисничко име:</label>
             <input type="text" class=" input-sm form-control ng-invalid-required" ng-blur="checkKorisnickoImeInDb(KorisnikPrikazInfo.korisnichkoIme)"  ng-disabled="flagDisableKorsnickoIme" ng-model="KorisnikPrikazInfo.korisnichkoIme"  style ="border: 1px solid rgba(128, 128, 128, 0.22); " required/>
+            </div>
 
+               <div class="col-md-3 form-group">
+            <label >Е-маил адреса:</label>
+            <input type="text" class=" input-sm form-control ng-invalid-required" ng-blur=""  ng-disabled="" ng-model="KorisnikPrikazInfo.email"  style ="border: 1px solid rgba(128, 128, 128, 0.22); " required/>
             </div>
           </div>
         </div>
@@ -160,20 +164,8 @@
 
 		        				<th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">Назив на сметка</th>
 
-		        				<!-- <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">Функција</th>
-
-		        				<th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">Сервис</th>
-
-		        				<th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">Сервис привилегија</th>
-
-		        				<th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">Вид апликација</th>
-
-		        				<th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">Е-маил</th> -->
-
-		        			<!-- 	<th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">Телефонски број</th> -->
 		        			</tr>
 
-		        				<!--  ************** REDOVI VO TABELA TUKA *********************************       -->
 		        			<tbody >
 		        				<tr ng-repeat=" y in final" ng-class="{'selected':$index == selectedRow}"  ng-click="productsFetch(selectiranTip);setClickedRow($index); previewForEdit(y) " ng-if="getDigit(y)" > <!-- ng-if="getPrviDve(y.ProductTypeId) == prvidve" -->
 		        					<td >{{y["ProductTypeID"]}} </td>

@@ -43,8 +43,36 @@ angular.module('adminBankaFrontendApp')
             "Pol": null
         };
 
+
+        // var converttext = cyrillicToLatin('Ћирилица је писмо које користи седам словенских језика (белоруски, бугарски, македонски, руски, српски, украјински и де јуре бошњачки)')
+        // console.log("text", converttext);
+
+
+
         $scope.KomitentNew = {};
         $scope.flagdisabled = false;
+
+        $scope.tooltip = {
+
+            "title": "Внесете датум во следниот формат: dd-MM-yyyy!",
+            "checked": false
+        };
+
+        $scope.setKorisnickoIme = function() {
+            if (($scope.Komitent.ImeNaziv != "" && $scope.Komitent.ImeNaziv != undefined) && ($scope.Komitent.Prezime != "" && $scope.Komitent.Prezime != undefined)) {
+                var converttext = cyrillicToLatin($scope.Komitent.ImeNaziv.substring(0, 1) + $scope.Komitent.Prezime);
+                var chars = "1234567890";
+                var pass = "";
+                for (var x = 0; x < 3; x++) {
+                    var i = Math.floor(Math.random() * chars.length);
+                    pass += chars.charAt(i);
+                }
+                converttext += pass;
+
+                $scope.Komitent.KorisnickoIme = converttext;
+            }
+
+        }
 
 
 
@@ -306,6 +334,27 @@ angular.module('adminBankaFrontendApp')
             });
 
         }
+        $scope.checkMod11 = function() {
+            if ($scope.Komitent.VidKomitent == 'ДФ') {
+                gatewayService.request("/api/Komitent/1/CheckMod11?embg=" + $scope.Komitent.EdinstvenBroj, "GET").then(function(data, status, heders, config) {
+                    console.log("data", data);
+                    if (data.length > 0) {
+                        if (data['0'] == false) {
+                            toastr.error("Невалиден единствен број!");
+                            $scope.flagdisabled = true;
+                        } else {
+                            $scope.flagdisabled = false;
+                        }
+
+                    }
+
+
+                }, function(data, status, headers, config) {
+                    console.log(status);
+                });
+            }
+
+        }
 
         $scope.postalCodefetch = function(place) {
             console.log("place", place);
@@ -337,6 +386,7 @@ angular.module('adminBankaFrontendApp')
                             $scope.flagdisabled = true;
                             toastr.error("Веќе постои корисник со единствен број " + embg + "!");
                         }
+
 
 
                     }, function(data, status, headers, config) {

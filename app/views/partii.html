@@ -9,9 +9,12 @@
       <h1 >Партии</h1>
     </div>
 
-    <div class="content col-md-6" >
+    <div class="content" >
+    <div class="row">
+    <div class="col-md-7">
 
-      <div class=" box box-success  ">
+      <div class=" box box-success">
+        
         <div class="box-header with-border">
           <h3 class="box-title">Сними запис</h3>
         </div>
@@ -20,64 +23,98 @@
 
           <div class="row">
             <form novalidate class="css-form" name="form">
-            <!--   <div class="col-md-12 "  >
-                          <div class="row ">
-                            <div class="col-lg-6">
-                              <div class="input-group">
-                                <div class="input-group-btn">
-                                  <button type="button"  class="btn btn-default dropdown-toggle "  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >{{valueForSearch}}<span class="caret"></span></button>
-
-                                  <ul class="dropdown-menu">
-                                  <li><a ng-click="changeValue(0)">Единствен број</a></li>
-                                  <li><a  ng-click="changeValue(1)">Партија</a></li>
-                                  </ul>
-                                </div>
-                                <input placeholder="Пребарај..." ng-model="SearchValue" ng-show="a"  type="text" class="form-control ng-invalid-required " mask="9" repeat="13" restrict="reject" reguired>
-                                <input placeholder="Пребарај..." ng-model="SearchValue" ng-show="!a"  type="text" class="form-control ng-invalid-required"  mask="9" repeat="15" restrict="reject" required>
-                                <div class="input-group-addon " id="date" >
-                                <i class="fa fa-search" ng-click="searchRecord(SearchValue)" data-placement="bottom" data-type="success" data-container="body" data-trigger="focus" bs-tooltip="tooltip"></i>
-                                </div>
-                              </div>
-
-                            </div>
-
-
-
-
-                            <div class="col-md-6 form-group">
-                              <select class="form-control ng-touched ng-invalid  "  ng-change="fetchPartija();setVisibility()"  ng-model="selectedPartija" >
-
-                                <option ng-repeat="partija in Partii" value="{{partija}}"  >Единствен број: {{partija.EdinstvenBroj}} - Партија: {{partija.Partija}} </option>
-                              </select>
-
-                            </div>
-                          </div>
-                </div> -->
-
-
-              <!--<div class=" row col-md-12 box-header pull-right ">-->
-                <!--<button class="btn btn-default text-right pull-right btn-sm" style="color:white; background-color: #3c8dbc; float:right; margin-right: 15px;" ng-click=" setVisibility()" ng-disabled="Flag_Prikazhi">  Прикажи </button>-->
-              <!--</div>-->
+           <div class="col-md-12">
              
-                   <div class=" col-md-6 form-group">
+
+
+<div class="row">
+
+                   <div class=" col-md-4 form-group">
                         <label >Партија:</label>
                         <input ng-model="epartii.Partija" ng-blur="ePartiiFetchMinimalenBrojPotpisnici(epartii.Partija)"  type="text" class="form-control ng-invalid-required"  mask="9" repeat="15" restrict="reject" required>
                    </div>
-
+   <div class=" col-md-4 form-group">
+                    <label >Број на потписи:</label>
+                    <input placeholder="" ng-model="epartii.BrojNaPotpisi" min="1" ng-init="BrojNaPotpisi=1"   type="number" class="form-control ng-invalid-required input-sm" reguired>
+                  </div>
                     
-           
-                  <div class=" col-md-6 form-group">
-                    <label >Минимален број потписници:</label>
+    
+                  <div class=" col-md-4 form-group">
+                    <label >Минимален број потписи:</label>
                     <input placeholder="" ng-model="epartii.MinBrojPotpisnici" min="1" ng-init="MinBrojPotpisnici=1"   type="number" class="form-control ng-invalid-required input-sm" reguired>
                   </div>
 
 
-          
+               
 
+                 </div>
+
+      
+                 
+                  <div ng-show="flagVisibility">
+                               <table  ng-table="tableRef" id="example2" class=" table table-bordered table-hover dataTable" setNullSelectionAllowed="false" role="grid" aria-describedby="example2_info">
+                  <tr style="background-color: #00A65A; color: white;">
+                  
+                    <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">Група на потписници</th>
+
+                    <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">Број на потписи</th>
+
+                   
+                  </tr>
+
+                    <!--  ************** REDOVI VO TABELA TUKA *********************************       -->
+                  <tbody >
+                    <tr ng-repeat="y in infogrupa" ng-class="{'selected':$index == selectedRow}">
+                      <td >{{y["SifraLimitGrupa"]}} </td>
+                      <td >{{y["BrojNaPotpisi"]}} </td>
+                    </tr>
+
+                  </tbody>
+
+                </table>
+          
+               
+            
+          
+           
+
+
+                      <table ng-table="tableRef" id="example2" class="table table-bordered table-hover dataTable" setNullSelectionAllowed="false" role="grid" aria-describedby="example2_info">
+                  <tr style="background-color: #00A65A; color: white;">
+                    <th></th>
+                    <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">Ред. бр.</th>
+
+                    <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">Статус на потписник</th>
+
+                    <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">Единствен број</th>
+
+                    <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">Име и презиме</th>
+
+                
+                  </tr>
+
+                
+                  <tbody >
+                    <tr ng-class="{'selected': item.IsChecked == true}" ng-repeat="item in infopotpisnicipartija">
+                        <td > <input  ng-model="item.inGroup"  type="checkbox" > </td>
+                      <td >{{$index +1}}</td>
+                      <td> <input  ng-model="item.StatusPotpisnik"   type="checkbox" > 
+                    </td>
+                      <td >{{item["EdinstvenBroj"]}} </td>
+                      <td >{{item["ImePrezime"]}} </td>
+                    </tr>
+
+                  </tbody>
+
+                </table>
+                <img id="mySpinner"  src="/images/loading.gif" style="width: 100px;height: 100px; margin-top: -17px;margin-left: 41%;" ng-show="loading"/>
+
+                
+                </div>
                 </div>
 
                 
-                <div class="row">
+                <div class="form-horizontal ">
                     <div class="col-md-12 box-header text-right" >
                           <button class="btn btn-success btn-sm" ng-click="snimi()" ng-disabled="form.$invalid">  Сними </button>
                     </div>
@@ -87,6 +124,7 @@
 
 
             </form>
+            </div>
 
 
 
@@ -97,8 +135,8 @@
         </div>
       </div>
     </div>
+</div>
 
-  </div>
   <ng-include src="'views/footer.html'"></ng-include>
 </section>
 

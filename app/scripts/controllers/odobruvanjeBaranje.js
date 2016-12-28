@@ -277,7 +277,7 @@ angular.module('adminBankaFrontendApp')
                             $scope.ePartija.SeriskiBrojToken = $scope.neodobreniBaranja[i].Sertifikat;
                             $scope.ePartija.SifraStatus = "O";
                             $scope.ePartija.DatumOtvaranje = $filter('date')(today, "yyyy-MM-dd");
-                            $scope.ePartija.Emaili = "";
+                            $scope.ePartija.Emaili = $scope.neodobreniBaranja[i].Email;
                             $scope.ePartija.SifraInicijativaUkinuvanje = "";
                             $scope.ePartija.DatumUkinuvanje = "2050-12-31 00:00:00";
                             $scope.ePartija.ZabeleskaUkinuvanje = "";
@@ -299,7 +299,7 @@ angular.module('adminBankaFrontendApp')
                             $scope.ePartija.CertDatumValidenOd = $scope.neodobreniBaranja[i].NotAfter;
                             $scope.ePartija.CertDatumValidenDo = $scope.neodobreniBaranja[i].NotBefore;
                             $scope.ePartija.CertStatus = "";
-                            $scope.ePartija.TelBroj = $scope.neodobreniBaranja[i].TelefonskiBroj;
+                            $scope.ePartija.TelefonskiBroj = $scope.neodobreniBaranja[i].TelefonskiBroj;
                             $scope.ePartija.X509Certificate = $scope.neodobreniBaranja[i].X509Certifikate;
                             $scope.ePartija.ProductTypeID = $scope.neodobreniBaranja[i].ProductTypeId;
                             $scope.ePartija.ProductID = $scope.neodobreniBaranja[i].ProductId;
@@ -361,16 +361,40 @@ angular.module('adminBankaFrontendApp')
         $scope.password = "";
         $scope.randomPassword = function(length) {
 
-            var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOP1234567890!@#$%?";
-            var pass = "";
-            for (var x = 0; x < length; x++) {
-                var i = Math.floor(Math.random() * chars.length);
-                pass += chars.charAt(i);
+                var chars = "ABCDEFGHIJKLMNOP";
+                var pass = "";
+                for (var x = 0; x < 5; x++) {
+                    var i = Math.floor(Math.random() * chars.length);
+                    pass += chars.charAt(i);
+                }
+
+                chars = "abcdefghijklmnopqrstuvwxyz";
+
+                //   var pass = "";
+                for (var x = 0; x < 5; x++) {
+                    var i = Math.floor(Math.random() * chars.length);
+                    pass += chars.charAt(i);
+                }
+
+                chars = "1234567890";
+                //  var pass = "";
+                for (var x = 0; x < 3; x++) {
+                    var i = Math.floor(Math.random() * chars.length);
+                    pass += chars.charAt(i);
+                }
+
+
+                chars = "!@$";
+                //var pass = "";
+                for (var x = 0; x < 1; x++) {
+                    var i = Math.floor(Math.random() * chars.length);
+                    pass += chars.charAt(i);
+                }
+                console.log("Password", pass);
+                $scope.password = pass;
+                // console.log("Pass",password);
             }
-            console.log("Password", pass);
-            $scope.password = pass;
-            // console.log("Pass",password);
-        }
+            // $scope.randomPassword(10);
 
 
         $scope.odobriBaranje = function() {
@@ -395,24 +419,27 @@ angular.module('adminBankaFrontendApp')
 
                     gatewayService.request("/api/OdobruvanjeBaranja/1/odobriBaranja", "POST", $scope.object).then(function(data, status, heders, config) {
                         $scope.flagDisableButtons = false;
+                        toastr.success("Барањата се успешно одобрени!");
+
 
                     }, function(data, status, headers, config) {
                         console.log(status);
 
                     });
                 } else {
-                    $scope.randomPassword(10);
+                    $scope.randomPassword(15);
                     console.log("KorisnickoIme", $scope.baranje.KorisnickoIme);
                     console.log("Password", $scope.password);
                     $scope.flagDisableLozinka = false;
                     $scope.flagDisableButtons = false;
+                    $scope.object = {
+                        Baranja: $scope.baranjaZaOdobruvanje,
+                        OrgDel: '000001',
+                        ePartii: $scope.ePartii
+                    }
+
 
                     gatewayService.request("/api/OdobruvanjeBaranja/1/CreateADUser?userName=" + $scope.baranje.KorisnickoIme + "&userPassword=" + $scope.password, "GET").then(function(data, status, heders, config) {
-                        $scope.object = {
-                            Baranja: $scope.baranjaZaOdobruvanje,
-                            OrgDel: '000001',
-                            ePartii: $scope.ePartii
-                        }
 
                         // $scope.obj.push($scope.baranjaZaOdobruvanje);
                         // $scope.obj.push("1000");
@@ -421,6 +448,7 @@ angular.module('adminBankaFrontendApp')
 
                         gatewayService.request("/api/OdobruvanjeBaranja/1/odobriBaranja", "POST", $scope.object).then(function(data, status, heders, config) {
                             $scope.flagDisableButtons = false;
+                            toastr.success("Барањата се успешно одобрени!");
 
                         }, function(data, status, headers, config) {
                             console.log(status);
