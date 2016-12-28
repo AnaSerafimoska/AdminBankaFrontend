@@ -17,6 +17,25 @@ angular.module('adminBankaFrontendApp')
         $scope.selectedPartija = {};
         $scope.IzbranaPartija = {};
 
+        $scope.infogrupa = {};
+        $scope.loading = false;
+        $scope.infopotpisnicipartija = [];
+        $scope.flagVisibility = false;
+        $scope.finalnopotpisnici = [];
+
+
+        $scope.loggedUser = JSON.parse(localStorage.getItem("loginUser"));
+        // $scope.loginU = lscache.get('loginU');
+        if (!$scope.loggedUser) {
+            $location.path('/login');
+        } else {
+            var logiranUser = $scope.loggedUser.username;
+
+            // console.log("vreme " + (now - timestamp));
+
+        }
+
+
 
 
         //$rootScope.dataPermisii={};
@@ -56,7 +75,8 @@ angular.module('adminBankaFrontendApp')
 
 
         $scope.epartii = {
-            MinBrojPotpisnici: 1
+            MinBrojPotpisnici: 1,
+            BrojNaPotpisi: 1
         };
 
 
@@ -82,12 +102,15 @@ angular.module('adminBankaFrontendApp')
 
 
         $scope.ePartiiFetchMinimalenBrojPotpisnici = function(Partija) {
+            $scope.flagVisibility = true;
+            $scope.infopotpisnicipartija = {};
+            $scope.infogrupa = {};
 
             gatewayService.request("/api/Partii/1/ePartiiFetchMinimalenBrojPotpisnici?Partija=" + Partija, "GET").then(function(data, status, heders, config) {
                 console.log("data", data);
 
                 if (data.length > 0) {
-                    $scope.epartii.MinBrojPotpisnici = parseInt(data, 10);;
+                    $scope.epartii.MinBrojPotpisnici = parseInt(data, 10);
                 } else {
                     $scope.epartii.MinBrojPotpisnici = 1;
                 }
@@ -97,22 +120,145 @@ angular.module('adminBankaFrontendApp')
                 console.log(status);
 
             });
+            $scope.loading = true;
+
+            gatewayService.request("/api/Partii/1/EbankingePartiiLimitiPotpisniciGrupiFetch?Partija=" + Partija, "GET").then(function(data, status, heders, config) {
+                console.log("data", data);
+
+                $scope.infogrupa = data;
+                if (data.length > 0) {
+                    $scope.epartii.BrojNaPotpisi = parseInt(data['0'].BrojNaPotpisi, 10);
+                    gatewayService.request("/api/Partii/1/EbankingePartiiLimitiPotpisniciFetchByPartija?Partija=" + Partija, "GET").then(function(data, status, heders, config) {
+                        console.log("data", data);
+                        $scope.loading = false;
+
+                        $scope.infopotpisnicipartija = data;
+
+                    }, function(data, status, headers, config) {
+                        console.log(status);
+
+                    });
+                } else {
+                    $scope.epartii.BrojNaPotpisi = 1;
+                }
+
+
+            }, function(data, status, headers, config) {
+                console.log(status);
+
+            });
+
+
+
+
+
+
 
         }
 
 
 
         $scope.snimi = function() {
+            console.log("potpisnici", $scope.infopotpisnicipartija)
+            for (var i = 0; i < $scope.infopotpisnicipartija.length; i++) {
+                if ($scope.infopotpisnicipartija[i].inGroup == true) {
+                    $scope.finalnopotpisnici.push($scope.infopotpisnicipartija[i]);
+                }
+            }
+            console.log("finalno", $scope.finalnopotpisnici);
 
+
+
+            if ($scope.infogrupa.length > 0) {
+                if ($scope.finalnopotpisnici.length > 0) {
+
+
+
+
+                    gatewayService.request("/api/Partii/1/EbankingePartiiLimitiPotpisniciGrupiInsertUpdate?Partija=" + $scope.epartii.Partija + "&BrojNaPotpisi=" + $scope.epartii.BrojNaPotpisi + "&Referent=" + logiranUser + "&SifraLimitGrupa=" + $scope.infogrupa['0'].SifraLimitGrupa, "GET").then(function(data, status, heders, config) {
+
+                        gatewayService.request("/api/Partii/1/EbankingePartiiLimitiPotpisniciDelete?SifraLimitGrupa=" + $scope.infogrupa['0'].SifraLimitGrupa, "GET").then(function(data, status, heders, config) {
+                            for (var i = 0; i < $scope.finalnopotpisnici.length; i++) {
+
+                                var statusPotpisnik = "A";
+                                if ($scope.finalnopotpisnici[i].StatusPotpisnik == false) {
+                                    statusPotpisnik = "N";
+                                }
+                                gatewayService.request("/api/Partii/1/EbankingePartiiLimitiPotpisniciInsertUpdate?SifraLimitGrupa=" + $scope.infogrupa['0'].SifraLimitGrupa + "&EdinstvenBroj=" + $scope.finalnopotpisnici[i].EdinstvenBroj + "&SifraVidPotpisnik=O&StatusPotpisnik=" + statusPotpisnik + "&Referent=" + logiranUser, "GET").then(function(data, status, heders, config) {
+
+
+                                }, function(data, status, headers, config) {
+                                    console.log(status);
+
+                                });
+
+                            }
+                            toastr.success("Податоците за групата и потписниците се успешно внесени!")
+
+                        }, function(data, status, headers, config) {
+                            console.log(status);
+
+                        });
+
+
+
+
+
+                    }, function(data, status, headers, config) {
+                        console.log(status);
+
+                    });
+
+                } else {
+                    toastr.info("Немате избрано ниту еден потписник за креирање/ажурирање на групата со потписници!")
+                }
+
+            } else if ($scope.finalnopotpisnici.length > 0) {
+
+                gatewayService.request("/api/Partii/1/EbankingePartiiLimitiPotpisniciGrupiInsertUpdate?Partija=" + $scope.epartii.Partija + "&BrojNaPotpisi=" + $scope.epartii.BrojNaPotpisi + "&Referent=" + logiranUser + "&SifraLimitGrupa=", "GET").then(function(data, status, heders, config) {
+
+
+                    for (var i = 0; i < $scope.finalnopotpisnici.length; i++) {
+                        var statusPotpisnik = "A";
+                        if ($scope.finalnopotpisnici[i].StatusPotpisnik == false) {
+                            statusPotpisnik = "N";
+                        }
+                        gatewayService.request("/api/Partii/1/EbankingePartiiLimitiPotpisniciInsertUpdate?SifraLimitGrupa=&EdinstvenBroj=" + $scope.finalnopotpisnici[i].EdinstvenBroj + "&SifraVidPotpisnik=O&StatusPotpisnik=" + statusPotpisnik + "&Referent=" + logiranUser, "GET").then(function(data, status, heders, config) {
+
+
+                        }, function(data, status, headers, config) {
+                            console.log(status);
+
+                        });
+
+                    }
+                    toastr.success("Податоците за групата и потписниците се успешно внесени!")
+
+                }, function(data, status, headers, config) {
+                    console.log(status);
+
+                });
+
+
+            }
 
             gatewayService.request("/api/Partii/1/ePartiiSetMinimalenBrojPotpisnici?Partija=" + $scope.epartii.Partija + "&MinimalenBrojPotpisnici=" + $scope.epartii.MinBrojPotpisnici, "GET").then(function(data, status, heders, config) {
-                toastr.success("Успешно е внесен бројот на минимален број потписници!");
-                $route.reload();
+                //  toastr.success("Успешно е внесен бројот на минимален број потписници!");
+                //  console.log(data);
+                // $route.reload();
 
             }, function(data, status, headers, config) {
                 console.log(status);
-
             });
+
+            // gatewayService.request("/api/Partii/1/ePartiiSetMinimalenBrojPotpisnici?Partija=" + $scope.epartii.Partija + "&MinimalenBrojPotpisnici=" + $scope.epartii.MinBrojPotpisnici, "GET").then(function(data, status, heders, config) {
+            //     toastr.success("Успешно е внесен бројот на минимален број потписници!");
+            //     $route.reload();
+
+            // }, function(data, status, headers, config) {
+            //     console.log(status);
+
+            // });
 
         }
 

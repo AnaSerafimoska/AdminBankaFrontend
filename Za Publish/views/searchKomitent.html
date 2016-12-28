@@ -12,18 +12,21 @@
             <input placeholder="Пребарај..." ng-show="a" ng-model="SearchValue"  type="text" class="form-control ng-invalid-required" mask="9" repeat="13" restrict="reject" required>
             <input placeholder="Пребарај..." ng-show="!a" ng-model="SearchValue"  type="text" class="form-control ng-invalid-required"required>
 
+    <div class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="searchRecord(SearchValue)" >Пребарај                    <i class="fa fa-search" data-title="Пребарај" ng-click="searchRecord(SearchValue)" data-placement="bottom"  data-trigger="focus"   ></i>
+</button>
+                </div>
 
-            <div class="input-group-addon " id="date" >
+     <!--        <div class="input-group-addon " id="date" >
               <i class="fa fa-search" ng-click="searchRecord(SearchValue)" data-placement="bottom" data-type="success" data-container="body" data-trigger="focus" bs-tooltip="tooltip"></i>
-            </div>
+            </div> -->
           </div>
 
         </div>
 
         <div class="col-md-6 form-group">
           <select class="form-control ng-touched ng-invalid ng-valid ng-pristine ng-empty" ng-change="fetchKomitent(Komitent)"  ng-model="Komitent" ng-disabled="">
-            <option></option>
-            <option ng-repeat="komitent in Komitenti" value="{{komitent}}" >{{komitent.EdinstvenBroj}}-{{komitent.ImeNaziv}} {{komitent.Prezime}} {{komitent.Mesto}}</option>
+            <option ng-repeat="komitent in Komitenti" ng-selected="{{Komitenti.length == 1}}" value="{{komitent}}" >{{komitent.EdinstvenBroj}}-{{komitent.ImeNaziv}} {{komitent.Prezime}} {{komitent.Mesto}}</option>
           </select>
 
         </div>

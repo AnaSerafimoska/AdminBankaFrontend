@@ -47,19 +47,19 @@
 
                 <div class="form-group col-md-3">
                   <label>Единствен број</label>
-                  <input  ng-blur="checkEdinstvenBroj();checkEdinstvenBrojInDb(Komitent.EdinstvenBroj)" type="text"  class="form-control ng-pristine ng-invalid ng-invalid-required "   mask="9" repeat="13" restrict="reject" ng-change="" ng-model="Komitent.EdinstvenBroj" required>
+                  <input  ng-blur="checkEdinstvenBroj();checkEdinstvenBrojInDb(Komitent.EdinstvenBroj);checkMod11()" type="text"  class="form-control ng-pristine ng-invalid ng-invalid-required "   mask="9" repeat="13" restrict="reject" ng-change="" ng-model="Komitent.EdinstvenBroj" required>
                 </div><!-- /.form-group -->
 
 
                 <div class="form-group col-md-3">
                   <label>{{ImeNaziv}}</label>
-                  <input ng-blur="checkImeNaziv()" type="text"  class="form-control  ng-invalid-required input-sm"  ng-model="Komitent.ImeNaziv"   required>
+                  <input ng-blur="checkImeNaziv()" ng-change="setKorisnickoIme()" type="text"  class="form-control  ng-invalid-required input-sm"  ng-model="Komitent.ImeNaziv"   required>
                 </div><!-- /.form-group -->
 
 
                 <div class="form-group col-md-3">
                   <label>Презиме</label>
-                  <input ng-disabled="isActive" ng-blur="checkVid()" type="text"  class=" form-control  ng-invalid-required  input-sm"  ng-model="Komitent.Prezime" >
+                  <input ng-disabled="isActive" ng-change="setKorisnickoIme()" ng-blur="checkVid()" type="text"  class=" form-control  ng-invalid-required  input-sm"  ng-model="Komitent.Prezime" >
                 </div><!-- /.form-group -->
             </div>
 
@@ -67,7 +67,7 @@
 
               <div class="form-group col-md-3">
                 <label>Име на родител</label>
-                <input ng-disabled="isActive" ng-blur="checkVid()" type="text"  class=" form-control ng-invalid-required  input-sm"  ng-model="Komitent.Roditel" data-placement="bottom" data-type="success" data-container="body" data-trigger="focus" bs-tooltip="tooltip" >
+                <input ng-disabled="isActive" ng-blur="checkVid()" type="text"  class=" form-control ng-invalid-required  input-sm"  ng-model="Komitent.Roditel" >
               </div><!-- /.form-group -->
 
 
@@ -89,7 +89,7 @@
                     <div class="form-group col-md-2" >
                       <label>Датум на раѓање</label>
                       <div class="input-group" >
-                        <input ng-disabled="isActive"  type="text" class="form-control input-sm" ng-model="Komitent.DatumRaganje" placement="auto" container="body" data-date-format="dd-MM-yyyy" data-date-type="date"  data-autoclose="1" name="date2" bs-datepicker>
+                        <input ng-disabled="isActive" bs-tooltip="tooltip"   type="text"  tooltip-placement="right" class="form-control input-sm" ng-model="Komitent.DatumRaganje" placement="auto" container="body" data-date-format="dd-MM-yyyy" data-date-type="date"  data-autoclose="1" name="date2" bs-datepicker>
                         <div class="input-group-addon " id="date1" >
                           <i class="fa fa-calendar"  ></i>
                         </div>

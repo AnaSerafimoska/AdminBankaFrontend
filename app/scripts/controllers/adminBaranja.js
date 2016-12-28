@@ -16,16 +16,16 @@ angular.module('adminBankaFrontendApp')
             "broj": ""
         };
 
-        $scope.loggedUser = JSON.parse(localStorage.getItem("loginUser"));
-        // $scope.loginU = lscache.get('loginU');
-        if (!$scope.loggedUser) {
-            $location.path('/login');
-        } else {
-            var logiranUser = $scope.loggedUser.username;
+    $scope.loggedUser = JSON.parse(localStorage.getItem("loginUser"));
+    // $scope.loginU = lscache.get('loginU');
+    if (!$scope.loggedUser) {
+        $location.path('/login');
+    } else {
+        var logiranUser = $scope.loggedUser.username;
 
-            // console.log("vreme " + (now - timestamp));
+        // console.log("vreme " + (now - timestamp));
 
-        }
+    }
 
 
         if (localStorage.getItem("Permisii")) {
@@ -233,15 +233,21 @@ angular.module('adminBankaFrontendApp')
 
             gatewayService.request("/api/Baranja/1/EbankingFetchZaKomitent?EdinstvenBroj=" + embg, "GET").then(function(data, status, heders, config) {
                 console.log("tuka: ", data);
-                if (data.Table[0].KorisnickoIme != "") {
-                    $scope.KorisnikPrikazInfo.korisnichkoIme = data.Table[0].KorisnickoIme;
-                    $scope.flagDisableKorsnickoIme = true;
-                } else {
-                    $scope.KorisnikPrikazInfo.korisnichkoIme = "";
-                    $scope.flagDisableKorsnickoIme = false;
+                console.log(data.Table.length);
+                if (data.Table.length > 0) {
+                    if (data.Table[0].KorisnickoIme != "") {
+                        $scope.KorisnikPrikazInfo.korisnichkoIme = data.Table[0].KorisnickoIme;
+                        $scope.KorisnikPrikazInfo.email = data.Table[0].Email;
+                        $scope.flagDisableKorsnickoIme = true;
+                    } else {
+                        $scope.KorisnikPrikazInfo.korisnichkoIme = "";
+                        $scope.flagDisableKorsnickoIme = false;
+                        $scope.KorisnikPrikazInfo.email = data.Table[0].Email;
+                    }
                 }
 
 
+                console.log("Edinstven broj", $scope.Korisnik.EdinstvenBroj)
 
                 $scope.KorisnikPrikazInfo.EdinstvenBroj = $scope.Korisnik.EdinstvenBroj;
 
@@ -259,20 +265,24 @@ angular.module('adminBankaFrontendApp')
         $scope.zemiPodatoci_CORE = function(embg) {
             gatewayService.request("/api/Baranja/1/FetchPersonalInfo_CORE?EdinstvenBroj=" + embg, "GET").then(function(data, status, heders, config) {
                 console.log("LICHNI PODATOCI: ", data);
-                $scope.KorisnikPrikazInfo.TelefonskiBroj = data.Table[0]['Mobilen'];
-                $scope.Korisnik.BrLicnaKarta = data.Table[0]['BrLicnaKarta'];
-                $scope.KorisnikPrikazInfo.Adresa = data.Table[0]['Adresa'];
+                if (data.length > 0) {
+                    $scope.KorisnikPrikazInfo.TelefonskiBroj = data.Table[0]['Mobilen'];
+                    $scope.Korisnik.BrLicnaKarta = data.Table[0]['BrLicnaKarta'];
+                    $scope.KorisnikPrikazInfo.Adresa = data.Table[0]['Adresa'];
+                }
+
             }, function(data, status, headers, config) {
                 console.log(status);
             });
         };
-
+        $scope.temp = [];
 
         //TUKA SE POLNI TABELATA SO SMETKI
         function polniTabela() {
+            $scope.temp = [];
 
             $scope.loading = true;
-            $scope.temp = [];
+
             $scope.dodadenaSmetka = {};
             $scope.tmp = {};
             $scope.final = [];
@@ -367,27 +377,35 @@ angular.module('adminBankaFrontendApp')
                 gatewayService.request("/api/Baranja/1/ProveriDaliPostoiPartijaBIS?Partija=" + partija, "GET").then(function(data, status, heders, config) {
 
                     if (data.length > 0) {
+                        console.log("data", data[0])
                         var jaima = false;
-                        for (var i = 0; i < $scope.temp.length; i++) {
-                            if ($scope.temp[i].Partija == partija) {
-                                jaima = true;
+                        console.log("temp", $scope.temp)
+                        if ($scope.temp.length > 0) {
+                            for (var i = 0; i < $scope.temp.length; i++) {
+                                if ($scope.temp[i].Partija == partija) {
+                                    jaima = true;
 
-                            } else {
+                                } else {
 
+                                }
                             }
+
                         }
+
                         if (jaima) {
                             $scope.info = "Сметката е веќе внесена.";
                             $scope.potpisnikFlag = true;
                         } else {
-                            console.log("data", data[0])
+
+                            console.log("data", data[0].NazivPartija)
                             $scope.info = data[0].NazivPartija;
+                            console.log("info partija", $scope.info)
                             $scope.potpisnikFlag = false;
 
                             $scope.ePartija.Banka = "";
                             $scope.ePartija.OrgDel = "";
                             $scope.ePartija.Partija = data[0].Partija;
-                            $scope.ePartija.EdinstvenBroj = $scope.KorisnikPrikazInfo.EdinstvenBroj
+                            $scope.ePartija.EdinstvenBroj = $scope.KorisnikPrikazInfo.EdinstvenBroj;
                             $scope.ePartija.ProductTypeID = "";
                             $scope.ePartija.ProductID = "";
                             $scope.ePartija.DatumInsert = new Date();
@@ -401,6 +419,7 @@ angular.module('adminBankaFrontendApp')
                             $scope.ePartija.Lozinka = "xxx";
                             $scope.ePartija.VidRabota = data[0].ProductTypeID.substring(0, 2);
                             $scope.ePartija.ReferentInsert = logiranUser;
+
 
                             gatewayService.request("/api/Baranja/1/FetchUserePartii?EdinstvenBroj=" + $scope.KorisnikPrikazInfo.EdinstvenBroj, "GET").then(function(data, status, heders, config) {
                                 if (data.length > 0) {
@@ -824,6 +843,9 @@ angular.module('adminBankaFrontendApp')
             if ($scope.KorisnikPrikazInfo.korisnichkoIme == null || $scope.KorisnikPrikazInfo.korisnichkoIme == "") {
                 toastr.error("Внесете корисничко име!");
 
+            } else
+            if ($scope.KorisnikPrikazInfo.email == null || $scope.KorisnikPrikazInfo.email == "") {
+                toastr.error("Внесете е-маил адреса!");
             } else {
 
 
@@ -892,10 +914,13 @@ angular.module('adminBankaFrontendApp')
                     }
                 }
                 var old = false;
-
+                // var sold = false;
                 for (var i = 0; i < $scope.sitevneseni.length; i++) {
-                    if (key.substring(1, 6) == $scope.sitevneseni[i].ProductId) {
-                        var old = true;
+                    console.log("key", key.substring(1, 7));
+                    console.log("pid", $scope.sitevneseni[i].ProductId);
+                    if (key.substring(1, 7) == $scope.sitevneseni[i].ProductId) {
+                        old = true;
+                        console.log("true za ", key.substring(1, 7))
 
                         break;
 
@@ -905,61 +930,146 @@ angular.module('adminBankaFrontendApp')
                 }
 
                 if (old == false) {
+                    if (noviBaranja.length > 0) {
+                        for (var j = 0; j < noviBaranja.length; j++) {
+                            console.log("Noviid", noviBaranja[j].ProductId)
+                            if (key.substring(1, 7) == noviBaranja[j].ProductId) {
+                                var old = true;
+                                console.log("true za ", key.substring(1, 7))
 
-                    var obj = {};
-                    obj.BrojBaranje = $scope.KorisnikPrikazInfo.BrBaranje;
-                    obj.KorisnickoIme = $scope.KorisnikPrikazInfo.korisnichkoIme;
-                    obj.DatumInsert = $filter('date')($scope.KorisnikPrikazInfo.DatumInsert, "yyyy-MM-dd HH:mm:ss.sss")
-                    obj.EdinstvenBroj = $scope.KorisnikPrikazInfo.EdinstvenBroj;
-                    obj.ProductId = key.substring(1, 7);
-                    obj.ProductTypeId = $scope.selectiranTip;
-                    obj.OrgDel = '000001';
-                    obj.Partija = $scope.KorisnikPrikazInfo.Partija;
-                    obj.Status_S = "N";
-                    obj.DatumBaranje = $filter('date')($scope.KorisnikPrikazInfo.DatumInsert, "yyyy-MM-dd HH:mm:ss.sss");
-                    obj.ReferentInsert = authData.username;
-                    obj.Email = $scope.finalno['o' + obj.ProductId].Email;
-                    if (obj.ProductId == '000003' || obj.ProductId == '000002' || obj.ProductId == '000004') {
-                        console.log("cert", cert)
-                            // obj.Sertifikat = $scope.finalno['o' + obj.ProductId].Sertifikat.replace(/[\s]/g, '');
-                        if (cert != undefined) {
-                            obj.Sertifikat = cert.Thumbprint;
-                            obj.NotAfter = cert.NotAfter;
-                            obj.NotBefore = cert.NotBefore;
-                            obj.X509Certifikate = cert.X509Certifikate;
-                            obj.CertificateInfo = 'Issued to: ' + cert.SubjectCN + ";   Issued by: " + cert.IssuerCN + "\nValid from " + $filter('date')(cert.NotBefore, "yyyy-MM-dd HH:mm:ss") + ' to ' + $filter('date')(cert.NotAfter, "yyyy-MM-dd HH:mm:ss");
+                                break;
+
+                            }
 
                         }
 
+                        if (old == false) {
+                            var obj = {};
+                            obj.BrojBaranje = $scope.KorisnikPrikazInfo.BrBaranje;
+                            obj.KorisnickoIme = $scope.KorisnikPrikazInfo.korisnichkoIme;
+                            obj.DatumInsert = $filter('date')($scope.KorisnikPrikazInfo.DatumInsert, "yyyy-MM-dd HH:mm:ss.sss")
+                            obj.EdinstvenBroj = $scope.KorisnikPrikazInfo.EdinstvenBroj;
+                            obj.ProductId = key.substring(1, 7);
+                            obj.ProductTypeId = $scope.selectiranTip;
+                            obj.OrgDel = '000001';
+                            obj.Partija = $scope.KorisnikPrikazInfo.Partija;
+                            obj.Status_S = "N";
+                            obj.DatumBaranje = $filter('date')($scope.KorisnikPrikazInfo.DatumInsert, "yyyy-MM-dd HH:mm:ss.sss");
+                            obj.ReferentInsert = authData.username;
+                            if (obj.ProductId == '020006') {
+                                obj.Email = $scope.finalno['o' + obj.ProductId].Email;
+                            } else {
+                                console.log("email", $scope.KorisnikPrikazInfo.email);
+                                obj.Email = $scope.KorisnikPrikazInfo.email;
+                            }
+
+
+                            if (obj.ProductId == '000003' || obj.ProductId == '000002' || obj.ProductId == '000004') {
+                                console.log("cert", cert)
+                                    // obj.Sertifikat = $scope.finalno['o' + obj.ProductId].Sertifikat.replace(/[\s]/g, '');
+                                if (cert != undefined) {
+                                    obj.Sertifikat = cert.Thumbprint;
+                                    obj.NotAfter = cert.NotAfter;
+                                    obj.NotBefore = cert.NotBefore;
+                                    obj.X509Certifikate = cert.X509Certifikate;
+                                    obj.CertificateInfo = 'Issued to: ' + cert.SubjectCN + ";   Issued by: " + cert.IssuerCN + "\nValid from " + $filter('date')(cert.NotBefore, "yyyy-MM-dd HH:mm:ss") + ' to ' + $filter('date')(cert.NotAfter, "yyyy-MM-dd HH:mm:ss");
+
+                                }
+
+                            } else {
+                                obj.SeriskiBrojSertifikat = "";
+                            }
+
+                            obj.SeriskiBrojSertifikat = "";
+                            obj.SertifikatOTP = "";
+                            obj.TelefonskiBroj = $scope.finalno['o' + obj.ProductId].TelefonskiBroj;
+                            obj.Zabeleska = "";
+                            obj.Limit = "";
+                            if (obj.ProductTypeId.substring(5, 7) == '01') {
+                                obj.StatusBaranje = "Чекање за одобрување";
+                            } else {
+                                obj.StatusBaranje = "Чекање за укинување";
+                            }
+
+                            obj.Privilegii = "1";
+                            obj.SeriskiBrojSertifikat = "";
+                            obj.ReferentOdobril = "";
+                            obj.DatumOdobruvanje = "";
+                            obj.BrojDogovor = "";
+                            obj.OrgDelUkinuvanje = "";
+                            obj.ReferentUkinal = "";
+                            obj.DatumUkinuvanje = "";
+                            obj.BrojBaranjeZaUkinuvanje = "";
+
+
+                            noviBaranja.push(obj);
+                        }
                     } else {
+                        var obj = {};
+                        obj.BrojBaranje = $scope.KorisnikPrikazInfo.BrBaranje;
+                        obj.KorisnickoIme = $scope.KorisnikPrikazInfo.korisnichkoIme;
+                        obj.DatumInsert = $filter('date')($scope.KorisnikPrikazInfo.DatumInsert, "yyyy-MM-dd HH:mm:ss.sss")
+                        obj.EdinstvenBroj = $scope.KorisnikPrikazInfo.EdinstvenBroj;
+                        obj.ProductId = key.substring(1, 7);
+                        obj.ProductTypeId = $scope.selectiranTip;
+                        obj.OrgDel = '000001';
+                        obj.Partija = $scope.KorisnikPrikazInfo.Partija;
+                        obj.Status_S = "N";
+                        obj.DatumBaranje = $filter('date')($scope.KorisnikPrikazInfo.DatumInsert, "yyyy-MM-dd HH:mm:ss.sss");
+                        obj.ReferentInsert = authData.username;
+                        if (obj.ProductId == '020006') {
+                            obj.Email = $scope.finalno['o' + obj.ProductId].Email;
+                        } else {
+                            console.log("email", $scope.KorisnikPrikazInfo.email);
+                            obj.Email = $scope.KorisnikPrikazInfo.email;
+                        }
+
+
+                        if (obj.ProductId == '000003' || obj.ProductId == '000002' || obj.ProductId == '000004') {
+                            console.log("cert", cert)
+                                // obj.Sertifikat = $scope.finalno['o' + obj.ProductId].Sertifikat.replace(/[\s]/g, '');
+                            if (cert != undefined) {
+                                obj.Sertifikat = cert.Thumbprint;
+                                obj.NotAfter = cert.NotAfter;
+                                obj.NotBefore = cert.NotBefore;
+                                obj.X509Certifikate = cert.X509Certifikate;
+                                obj.CertificateInfo = 'Issued to: ' + cert.SubjectCN + ";   Issued by: " + cert.IssuerCN + "\nValid from " + $filter('date')(cert.NotBefore, "yyyy-MM-dd HH:mm:ss") + ' to ' + $filter('date')(cert.NotAfter, "yyyy-MM-dd HH:mm:ss");
+
+                            }
+
+                        } else {
+                            obj.SeriskiBrojSertifikat = "";
+                        }
+
                         obj.SeriskiBrojSertifikat = "";
+                        obj.SertifikatOTP = "";
+                        obj.TelefonskiBroj = $scope.finalno['o' + obj.ProductId].TelefonskiBroj;
+                        obj.Zabeleska = "";
+                        obj.Limit = "";
+                        if (obj.ProductTypeId.substring(5, 7) == '01') {
+                            obj.StatusBaranje = "Чекање за одобрување";
+                        } else {
+                            obj.StatusBaranje = "Чекање за укинување";
+                        }
+
+                        obj.Privilegii = "1";
+                        obj.SeriskiBrojSertifikat = "";
+                        obj.ReferentOdobril = "";
+                        obj.DatumOdobruvanje = "";
+                        obj.BrojDogovor = "";
+                        obj.OrgDelUkinuvanje = "";
+                        obj.ReferentUkinal = "";
+                        obj.DatumUkinuvanje = "";
+                        obj.BrojBaranjeZaUkinuvanje = "";
+
+
+                        noviBaranja.push(obj);
+
                     }
 
-                    obj.SeriskiBrojSertifikat = "";
-                    obj.SertifikatOTP = "";
-                    obj.TelefonskiBroj = $scope.finalno['o' + obj.ProductId].TelefonskiBroj;
-                    obj.Zabeleska = "";
-                    obj.Limit = "";
-                    if (obj.ProductTypeId.substring(5, 7) == '01') {
-                        obj.StatusBaranje = "Чекање за одобрување";
-                    } else {
-                        obj.StatusBaranje = "Чекање за укинување";
-                    }
-
-                    obj.Privilegii = "1";
-                    obj.SeriskiBrojSertifikat = "";
-                    obj.ReferentOdobril = "";
-                    obj.DatumOdobruvanje = "";
-                    obj.BrojDogovor = "";
-                    obj.OrgDelUkinuvanje = "";
-                    obj.ReferentUkinal = "";
-                    obj.DatumUkinuvanje = "";
-                    obj.BrojBaranjeZaUkinuvanje = "";
 
 
-                    noviBaranja.push(obj);
                 }
-
 
             }
 
